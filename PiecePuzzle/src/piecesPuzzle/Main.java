@@ -5,10 +5,18 @@ import piecesPuzzle.pieces.*;
 public class Main {
 
 	public static void main(String[] args){
-		int plateauX = 20;
-		int plateauY = 20;
-	
-		PiecesPuzzle plateau = new PiecesPuzzle(plateauX, plateauY);
-		System.out.println(plateau);
+		PieceRectangle rec = new PieceRectangle(5,4);
+		rec.pieceGrid();
+		boolean[][] grid = rec.getGrid();
+		for(int i = 0 ; i < rec.getLargeurX() ; i++) {
+			for(int j= 0 ; j < rec.getLongueurY(); j++) {
+				if(grid[i][j] == true){
+					System.out.print("true");
+				} else {
+					System.out.print("false");
+				}
+			}
+			System.out.println();
+		}
 	}
 }
