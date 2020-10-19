@@ -1,49 +1,47 @@
 package piecesPuzzle.pieces;
 
-import java.util.ArrayList;
-
-public class PieceRectangle implements PiecesPuzzle{
-
-	public int largeurX, longueurY;
+public class PieceL implements PiecesPuzzle{
+	
+	public int largeurX;
+	public int longueurY;
 	public boolean[][] grid;
 	public int rotationActuel;	
 	private int x,y;
 	
-	public PieceRectangle(int x, int y){
+	public PieceL(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.rotationActuel = 0;
 	}
 	
-	public PieceRectangle(int x, int y, int rotation){
+	public PieceL(int x, int y, int rotation){
 		this.x = x;
 		this.y = y;
 		this.rotationActuel = rotation;
 	}
 
-	/**
-	 * Créer la grille de la pièce
-	 */
-	public void pieceGrid(){
+	public void pieceGrid() {
 		choiceRotation(this.rotationActuel);
 	}
-	
+		
 	public void pieceGrid(int rotationNum){
 		grid = new boolean[largeurX][longueurY];
 		for(int i = 0 ; i < largeurX ; i++) {
-			for(int j= 0 ; j < longueurY ; j++) {
-				grid[i][j]=true;
-				//System.out.print("true");
+			for(int j = 0 ; j < longueurY ; j++) {
+				if(((this.rotationActuel == 0) && (i+1==largeurX || j==0)) || ((this.rotationActuel == 1) && (i==0 || j==0)) || ((this.rotationActuel == 2) && (i==0 || j==longueurY-1)) || ((this.rotationActuel == 3) && (i==largeurX-1 || j==longueurY-1))){
+					grid[i][j]=true;
+					//System.out.print("true");
+				}else{
+					grid[i][j]=false;
+					//System.out.print("false");
+				}
 			}
 			//System.out.println();
 		}
 	}
 
-	/**
-	 * Permet de changer la longuer/largeur de la pièce, changer le grille de la pièce,ainsi que de prévenir l'observeur qu'il ya un changement de rotation
-	 * @param rotationNum 
-	 */
 	public void choiceRotation(int rotationNum) {
+		this.rotationActuel = rotationNum;
 		if(this.rotationActuel == 0 || this.rotationActuel == 2){
 			this.largeurX = x;
 			this.longueurY = y;
@@ -51,8 +49,7 @@ public class PieceRectangle implements PiecesPuzzle{
 			this.largeurX = y;
 			this.longueurY = x;
 		}
-		pieceGrid(rotationNum);
-		
+		pieceGrid(this.rotationActuel);
 	}
 
 	public boolean[][] getGrid() {
@@ -66,4 +63,5 @@ public class PieceRectangle implements PiecesPuzzle{
 	public int getLongueurY() {
 		return this.longueurY;
 	}
+	
 }
