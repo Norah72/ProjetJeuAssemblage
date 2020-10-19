@@ -11,23 +11,23 @@ public class Main {
 		for(int i = 0 ; i < rec.getLargeurX() ; i++) {
 			for(int j= 0 ; j < rec.getLongueurY(); j++) {
 				if(grid[i][j] == true){
-					System.out.print("■ ");
+					System.out.print("■");
 				} else {
-					System.out.print("  ");
+					System.out.print(" ");
 				}
 			}
 			System.out.println();
 		}
 		System.out.println("Next:");
-		PieceL l = new PieceL(5,4);
+		PieceT l = new PieceT(4,5);
 		l.pieceGrid();
 		boolean[][] gridL = l.getGrid();
 		for(int i = 0 ; i < l.getLargeurX() ; i++) {
 			for(int j= 0 ; j < l.getLongueurY(); j++) {
 				if(gridL[i][j] == true){
-					System.out.print("■ ");
+					System.out.print("■");
 				} else {
-					System.out.print("  ");
+					System.out.print(" ");
 				}
 			}
 			System.out.println();
@@ -38,9 +38,9 @@ public class Main {
 		for(int i = 0 ; i < l.getLargeurX() ; i++) {
 			for(int j= 0 ; j < l.getLongueurY(); j++) {
 				if(gridL[i][j] == true){
-					System.out.print("■ ");
+					System.out.print("■");
 				} else {
-					System.out.print("  ");
+					System.out.print(" ");
 				}
 			}
 			System.out.println();
@@ -51,9 +51,9 @@ public class Main {
 		for(int i = 0 ; i < l.getLargeurX() ; i++) {
 			for(int j= 0 ; j < l.getLongueurY(); j++) {
 				if(gridL[i][j] == true){
-					System.out.print("■ ");
+					System.out.print("■");
 				} else {
-					System.out.print("  ");
+					System.out.print(" ");
 				}
 			}
 			System.out.println();
@@ -64,9 +64,9 @@ public class Main {
 		for(int i = 0 ; i < l.getLargeurX() ; i++) {
 			for(int j= 0 ; j < l.getLongueurY(); j++) {
 				if(gridL[i][j] == true){
-					System.out.print("■ ");
+					System.out.print("■");
 				} else {
-					System.out.print("  ");
+					System.out.print(" ");
 				}
 			}
 			System.out.println();
