@@ -16,13 +16,17 @@ public abstract class AbstractPiece {
 	/**
 	 * Construction du tableau de la piece en fonction de la rotationActuel
 	 */
-	public abstract void pieceGrid();
+	protected abstract void pieceGrid();
+	
+	public void createPiece() {
+		createPiece(0);
+	}
 	
 	/**
 	 * Choix de la rotation dans le sens horaire
 	 * @param rotationNum 
 	 */
-	public void choiceRotation(int rotationNum) {
+	public void createPiece(int rotationNum) {
 		this.rotationActuel = rotationNum;
 		if(this.rotationActuel == 0 || this.rotationActuel == 2){
 			this.largeurXActuel = x;
