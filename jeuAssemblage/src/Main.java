@@ -1,7 +1,7 @@
 import piecesPuzzle.pieces.*;
 import modele.*;
 import java.util.ArrayList;
-
+import util.*;
 public class Main {
     
         public static void affiche(boolean[][] tab){
@@ -22,17 +22,14 @@ public class Main {
 	public static void main(String[] args){
             PlateauPuzzle plateau = new PlateauPuzzle();
             
+            Coordonnees coo1 = new Coordonnees(0,0);
+            
             PiecesPuzzle p1 = new PieceL(3,3);
-            PiecesPuzzle p2 = new PieceH(5,3);
-            PiecesPuzzle p3 = new PieceT(3,5);
             
             p1.createPiece(0);
-            p2.createPiece(1);
-            p3.createPiece(2);
             
-            plateau.addPiece(p1,0);
-            plateau.addPiece(p2,1);
-            plateau.addPiece(p3,0);
+            plateau.addPiece(p1,coo1); 
+            plateau.addPiece(p1,coo1);
             
             System.out.println(plateau.getPlateau());
         }

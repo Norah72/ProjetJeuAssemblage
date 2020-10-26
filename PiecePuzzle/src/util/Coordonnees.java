@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 package util;
+import java.util.*;
 
 /**
  *
  * @author leovi
  */
-public class Coordonnees {
+public class Coordonnees{
     public int x,y;
     
     public Coordonnees(int x, int y){
@@ -27,5 +28,11 @@ public class Coordonnees {
     }
     public int setY(int newy) {
         return newy;
+    }
+    
+    
+    @Override
+    public String toString(){
+        return "("+this.x+","+this.y+")";
     }
 }

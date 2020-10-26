@@ -2,42 +2,51 @@ package modele;
 import java.util.HashMap;
 import java.util.ArrayList;
 import piecesPuzzle.pieces.*;
+import util.*;
 
 public class PlateauPuzzle {
     
-        private HashMap<Integer, ArrayList<PiecesPuzzle> > plateau;
+        private HashMap<Coordonnees, ArrayList<PiecesPuzzle> > plateau;
         
         public PlateauPuzzle(){
-            this.plateau = new HashMap<Integer, ArrayList<PiecesPuzzle> >();
+            this.plateau = new HashMap<Coordonnees, ArrayList<PiecesPuzzle> >();
         }
         
         public HashMap getPlateau(){
             return this.plateau;
         }
         
-        public void addPiece(PiecesPuzzle p , Integer x){
+        public void addPiece(PiecesPuzzle p , Coordonnees coo){
             
-            if (this.plateau.get(x)==null){
-                this.plateau.put(x,new ArrayList<PiecesPuzzle>());
-            }
-            if (validePlacement(p,x)){
-                this.plateau.get(x).add(p);
+            if (validePlacement(p,coo)){
+                if (this.plateau.get(coo)==null){
+                    this.plateau.put(coo,new ArrayList<PiecesPuzzle>());
+                }
+                this.plateau.get(coo).add(p);
             }
             
         }
         
-        public boolean validePlacement(PiecesPuzzle p, Integer x){
-            /*
+        public boolean libre(Coordonnees coo){
+            for (Coordonnees key : this.plateau.keySet()) {
+                if( (coo.getX() == key.getX()) && (coo.getY()==key.getY()) ){
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        public boolean validePlacement(PiecesPuzzle p, Coordonnees coo){
             boolean[][] grid = p.getGrid();
-            for(int i=0;i<p.getLargeurActuel();i++){
-                for(int j=0; j<p.getLongueurActuel();j++){
+            for(int i=0;i<p.getLargeurX();i++){
+                for(int j=0; j<p.getLongueurY();j++){
                     if(grid[i][j]){
-                        if (  this.plateau.get(  new Coordonnee(coo.getX+i, coo.getY+j)  ) !=null ){
+                        if (  !this.libre( new Coordonnees(coo.getX()+i, coo.getY()+j)  ) ){
                             return false;
                         }
                     }
                 }
-            }*/
+            }
             return true;
         }
         

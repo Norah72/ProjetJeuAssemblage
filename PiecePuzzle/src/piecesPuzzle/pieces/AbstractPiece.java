@@ -1,14 +1,12 @@
 package piecesPuzzle.pieces;
 
 import util.Coordonnees;
-import java.util.HashMap;
 
 public abstract class AbstractPiece implements PiecesPuzzle{
 	protected int x,y;
 	protected int largeurXActuel, longueurYActuel;
 	protected boolean[][] grid;
-	protected int rotationActuel;	
-        protected HashMap<Coordonnees,Coordonnees> coordonnees;
+	protected int rotationActuel;
 
 	
 	public AbstractPiece(int x, int y, int rotation){
@@ -16,23 +14,6 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		this.y = y;
 		this.rotationActuel = rotation;
 	}
-        
-        public void newCoordonnees(Coordonnees cooplateau){
-            int i = 0;
-            int j = 0;
-            Coordonnees test2=new Coordonnees(cooplateau.setX(cooplateau.getX()+i),cooplateau.setY(cooplateau.getY()+j));
-            for(i=0 ; i<this.largeurXActuel; i++){
-                for(j=0 ; j<longueurYActuel; j++){
-                    this.coordonnees.put(test2,new Coordonnees(i,j));
-                }
-            }
-            
-        }
-	
-        public void updateCoordonnees(Coordonnees cooplateau){
-            this.coordonnees.clear();
-            this.newCoordonnees(cooplateau);
-        }
         
 	/**
 	 * Construction du tableau de la piece en fonction de la rotationActuel
