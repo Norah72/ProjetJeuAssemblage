@@ -65,19 +65,10 @@
 </javadoc>-->
 </target>
 <!--  ==================== Run Target ==================================  -->
-<target name="jar" depends="compile">
-    <mkdir dir="${lib.home}"/>
-    <jar destfile="${dist.home}\${app.fullname}.jar" basedir="${build.home}">
-        <manifest>
-            <attribute name="Main-Class" value="Main"/>
-        </manifest>
-    </jar>
-</target>
 
-<target name="run" description="run the file" depends="jar">
+<target name="run" depends="compile">
 <java classname="Main" fork="true">
 <classpath>
-	<path id="classpath"/>
 	<pathelement location="${dist.home}\${app.fullname}.jar"/>
         <fileset dir="${lib.home}">
             <include name="**\*.jar"/>
