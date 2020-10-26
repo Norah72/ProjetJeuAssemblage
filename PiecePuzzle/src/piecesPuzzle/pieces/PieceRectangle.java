@@ -2,7 +2,7 @@ package piecesPuzzle.pieces;
 
 import java.util.ArrayList;
 
-public class PieceRectangle extends AbstractPiece implements PiecesPuzzle{
+public class PieceRectangle extends AbstractPiece{
 	
 	public PieceRectangle(int x, int y){
 		super(x,y,0);

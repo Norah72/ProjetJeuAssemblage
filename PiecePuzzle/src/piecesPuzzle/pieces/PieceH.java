@@ -1,6 +1,6 @@
 package piecesPuzzle.pieces;
 
-public class PieceH extends AbstractPiece implements PiecesPuzzle{
+public class PieceH extends AbstractPiece{
 	
 	public PieceH(int x, int y){
 		super(x,y,0);

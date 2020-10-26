@@ -1,6 +1,6 @@
 package piecesPuzzle.pieces;
 
-public abstract class AbstractPiece {
+public abstract class AbstractPiece implements PiecesPuzzle{
 	protected int x,y;
 	protected int largeurXActuel, longueurYActuel;
 	protected boolean[][] grid;
@@ -16,7 +16,7 @@ public abstract class AbstractPiece {
 	/**
 	 * Construction du tableau de la piece en fonction de la rotationActuel
 	 */
-	protected abstract void pieceGrid();
+	public abstract void pieceGrid();
 	
 	public void createPiece() {
 		createPiece(0);
