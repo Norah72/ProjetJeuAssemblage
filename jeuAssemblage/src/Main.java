@@ -24,12 +24,12 @@ public class Main {
         
         
 	public static void main(String[] args){
-			int x = 5;
-			int y = 10;
+            int x = 6;
+            int y = 10;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
      
-            ArrayList<Integer> coo0 = new ArrayList<Integer>(Arrays.asList((Integer)0,(Integer)0));
-            ArrayList<Integer> coo1 = new ArrayList<Integer>(Arrays.asList(2,3));
+            ArrayList<Integer> coo0 = new ArrayList<Integer>(Arrays.asList(0,0));
+            ArrayList<Integer> coo1 = new ArrayList<Integer>(Arrays.asList(1,1));
             
             PiecesPuzzle pL = new PieceL(3,2);
             pL.createPiece(0);

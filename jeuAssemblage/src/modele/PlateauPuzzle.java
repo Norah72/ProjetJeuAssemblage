@@ -29,7 +29,7 @@ public class PlateauPuzzle {
                 for(int i=0;i<p.getLargeurX();i++){
                     for(int j=0; j<p.getLongueurY();j++){
                         if(p.getGrid()[i][j]){
-							this.plateau.put(new ArrayList<Integer>(Arrays.asList(((Integer)coo.get(0))+i, ((Integer)coo.get(1))+j)),p);
+				this.plateau.put(new ArrayList<Integer>(Arrays.asList(((Integer)coo.get(0))+i, ((Integer)coo.get(1))+j)),p);
                         }
                     }
                 }
