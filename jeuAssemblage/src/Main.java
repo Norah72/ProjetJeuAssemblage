@@ -49,6 +49,8 @@ public class Main {
             
             System.out.println("Déplacement de la pièce H en "+coo2);
             plateau.movePiece(pH,coo2);
+            // Si on enlève le déplacement, alors la rotation devient 
+            // impossible et ne s'effectue pas !
             
             System.out.println("Rotation de la pièce H");
             plateau.rotationPiece(pH, 2);
