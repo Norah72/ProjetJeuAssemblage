@@ -30,6 +30,7 @@ public class Main {
      
             ArrayList<Integer> coo0 = new ArrayList<Integer>(Arrays.asList(0,0));
             ArrayList<Integer> coo1 = new ArrayList<Integer>(Arrays.asList(1,1));
+            ArrayList<Integer> coo2 = new ArrayList<Integer>(Arrays.asList(1,2));
             
             PiecesPuzzle pL = new PieceL(3,2);
             pL.createPiece(0);
@@ -37,23 +38,35 @@ public class Main {
             PiecesPuzzle pH = new PieceH(3,3);
             pH.createPiece(1);
             
-            affiche(pL.getGrid());
-            affiche(pH.getGrid());
             
+            
+            System.out.println("Ajout de la pièce L en "+coo0);
             plateau.addPiece(pL,coo0); 
-            plateau.addPiece(pH,coo1); 
-			System.out.println("Tien le plateau:");
-			System.out.println(plateau.getPlateau());
-			if(plateau.getPlateau().get(coo0) != null)
-					System.out.println("coucou");
-			for(int i = 0; i<=y-1; i++){
-			   for(int j = 0; j<=x-1; j++){
-					if(plateau.getPlateau().get(new ArrayList<Integer>(Arrays.asList(i,j))) != null)
-						System.out.print("█");
-					else
-                        System.out.print("-");
-				}
-				System.out.println();
-			}
-	}
+            
+            System.out.println("Ajout de la pièce H en "+coo1);
+            plateau.addPiece(pH,coo1);
+            
+            
+            System.out.println("Déplacement de la pièce H en "+coo2);
+            plateau.movePiece(pH,coo2);
+            
+            System.out.println("Rotation de la pièce H");
+            plateau.rotationPiece(pH, 2);
+            
+            
+            
+            System.out.println("\nLe plateau :");
+            System.out.println(plateau.getPlateau());
+            
+            if(plateau.getPlateau().get(coo0) != null)
+                for(int i = 0; i<=y-1; i++){
+                    for(int j = 0; j<=x-1; j++){
+                        if(plateau.getPlateau().get(new ArrayList<Integer>(Arrays.asList(i,j))) != null)
+                            System.out.print("█");
+                        else
+                            System.out.print("-");
+                    }
+                    System.out.println();
+                }
+        }
 }

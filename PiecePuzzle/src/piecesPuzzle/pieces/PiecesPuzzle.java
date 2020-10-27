@@ -10,4 +10,7 @@ public interface PiecesPuzzle {
 	public boolean[][]  getGrid();
 	public int getLargeurX();
 	public int getLongueurY();
+        public ArrayList<Integer> getCoo();
+        public int getRotation(); 
+        public void updateCoordonnees(ArrayList<Integer> coo);
 }

@@ -1,5 +1,6 @@
 package piecesPuzzle.pieces;
 
+import java.util.ArrayList;
 import util.Coordonnees;
 
 public abstract class AbstractPiece implements PiecesPuzzle{
@@ -7,12 +8,14 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 	protected int largeurXActuel, longueurYActuel;
 	protected boolean[][] grid;
 	protected int rotationActuel;
+        protected ArrayList<Integer> coordonnees;
 
 	
 	public AbstractPiece(int x, int y, int rotation){
 		this.x = x;
 		this.y = y;
 		this.rotationActuel = rotation;
+                this.coordonnees = null;
 	}
         
 	/**
@@ -52,4 +55,15 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		return this.longueurYActuel;
 	}
 	
+        public ArrayList<Integer> getCoo(){
+            return this.coordonnees;
+        }
+        public int getRotation(){
+            return this.rotationActuel;
+        }
+        
+        public void updateCoordonnees(ArrayList<Integer> coo){
+            this.coordonnees = coo;
+        }
+        
 }
