@@ -1,3 +1,4 @@
+import controleur.*;
 import piecesPuzzle.pieces.*;
 import modele.*;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class Main {
         
         
 	public static void main(String[] args){
-			int x = 5;
+		PlayConsole play = new PlayConsole();
+			/*int x = 5;
 			int y = 10;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
      
@@ -44,8 +46,7 @@ public class Main {
             plateau.addPiece(pH,coo1); 
 			System.out.println("Tien le plateau:");
 			System.out.println(plateau.getPlateau());
-			if(plateau.getPlateau().get(coo0) != null)
-					System.out.println("coucou");
+
 			for(int i = 0; i<=y-1; i++){
 			   for(int j = 0; j<=x-1; j++){
 					if(plateau.getPlateau().get(new ArrayList<Integer>(Arrays.asList(i,j))) != null)
@@ -54,6 +55,6 @@ public class Main {
                         System.out.print("-");
 				}
 				System.out.println();
-			}
+			}*/
 	}
 }
