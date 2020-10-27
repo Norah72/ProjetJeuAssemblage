@@ -12,6 +12,7 @@ public class PlayConsole {
 	PlateauPuzzle plateauConsole;
 	int largeurPlateauX, longueurPlateauY;
 	ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 	
 	public PlayConsole(){
 		play();
@@ -25,14 +26,45 @@ public class PlayConsole {
 		initialisationPlateau();
 		creationPieceRandom();
 		while(end == false){
-			System.out.println("Voici vos pièce: ");
-			for(int i = 0 ; i <= this.pieceAJouer.size()-1; i++){
-				System.out.print("Piece "+(i+1)+":");
-				affichePiece(this.pieceAJouer.get(i));
-			}
-			System.out.println(this.pieceAJouer);
+			printPiece();
+			int choix = choix();
+			
+			//Réaliser les différentes méthodes en fonctions du choix;
+			
 			end=true;
 		}
+	}
+	
+	
+	private int choix(){
+		int nbrChoix=1;
+		
+		System.out.println("Que voulez vous faire ?");
+		System.out.println("1- Placer une pièce");
+		if(!piecePlacer.isEmpty()){
+			nbrChoix = 4;
+			System.out.println("2- Déplacer une pièce");
+			System.out.println("3- Supprimer une pièce");
+			System.out.println("4- Rotation d'une pièce");
+		}
+		
+		Scanner choixScan = new Scanner(System.in);
+		int choix = choixScan.nextInt();
+		
+		while(choix < 1 || choix > nbrChoix){
+			choix = choixScan.nextInt();
+		}
+		
+		return choix;		
+	}
+	
+	private void printPiece(){
+		System.out.println("Voici vos pièce: ");
+		for(int i = 0 ; i <= this.pieceAJouer.size()-1; i++){
+			System.out.print("Piece "+(i+1)+":");
+			affichePiece(this.pieceAJouer.get(i));
+		}
+		System.out.println(this.pieceAJouer);
 	}
 		
 	private void initialisationPlateau(){
