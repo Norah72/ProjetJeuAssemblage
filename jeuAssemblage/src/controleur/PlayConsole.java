@@ -27,26 +27,69 @@ public class PlayConsole {
 		
 		initialisationPlateau();
 		creationPieceRandom();
+		//POUR TEST://
+		System.out.println("Ajout d'une pièce");
+		this.plateauConsole.addPiece(this.pieceAJouer.get(1), new ArrayList<Integer>(Arrays.asList(2, 4)));
+		this.piecePlacer.add(this.pieceAJouer.get(1));
+		this.pieceAJouer.remove(1);
+		//FIN TEST//
+			
 		while(end == false){
+			System.out.println("Voici le plateau:");
+			affichePlateau();
 			printPiece();
+			
 			int choix = choix();
 			if(choix==1)
 				ajoutePiece();
+			if(choix==2)
+				deplacementPiece();
 			
 			affichePlateau();
 			end=true;
 		}
 	}
 	
-	private void ajoutePiece() throws InputMismatchException{
-		int cooPlaceX =-1;
-		int cooPlaceY =-1;
+	private void deplacementPiece(){
 		boolean valide = false;
+		PiecesPuzzle pieceADeplacer = null;
+		System.out.println("Que pièce voulez vous déplacer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
+		while(!valide){
+			pieceADeplacer = (PiecesPuzzle)this.plateauConsole.getPlateau().get(valideCoordonnees());
+			if(pieceADeplacer == null)
+				System.out.println("Il n'y a pas de pièce ici");
+			else
+				valide = true;
+		}
 		
+		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
+		if(this.plateauConsole.movePiece(pieceADeplacer,valideCoordonnees())){
+			System.out.println("Piece déplacer");
+		}else{
+			System.out.println("Piece non déplacer par manque de place");
+		}
+	}
+	
+	
+	private void ajoutePiece(){	
 		System.out.println("Que pièce voulez vous ajouter ? (Veuillez indiqué le numéro de la pièce)");
 		int choixPiece = choixValide(1, this.pieceAJouer.size(),"Cette pièce n'existe pas");
 		
 		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
+		
+		if(this.plateauConsole.addPiece(this.pieceAJouer.get(choixPiece-1), valideCoordonnees())){
+			this.piecePlacer.add(this.pieceAJouer.get(choixPiece-1));
+			this.pieceAJouer.remove(choixPiece-1);
+			System.out.println("Piece ajouter");
+		}else{
+			System.out.println("Piece non ajouter par manque de place");
+		}
+	}
+	
+	private ArrayList valideCoordonnees() throws InputMismatchException{
+		int cooPlaceX =-1;
+		int cooPlaceY =-1;
+		boolean valide = false;
 		
 		while(!valide) {
 			Scanner sc = new Scanner(System.in);
@@ -65,19 +108,12 @@ public class PlayConsole {
 					valide = true;
 			}
 			catch (Exception e) {
-				System.out.println("Vous devez saisir sous le format 2,4 !");
+				System.out.println("Vous devez saisir sous le format 2,3 !");
 				continue;
             }
 
 		}
-		
-		
-		ArrayList<Integer> cooList = new ArrayList<Integer>(Arrays.asList(cooPlaceX, cooPlaceY));
-		this.plateauConsole.addPiece(this.pieceAJouer.get(choixPiece-1), cooList);
-		this.piecePlacer.add(this.pieceAJouer.get(choixPiece-1));
-		this.pieceAJouer.remove(choixPiece-1);
-		
-		System.out.println("PieceAjouter");
+		return new ArrayList<Integer>(Arrays.asList((Integer)cooPlaceX, (Integer)cooPlaceY));
 	}
 	
 	private int choix(){
@@ -104,9 +140,6 @@ public class PlayConsole {
 		this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
 		
 		this.plateauConsole = new PlateauPuzzle(this.largeurPlateauX,this.longueurPlateauY);
-		
-		System.out.println("Voici le plateau:");
-		affichePlateau();
 	}
 	
 	

@@ -24,10 +24,12 @@ public class PlateauPuzzle {
 		}
 
         
-        public void addPiece(PiecesPuzzle p , ArrayList coo){
+        public boolean addPiece(PiecesPuzzle p , ArrayList coo){
             if (validePlacement(p,coo)){
                 add(p,coo);
+				return true;
             }
+			return false;
         }
         
         private void add(PiecesPuzzle p,ArrayList coo){
@@ -41,13 +43,14 @@ public class PlateauPuzzle {
             p.updateCoordonnees(coo);
         }
 
-        public void movePiece( PiecesPuzzle p ,ArrayList coo){
+        public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
-            }else{
-                add(p,p.getCoo());
+				return true;
             }
+			add(p,p.getCoo());
+			return false;
         }
         
         public void removePiece( PiecesPuzzle p){
