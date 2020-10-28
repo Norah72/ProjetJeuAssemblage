@@ -8,7 +8,7 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 	protected int largeurXActuel, longueurYActuel;
 	protected boolean[][] grid;
 	protected int rotationActuel;
-        protected ArrayList<Integer> coordonnees;
+    protected ArrayList<Integer> coordonnees;
 
 	
 	public AbstractPiece(int x, int y, int rotation){
@@ -55,15 +55,30 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		return this.longueurYActuel;
 	}
 	
-        public ArrayList<Integer> getCoo(){
-            return this.coordonnees;
-        }
-        public int getRotation(){
-            return this.rotationActuel;
-        }
-        
-        public void updateCoordonnees(ArrayList<Integer> coo){
-            this.coordonnees = coo;
-        }
+	public ArrayList<Integer> getCoo(){
+		return this.coordonnees;
+	}
+	public int getRotation(){
+		return this.rotationActuel;
+	}
+
+	public void updateCoordonnees(ArrayList<Integer> coo){
+		this.coordonnees = coo;
+	}
+	
+	@Override
+	public String toString(){
+		for(int i = 0 ; i < this.largeurXActuel ; i++) {
+			for(int j= 0 ; j < this.longueurYActuel; j++) {
+				if(grid[i][j] == true){
+					System.out.print("■");
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.println();
+		}
+		return "";
+	}
         
 }

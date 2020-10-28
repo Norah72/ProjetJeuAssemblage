@@ -8,9 +8,12 @@ import util.*;
 public class PlateauPuzzle {
     
         private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
-        
+        private int x,y;
+		
         public PlateauPuzzle(int x, int y){
             this.plateau = new HashMap<ArrayList<Integer>, PiecesPuzzle >();
+			this.x=x;
+			this.y=y;
             construcPlateau(x,y);
         }
 		
@@ -96,5 +99,36 @@ public class PlateauPuzzle {
         public HashMap getPlateau(){
             return this.plateau;
         }
+		
+		@Override
+		public String toString(){
+			System.out.print("   ");
+			for(int z = 0; z<=this.y-1; z++){
+				System.out.print(" "+z+" ");
+			}
+			System.out.println();
+
+			for(int i = 0; i<=this.x-1; i++){
+				if(i<10)
+					System.out.print(i+"  ");
+				else
+					System.out.print(i+" ");
+				for(int j = 0; j<=this.y-1; j++){
+					if(this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
+						if(j<10)
+							System.out.print(" ■ ");
+						else
+							System.out.print("  ■ ");
+					}else{
+						if(j<10)
+							System.out.print(" + ");
+						else
+							System.out.print("  + ");
+					}
+				}
+				System.out.println();
+			}
+			return "";
+		}
         
 }

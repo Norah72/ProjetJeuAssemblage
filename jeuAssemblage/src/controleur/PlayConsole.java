@@ -15,7 +15,6 @@ public class PlayConsole {
 	int largeurPlateauX, longueurPlateauY;
 	ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
 	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
-	boolean demandeExplicaRot = false;
 	boolean explicationRot = true;
 	
 	public PlayConsole(){
@@ -29,10 +28,16 @@ public class PlayConsole {
 		
 		initialisationPlateau();
 		creationPieceRandom();
+		//POUR TEST://
+		/*System.out.println("Ajout d'une pièce");
+		this.plateauConsole.addPiece(this.pieceAJouer.get(1), new ArrayList<Integer>(Arrays.asList(2, 4)));
+		this.piecePlacer.add(this.pieceAJouer.get(1));
+		this.pieceAJouer.remove(1);*/
+		//FIN TEST//
 			
 		while(end == false){
 			System.out.println("Voici le plateau:");
-			affichePlateau();
+			System.out.println(this.plateauConsole);
 			printPiece();
 			
 			int choix = choix();
@@ -46,7 +51,7 @@ public class PlayConsole {
 				if(choix==4)
 					rotationPiece();
 			}
-			affichePlateau();
+			
 			end=true;
 		}
 	}
@@ -145,7 +150,7 @@ public class PlayConsole {
 			for(int i = 0 ; i < 4; i++){
 				pieceExplication.createPiece(i);
 				System.out.println("--"+i+"--");
-				affichePiece(pieceExplication);
+				System.out.println(pieceExplication);
 			}			
 		}
 		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
@@ -251,52 +256,7 @@ public class PlayConsole {
 		System.out.println("Voici vos pièce: ");
 		for(int i = 0 ; i <= this.pieceAJouer.size()-1; i++){
 			System.out.println("Piece "+(i+1)+":");
-			affichePiece(this.pieceAJouer.get(i));
-		}
-		System.out.println(this.pieceAJouer);
-	}
-	
-	
-	private void affichePlateau(){
-		System.out.print("   ");
-		for(int z = 0; z<=this.longueurPlateauY-1; z++){
-			System.out.print(" "+z+" ");
-		}
-		System.out.println();
-		
-		for(int i = 0; i<=this.largeurPlateauX-1; i++){
-			if(i<10)
-				System.out.print(i+"  ");
-			else
-				System.out.print(i+" ");
-			for(int j = 0; j<=this.longueurPlateauY-1; j++){
-				if(this.plateauConsole.getPlateau().get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
-					if(j<10)
-						System.out.print(" ■ ");
-					else
-						System.out.print("  ■ ");
-				}else{
-					if(j<10)
-						System.out.print(" + ");
-					else
-						System.out.print("  + ");
-				}
-			}
-			System.out.println();
-		}
-	}
-	
-	private void affichePiece(PiecesPuzzle piece){
-		boolean[][] grid = piece.getGrid();
-		for(int i = 0 ; i < piece.getLargeurX() ; i++) {
-			for(int j= 0 ; j < piece.getLongueurY(); j++) {
-				if(grid[i][j] == true){
-					System.out.print("■");
-				} else {
-					System.out.print(" ");
-				}
-			}
-			System.out.println();
+			System.out.println(this.pieceAJouer.get(i));
 		}
 	}
 }
