@@ -61,14 +61,16 @@ public class PlateauPuzzle {
             }
         }
 
-        public void rotationPiece(PiecesPuzzle p , Integer rotation){
+        public boolean rotationPiece(PiecesPuzzle p , Integer rotation){
             removePiece(p);
             int rotationOrigine = p.getRotation();
             p.createPiece(rotation);
             if(!validePlacement(p,p.getCoo())){
                 p.createPiece(rotationOrigine);
+				return false;
             }
             add(p,p.getCoo());
+			return true;
         }
         
         public boolean libre(ArrayList coo){

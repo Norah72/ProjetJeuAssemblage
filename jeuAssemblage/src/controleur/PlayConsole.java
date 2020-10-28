@@ -15,6 +15,8 @@ public class PlayConsole {
 	int largeurPlateauX, longueurPlateauY;
 	ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
 	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	boolean demandeExplicaRot = false;
+	boolean explicationRot = true;
 	
 	public PlayConsole(){
 		play();
@@ -40,17 +42,49 @@ public class PlayConsole {
 			printPiece();
 			
 			int choix = choix();
-			if(choixYesNo()){
+			if(choixYesNo("Etes vous sûr de ce choix ?")){
 				if(choix==1)
 					ajoutePiece();
 				if(choix==2)
 					deplacementPiece();
 				if(choix==3)
 					supprimerPiece();
+				if(choix==4)
+					rotationPiece();
 			}
 			affichePlateau();
 			end=true;
 		}
+	}
+	
+	private void rotationPiece(){
+		if(explicationRot){
+			explicationRotation();
+		}
+		
+		System.out.println("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
+		PiecesPuzzle pieceATourner = selectPiece();
+		System.out.println("Quel rotation ? Rappel: Choix 0 à 4");
+		if(this.plateauConsole.rotationPiece(pieceATourner, choixValide(0,4,"Choix non accepter: 0 à 4")))
+			System.out.println("Rotation effectuer");
+		else
+			System.out.println("Rotation non effectuer par manque de place");
+	}
+	
+	private void explicationRotation(){
+		if(choixYesNo("Explication rotation ?")){
+			System.out.println("Les rotations se font dans le sens horaires.");
+			System.out.println("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
+			PiecesPuzzle pieceExplication = new PieceL(4,3);
+			for(int i = 0 ; i < 4; i++){
+				pieceExplication.createPiece(i);
+				System.out.println("--"+i+"--");
+				affichePiece(pieceExplication);
+			}			
+		}
+		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
+			explicationRot = false;
+		
 	}
 	
 	private void supprimerPiece(){
@@ -62,23 +96,11 @@ public class PlayConsole {
 		System.out.println("Piece supprimer");
 	}
 	
-	private boolean choixYesNo(){
-		System.out.println("Etes vous sur ? 0-non / 1-Oui");
-		boolean valide = false;
-		while(!valide) {
-			Scanner choixYesNoScan = new Scanner(System.in);
-			int choixYesNo = choixYesNoScan.nextInt();
-			switch (choixYesNo) {
-				case 0:
-					return false;
-				case 1:
-					return true;
-				default:
-					System.out.println("Choix non accepter");
-					break;
-			}
-		}
-		return false;
+	private boolean choixYesNo(String texte){
+		System.out.println(texte+" 0-non / 1-Oui");
+		if(choixValide(0,1,"Choix non accepter") == 0)
+			return false;
+		return true;
 	}
 	
 	private void deplacementPiece(){
