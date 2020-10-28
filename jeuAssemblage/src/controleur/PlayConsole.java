@@ -40,34 +40,71 @@ public class PlayConsole {
 			printPiece();
 			
 			int choix = choix();
-			if(choix==1)
-				ajoutePiece();
-			if(choix==2)
-				deplacementPiece();
-			
+			if(choixYesNo()){
+				if(choix==1)
+					ajoutePiece();
+				if(choix==2)
+					deplacementPiece();
+				if(choix==3)
+					supprimerPiece();
+			}
 			affichePlateau();
 			end=true;
 		}
 	}
 	
-	private void deplacementPiece(){
+	private void supprimerPiece(){
+		System.out.println("Que pièce voulez vous supprimer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
+		PiecesPuzzle pieceASupprimer = selectPiece();
+		this.plateauConsole.removePiece(pieceASupprimer);
+		this.pieceAJouer.add(pieceASupprimer);
+		this.piecePlacer.remove(pieceASupprimer);
+		System.out.println("Piece supprimer");
+	}
+	
+	private boolean choixYesNo(){
+		System.out.println("Etes vous sur ? 0-non / 1-Oui");
 		boolean valide = false;
-		PiecesPuzzle pieceADeplacer = null;
+		while(!valide) {
+			Scanner choixYesNoScan = new Scanner(System.in);
+			int choixYesNo = choixYesNoScan.nextInt();
+			switch (choixYesNo) {
+				case 0:
+					return false;
+				case 1:
+					return true;
+				default:
+					System.out.println("Choix non accepter");
+					break;
+			}
+		}
+		return false;
+	}
+	
+	private void deplacementPiece(){
+		
 		System.out.println("Que pièce voulez vous déplacer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
+		PiecesPuzzle pieceADeplacer = selectPiece();
+		
+		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
+		if(this.plateauConsole.movePiece(pieceADeplacer,valideCoordonnees()))
+			System.out.println("Piece déplacer");
+		else
+			System.out.println("Piece non déplacer par manque de place");
+		
+	}
+	
+	private PiecesPuzzle selectPiece(){
+		boolean valide = false;
+		PiecesPuzzle pieceSelect = null;
 		while(!valide){
-			pieceADeplacer = (PiecesPuzzle)this.plateauConsole.getPlateau().get(valideCoordonnees());
-			if(pieceADeplacer == null)
+			pieceSelect = (PiecesPuzzle)this.plateauConsole.getPlateau().get(valideCoordonnees());
+			if(pieceSelect == null)
 				System.out.println("Il n'y a pas de pièce ici");
 			else
 				valide = true;
 		}
-		
-		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
-		if(this.plateauConsole.movePiece(pieceADeplacer,valideCoordonnees())){
-			System.out.println("Piece déplacer");
-		}else{
-			System.out.println("Piece non déplacer par manque de place");
-		}
+		return pieceSelect;
 	}
 	
 	
@@ -76,7 +113,6 @@ public class PlayConsole {
 		int choixPiece = choixValide(1, this.pieceAJouer.size(),"Cette pièce n'existe pas");
 		
 		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
-		
 		if(this.plateauConsole.addPiece(this.pieceAJouer.get(choixPiece-1), valideCoordonnees())){
 			this.piecePlacer.add(this.pieceAJouer.get(choixPiece-1));
 			this.pieceAJouer.remove(choixPiece-1);

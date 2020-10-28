@@ -72,7 +72,7 @@ public class PlateauPuzzle {
         }
         
         public boolean libre(ArrayList coo){
-            if(this.plateau.get(coo) == null){
+            if(this.plateau.get(coo) == null && this.plateau.containsKey(coo)){
                 return true;
 			}
             return false;
