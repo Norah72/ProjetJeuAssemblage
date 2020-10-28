@@ -27,7 +27,7 @@ public class Main {
 	public static void main(String[] args){
 
 		PlayConsole play = new PlayConsole();
-			
+			/*
 			int x = 5;
 			int y = 10;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
@@ -73,6 +73,6 @@ public class Main {
                             System.out.print("-");
                     }
                     System.out.println();
-                }
+                }*/
         }
 }
