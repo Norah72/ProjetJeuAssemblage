@@ -1,30 +1,32 @@
 package modele;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import piecesPuzzle.pieces.*;
 import util.*;
 
-public class PlateauPuzzle {
+public class PlateauPuzzle implements Listenable{
     
         private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
         private int x,y;
+        private ArrayList<Listener> listeners ;
 		
         public PlateauPuzzle(int x, int y){
             this.plateau = new HashMap<ArrayList<Integer>, PiecesPuzzle >();
 			this.x=x;
 			this.y=y;
             construcPlateau(x,y);
+            this.listeners = new ArrayList<Listener>();
         }
 		
 	private void construcPlateau(int x, int y){
-			for(int i = 0; i <= x-1 ; i++){
-				for(int j = 0; j <= y-1 ; j++){
-					this.plateau.put(new ArrayList<Integer>(Arrays.asList((Integer)i, (Integer)j)), null);
-				}
-			}
-			
+            for(int i = 0; i <= x-1 ; i++){
+		for(int j = 0; j <= y-1 ; j++){
+                    this.plateau.put(new ArrayList<Integer>(Arrays.asList((Integer)i, (Integer)j)), null);
 		}
+            }
+	}
 
         
         public boolean addPiece(PiecesPuzzle p , ArrayList coo){
@@ -50,10 +52,10 @@ public class PlateauPuzzle {
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
-				return true;
+		return true;
             }
-			add(p,p.getCoo());
-			return false;
+            add(p,p.getCoo());
+            return false;
         }
         
         public void removePiece( PiecesPuzzle p){
@@ -70,16 +72,16 @@ public class PlateauPuzzle {
             p.createPiece(rotation);
             if(!validePlacement(p,p.getCoo())){
                 p.createPiece(rotationOrigine);
-				return false;
+		return false;
             }
             add(p,p.getCoo());
-			return true;
+            return true;
         }
         
         public boolean libre(ArrayList coo){
             if(this.plateau.get(coo) == null && this.plateau.containsKey(coo)){
                 return true;
-			}
+            }
             return false;
         }
         
@@ -100,35 +102,53 @@ public class PlateauPuzzle {
             return this.plateau;
         }
 		
-		@Override
-		public String toString(){
-			System.out.print("   ");
-			for(int z = 0; z<=this.y-1; z++){
-				System.out.print(" "+z+" ");
-			}
-			System.out.println();
+        @Override
+        public void fireChangement(){
+            for ( Listener listener : this.listeners){
+                listener.update(this);
+            } 
+        }
+        
+        @Override
+        public void addListener(Listener listener){
+            this.listeners.add(listener);
+        }
+    
+        @Override
+        public void removeListener(Listener listener){
+            this.listeners.remove(listener);
+        }
+        
+	@Override
+	public String toString(){
+            System.out.print("   ");
+            for(int z = 0; z<=this.y-1; z++){
+                System.out.print(" "+z+" ");
+            }
+            System.out.println();
 
-			for(int i = 0; i<=this.x-1; i++){
-				if(i<10)
-					System.out.print(i+"  ");
-				else
-					System.out.print(i+" ");
-				for(int j = 0; j<=this.y-1; j++){
-					if(this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
-						if(j<10)
-							System.out.print(" ■ ");
-						else
-							System.out.print("  ■ ");
-					}else{
-						if(j<10)
-							System.out.print(" + ");
-						else
-							System.out.print("  + ");
-					}
-				}
-				System.out.println();
-			}
-			return "";
-		}
+            for(int i = 0; i<=this.x-1; i++){
+                if(i<10)
+                    System.out.print(i+"  ");
+		else
+                    System.out.print(i+" ");
+		for(int j = 0; j<=this.y-1; j++){
+                    if(this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
+                    	if(j<10)
+                            System.out.print(" ■ ");
+			else
+                            System.out.print("  ■ ");
+                    }else{
+			if(j<10)
+                            System.out.print(" + ");
+			else
+                            System.out.print("  + ");
+                    }
+                }
+		System.out.println();
+            }
+            return "";
+	}
+        
         
 }

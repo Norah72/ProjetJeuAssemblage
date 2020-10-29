@@ -26,10 +26,10 @@ public class Main {
         
 	public static void main(String[] args){
 
-		PlayConsole play = new PlayConsole();
-			/*
-			int x = 5;
-			int y = 10;
+            PlayConsole play = new PlayConsole();
+            /*
+            int x = 5;
+            int y = 10;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
      
             ArrayList<Integer> coo0 = new ArrayList<Integer>(Arrays.asList(0,0));
