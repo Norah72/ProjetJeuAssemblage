@@ -26,10 +26,11 @@ public class Main {
         
 	public static void main(String[] args){
 
-            PlayConsole play = new PlayConsole();
-            /*
+            
+            
+            //PlayConsole play = new PlayConsole();
             int x = 5;
-            int y = 10;
+            int y = 5;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
      
             ArrayList<Integer> coo0 = new ArrayList<Integer>(Arrays.asList(0,0));
@@ -47,10 +48,22 @@ public class Main {
             plateau.addPiece(pL,coo0); 
 
             
-            System.out.println("Ajout de la pièce H en "+coo1);
-            plateau.addPiece(pH,coo1);
+            //System.out.println("Ajout de la pièce H en "+coo1);
+            //plateau.addPiece(pH,coo1);
             
+            if(plateau.getPlateau().get(coo0) != null)
+                for(int i = 0; i<=y-1; i++){
+                    for(int j = 0; j<=x-1; j++){
+                        if(plateau.getPlateau().get(new ArrayList<Integer>(Arrays.asList(i,j))) != null)
+                            System.out.print("█");
+                        else
+                            System.out.print("-");
+                    }
+                    System.out.println();
+                }
+            System.out.println(plateau.getScore());
             
+            /*
             System.out.println("Déplacement de la pièce H en "+coo2);
             plateau.movePiece(pH,coo2);
             // Si on enlève le déplacement, alors la rotation devient 

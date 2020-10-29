@@ -11,11 +11,11 @@ import piecesPuzzle.pieces.*;
 
 public class PlayConsole {
 	
-	PlateauPuzzle plateauConsole;
-	int largeurPlateauX, longueurPlateauY;
-	ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
-	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
-	boolean explicationRot = true;
+	private PlateauPuzzle plateauConsole;
+	private int largeurPlateauX, longueurPlateauY;
+	private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	private boolean explicationRot = true;
 	
 	public PlayConsole(){
 		play();
