@@ -52,7 +52,7 @@ public class PlayConsole {
 					rotationPiece();
 			}
 			
-			end=true;
+			//end=true;
 		}
 	}
 	
