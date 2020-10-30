@@ -15,7 +15,7 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		this.x = x;
 		this.y = y;
 		this.rotationActuel = rotation;
-                this.coordonnees = null;
+        this.coordonnees = null;
 	}
         
 	/**
@@ -24,7 +24,7 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 	public abstract void pieceGrid();
 	
 	public void createPiece() {
-		createPiece(0);
+		createPiece(this.rotationActuel);
 	}
 	
 	/**
@@ -66,9 +66,17 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		this.coordonnees = coo;
 	}
 	
+	public int getX(){
+		return this.x;
+	}
+	
+	public int getY(){
+		return this.y;
+	}
+	
 	@Override
 	public String toString(){
-		for(int i = 0 ; i < this.largeurXActuel ; i++) {
+		for(int i = 0 ; i < this.largeurXActuel; i++) {
 			for(int j= 0 ; j < this.longueurYActuel; j++) {
 				if(grid[i][j] == true){
 					System.out.print("■");

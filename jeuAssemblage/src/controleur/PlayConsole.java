@@ -1,33 +1,69 @@
 package controleur;
 
+import file.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import static jdk.nashorn.tools.ShellFunctions.input;
 import modele.PlateauPuzzle;
 import piecesPuzzle.pieces.*;
 
-public class PlayConsole {
+public class PlayConsole{
 	
 	PlateauPuzzle plateauConsole;
 	int largeurPlateauX, longueurPlateauY;
-	ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+	ArrayList<PiecesPuzzle> pieceAJouer;
 	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 	boolean explicationRot = true;
+	String pseudo;
+	
+	//Chemin du fichier
+	private String path = null;
 	
 	public PlayConsole(){
-		play();
+		menu();
 	}
 	
+//######## Menu de chargement ########
+	private void menu(){
+		boolean reinitialiser = true;
+		System.out.println("--------------------------------------------");
+		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
+		System.out.println("--------------------------------------------");
+		System.out.println();
+		System.out.println("----- Menu -----");
+		System.out.println("1- Nouvelle partie");
+		System.out.println("2- Charger partie");
+		System.out.println("3- Règle de jeu");
+		int choix = choixValide(1, 3, "Que voulez vous faire ?");
+		
+		if(choix == 1){
+			while(reinitialiser){
+				initialisationPlateau();
+				creationPieceRandom();
+				etatPlateau();
+				if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
+					reinitialiser = false;
+			}
+			play();
+		}
+		else if(choix == 2){
+			chargerPartie();
+			etatPlateau();
+			play();
+		}
+	}
+	
+//######## Jouer ########
 	public void play(){
 		boolean end = false;
-		this.largeurPlateauX = 0;
-		this.longueurPlateauY = 0;
 		
-		initialisationPlateau();
-		creationPieceRandom();
 		//POUR TEST://
 		/*System.out.println("Ajout d'une pièce");
 		this.plateauConsole.addPiece(this.pieceAJouer.get(1), new ArrayList<Integer>(Arrays.asList(2, 4)));
@@ -36,29 +72,38 @@ public class PlayConsole {
 		//FIN TEST//
 			
 		while(end == false){
-			System.out.println("Voici le plateau:");
-			System.out.println(this.plateauConsole);
-			printPiece();
-			
 			int choix = choix();
 			if(choixYesNo("Etes vous sûr de ce choix ?")){
 				if(choix==1)
 					ajoutePiece();
-				if(choix==2)
+				else if(choix==2)
 					deplacementPiece();
-				if(choix==3)
+				else if(choix==3)
 					supprimerPiece();
-				if(choix==4)
+				else if(choix==4)
 					rotationPiece();
+				else if(choix==5){
+					score();
+					end = true;
+				}
+				else if(choix==6){
+					pseudo();
+					sauvegarderPartie();
+				}
 			}
-			
+			etatPlateau();
+			//En attente du score:
 			end=true;
 		}
 	}
 	
-//######## Initialisation du jeu ########	
+	
+//######## Nouvelle partie ########	
 	
 	private void initialisationPlateau(){
+		this.largeurPlateauX = 0;
+		this.longueurPlateauY = 0;
+		
 		System.out.println("Veuillez entrer la grandeur du plateau au niveau largeur: ");
 		this.largeurPlateauX = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
 		System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
@@ -69,6 +114,7 @@ public class PlayConsole {
 	
 	
 	private void creationPieceRandom(){
+		this.pieceAJouer = new ArrayList<PiecesPuzzle>();
 		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
 
 		for(int i = 0; i <= randPiece; i++){
@@ -86,6 +132,28 @@ public class PlayConsole {
 				this.pieceAJouer.add(new PieceT(largeur+1,longueur+1));
 			}
 			this.pieceAJouer.get(i).createPiece();
+		}
+	}
+	
+//######## Charger/sauvegarder partie ########	
+	
+	private void sauvegarderPartie(){
+		SauvegardeFichier sauvegarde = new SauvegardeFichier();
+		try{
+			sauvegarde.write(this);
+		}
+		catch(Exception e){
+		System.out.println("Impossible de sauvegarder");
+		}
+	}
+	
+	private void chargerPartie(){
+		ChargerPartie charger = new ChargerPartie();
+		try{
+			charger.write(this);
+		}
+		catch(Exception e){
+		System.out.println("Impossible de charger le fichier");
 		}
 	}
 	
@@ -158,21 +226,40 @@ public class PlayConsole {
 		
 	}
 	
+	
+//######## Fin/quitter jeu ########
+	private void score(){
+		
+	}
+	
+	private void pseudo(){
+		System.out.println("Quel est votre pseudo ?");
+		Scanner pseudoScan = new Scanner(System.in);
+		pseudo = pseudoScan.next();
+	}
+	
 //######## Validation/effectuer des choix ########	
 	
 	private int choix(){
-		int nbrChoix=1;
+		int nbrChoix=2;
 		
 		System.out.println("Que voulez vous faire ?");
 		System.out.println("1- Placer une pièce");
 		if(!piecePlacer.isEmpty()){
-			nbrChoix = 4;
+			nbrChoix = 6;
 			System.out.println("2- Déplacer une pièce");
 			System.out.println("3- Supprimer une pièce");
 			System.out.println("4- Rotation d'une pièce");
+			System.out.println("5- Score/Fin");
+			System.out.println("6- Sauvegarder la partie");
+		}else{
+			System.out.println("2- Sauvegarder la partie");
 		}
 
 		int choix = choixValide(1,nbrChoix, "Choix invalide");
+		
+		if(piecePlacer.isEmpty() && choix == 2)
+			choix = 6;
 		
 		return choix;		
 	}
@@ -250,7 +337,13 @@ public class PlayConsole {
 	
 	
 
-//######## Affichage ########	
+//######## Affichage ########
+
+	private void etatPlateau(){
+		System.out.println("Voici le plateau:");
+		System.out.println(this.plateauConsole);
+		printPiece();
+	}
 	
 	private void printPiece(){
 		System.out.println("Voici vos pièce: ");
@@ -259,4 +352,60 @@ public class PlayConsole {
 			System.out.println(this.pieceAJouer.get(i));
 		}
 	}
+
+	
+//######## get pour sauvegarde ########
+	public PlateauPuzzle getPlateauConsole(){
+		return this.plateauConsole;
+	}
+	public int getlargeurPlateauX(){
+		return this.largeurPlateauX;
+	}
+	public int getlongueurPlateauY(){
+		return this.longueurPlateauY;
+	}
+	public ArrayList getpieceAJouer(){
+		return this.pieceAJouer;
+	}
+	public ArrayList getpiecePlacer(){
+		return this.piecePlacer;
+	}
+	public boolean getexplicationRot(){
+		return this.explicationRot;
+	}
+	public String getpseudo(){
+		return this.pseudo;
+	}
+	
+//######## set pour chargement ########
+
+	public void setPlateauConsole(PlateauPuzzle plateauConsole) {
+		this.plateauConsole = plateauConsole;
+	}
+
+	public void setLargeurPlateauX(int largeurPlateauX) {
+		this.largeurPlateauX = largeurPlateauX;
+	}
+
+	public void setLongueurPlateauY(int longueurPlateauY) {
+		this.longueurPlateauY = longueurPlateauY;
+	}
+
+	public void setPieceAJouer(ArrayList<PiecesPuzzle> pieceAJouer) {
+		this.pieceAJouer = pieceAJouer;
+	}
+
+	public void setPiecePlacer(ArrayList<PiecesPuzzle> piecePlacer) {
+		this.piecePlacer = piecePlacer;
+	}
+
+	public void setExplicationRot(boolean explicationRot) {
+		this.explicationRot = explicationRot;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+	
+	
 }

@@ -13,4 +13,6 @@ public interface PiecesPuzzle {
     public ArrayList<Integer> getCoo();
 	public int getRotation(); 
     public void updateCoordonnees(ArrayList<Integer> coo);
+	public int getX();
+	public int getY();
 }
