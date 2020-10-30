@@ -11,12 +11,12 @@ import piecesPuzzle.pieces.*;
 
 public class PlayConsole{
 	
-	PlateauPuzzle plateauConsole;
-	int largeurPlateauX, longueurPlateauY;
-	ArrayList<PiecesPuzzle> pieceAJouer;
-	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
-	boolean explicationRot = true;
-	String pseudo;
+	private PlateauPuzzle plateauConsole;
+	private int largeurPlateauX, longueurPlateauY;
+	private ArrayList<PiecesPuzzle> pieceAJouer;
+	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	private boolean explicationRot = true;
+	private String pseudo;
 	
 	public PlayConsole(){
 		menu();
@@ -111,7 +111,7 @@ public class PlayConsole{
 		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
 
 		for(int i = 0; i <= randPiece; i++){
-			int piece = new Random().nextInt(3);
+			int piece = new Random().nextInt(4);
 			int largeur = difZero((this.largeurPlateauX)/2);
 			int longueur = difZero((this.longueurPlateauY)/2);
 
@@ -196,8 +196,8 @@ public class PlayConsole{
 		
 		System.out.println("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
 		PiecesPuzzle pieceATourner = selectPiece();
-		System.out.println("Quel rotation ? Rappel: Choix 0 à 4");
-		if(this.plateauConsole.rotationPiece(pieceATourner, choixValide(0,4,"Choix non accepter: 0 à 4")))
+		System.out.println("Quel rotation ? Rappel: Choix 0 à 3");
+		if(this.plateauConsole.rotationPiece(pieceATourner, choixValide(0,3,"Choix non accepter: 0 à 3")))
 			System.out.println("Rotation effectuer");
 		else
 			System.out.println("Rotation non effectuer par manque de place");

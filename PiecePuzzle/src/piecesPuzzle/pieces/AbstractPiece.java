@@ -1,7 +1,6 @@
 package piecesPuzzle.pieces;
 
 import java.util.ArrayList;
-import util.Coordonnees;
 
 public abstract class AbstractPiece implements PiecesPuzzle{
 	protected int x,y;
