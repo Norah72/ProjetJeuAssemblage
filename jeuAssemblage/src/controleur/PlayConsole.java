@@ -6,21 +6,32 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import modele.PlateauPuzzle;
+import vue.*;
 import piecesPuzzle.pieces.*;
 
-public class PlayConsole{
+
+public class PlayConsole implements ActionListener{
+
 	
 	private PlateauPuzzle plateauConsole;
 	private int largeurPlateauX, longueurPlateauY;
 	private ArrayList<PiecesPuzzle> pieceAJouer;
 	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 	private boolean explicationRot = true;
+
 	private String pseudo;
 	private boolean end = false;
 	private ScoreFile sauvegardeScore = new ScoreFile();
 	
-	public PlayConsole(){
+	private InterfaceGraphique vue;
+	
+	public PlayConsole(/*InterfaceGraphique vue*/){
+		//this.vue = vue;
 		menu();
 	}
 	
@@ -387,6 +398,7 @@ public class PlayConsole{
 			System.out.println(this.pieceAJouer.get(i));
 		}
 	}
+
 	
 	private void afficheScore(){
 		try{
@@ -449,6 +461,22 @@ public class PlayConsole{
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
-	
-	
+
+
+ //####Affichage grille (vue) ############//
+    @Override
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+		if(source == vue.getValide()){
+			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
+				System.out.println(vue.getLigne().getSelectedIndex());
+				System.out.println(vue.getColonne().getSelectedIndex());
+				vue.afficheGrille();
+			}
+			else{
+				System.out.println("Choisis un chiffre couillon");
+			}
+		}
+    }
 }
+
