@@ -5,19 +5,24 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static jdk.nashorn.tools.ShellFunctions.input;
 import modele.PlateauPuzzle;
+import vue.*;
 import piecesPuzzle.pieces.*;
 
-public class PlayConsole {
+public class PlayConsole implements ActionListener{
 	
 	private PlateauPuzzle plateauConsole;
 	private int largeurPlateauX, longueurPlateauY;
 	private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
 	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 	private boolean explicationRot = true;
+        private InterfaceGraphique vue;
 	
-	public PlayConsole(){
+	public PlayConsole(/*InterfaceGraphique vue*/){
+                //this.vue = vue;
 		play();
 	}
 	
@@ -259,4 +264,19 @@ public class PlayConsole {
 			System.out.println(this.pieceAJouer.get(i));
 		}
 	}
+ //####Affichage grille (vue) ############//
+        @Override
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+                if(source == vue.getValide()){
+                    if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
+                        System.out.println(vue.getLigne().getSelectedIndex());
+                        System.out.println(vue.getColonne().getSelectedIndex());
+                        vue.afficheGrille();
+                }
+                    else{
+                        System.out.println("Choisis un chiffre couillon");
+                }
+            }
+        }
 }
