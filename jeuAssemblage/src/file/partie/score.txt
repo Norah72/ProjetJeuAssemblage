@@ -1,8 +1,9 @@
-ggu 62
-t 62
+ggu 56
+tito 80
 toto 62
 titi 42
 ito 62
 norah 62
 norah 35
-norah 35
+danoh 35
+test 57

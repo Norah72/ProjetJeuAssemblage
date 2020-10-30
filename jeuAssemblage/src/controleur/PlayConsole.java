@@ -19,13 +19,14 @@ public class PlayConsole implements ActionListener{
 
 	
 	private PlateauPuzzle plateauConsole;
-	private int largeurPlateauX, longueurPlateauY;
+	
 	private ArrayList<PiecesPuzzle> pieceAJouer;
 	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	private int largeurPlateauX, longueurPlateauY;
 	private boolean explicationRot = true;
-
-	private String pseudo;
 	private boolean end = false;
+
+	private String pseudo = null;
 	private ScoreFile sauvegardeScore = new ScoreFile();
 	
 	private InterfaceGraphique vue;
@@ -96,11 +97,13 @@ public class PlayConsole implements ActionListener{
 				else if(choix==4)
 					rotationPiece();
 				else if(choix==5){
-					end = score();
+					if(this.pseudo == null)
+						this.pseudo();
+					sauvegarderPartie();
+					end = choixYesNo("Voulez vous arretez la partie ?");
 				}
 				else if(choix==6){
-					pseudo();
-					sauvegarderPartie();
+					end = score();
 				}
 			}
 			etatPlateau();
@@ -153,7 +156,7 @@ public class PlayConsole implements ActionListener{
 			sauvegarde.ecrire();
 		}
 		catch(Exception e){
-		System.out.println("Impossible de sauvegarder");
+			System.out.println("Impossible de sauvegarder");
 		}
 	}
 	
@@ -267,12 +270,17 @@ public class PlayConsole implements ActionListener{
 	private void pseudo(){
 		System.out.println("Quel est votre pseudo ?");
 		Scanner pseudoScan = new Scanner(System.in);
-		pseudo = pseudoScan.next();
+		this.pseudo = pseudoScan.next();
 	}
 	
 	private void finDePartie(){
 		if(choixYesNo("Voulez vous sauvegardez votre score ?")){
-			pseudo();
+			if(pseudo == null)
+				pseudo();
+			else
+				if(choixYesNo("Votre pseudo : "+pseudo+" Voulez vous le changer ?"))
+					pseudo();
+			
 			try{
 				sauvegardeScore.write(this);
 			}
@@ -290,20 +298,21 @@ public class PlayConsole implements ActionListener{
 		
 		System.out.println("Que voulez vous faire ?");
 		System.out.println("1- Placer une pièce");
-		if(!piecePlacer.isEmpty()){
+		if(!this.piecePlacer.isEmpty()){
 			nbrChoix = 6;
 			System.out.println("2- Déplacer une pièce");
 			System.out.println("3- Supprimer une pièce");
 			System.out.println("4- Rotation d'une pièce");
-			System.out.println("5- Score/Fin");
-			System.out.println("6- Sauvegarder la partie");
+			System.out.println("5- Sauvegarder la partie");
+			if(this.pieceAJouer.isEmpty())
+				System.out.println("6- Score/Fin");
 		}else{
 			System.out.println("2- Sauvegarder la partie");
 		}
 
 		int choix = choixValide(1,nbrChoix, "Choix invalide");
 		
-		if(piecePlacer.isEmpty() && choix == 2)
+		if(this.piecePlacer.isEmpty() && choix == 2)
 			choix = 6;
 		
 		return choix;		
@@ -318,11 +327,19 @@ public class PlayConsole implements ActionListener{
 	}
 	
 	private int choixValide(int borneInf, int borneSup, String texte){
-		Scanner choixScan = new Scanner(System.in);
-		int choix = choixScan.nextInt();
-		while(choix < borneInf || choix > borneSup){
-			System.out.println(texte);
-			choix = choixScan.nextInt();
+		int choix = -1;
+		while(choix == -1){
+			Scanner choixScan = new Scanner(System.in);
+			try{
+				choix = choixScan.nextInt();
+				while(choix < borneInf || choix > borneSup){
+					System.out.println(texte);
+					choix = choixScan.nextInt();
+				}
+			}
+			catch(Exception e){
+				System.out.println("Choix invalide");
+			}
 		}
 		return choix;
 	}
