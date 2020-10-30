@@ -17,6 +17,8 @@ public class PlayConsole{
 	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 	private boolean explicationRot = true;
 	private String pseudo;
+	private boolean end = false;
+	private ScoreFile sauvegardeScore = new ScoreFile();
 	
 	public PlayConsole(){
 		menu();
@@ -28,36 +30,42 @@ public class PlayConsole{
 		System.out.println("--------------------------------------------");
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
 		System.out.println("--------------------------------------------");
-		System.out.println();
-		System.out.println("----- Menu -----");
-		System.out.println("1- Nouvelle partie");
-		System.out.println("2- Charger partie");
-		System.out.println("3- Règle de jeu");
-		System.out.println("4- Score de jeu");
-		int choix = choixValide(1, 3, "Que voulez vous faire ?");
-		
-		if(choix == 1){
-			while(reinitialiser){
-				initialisationPlateau();
-				creationPieceRandom();
-				etatPlateau();
-				if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
-					reinitialiser = false;
+		while(!this.end == false);{
+			System.out.println();
+			System.out.println("----- Menu -----");
+			System.out.println("1- Nouvelle partie");
+			System.out.println("2- Charger partie");
+			System.out.println("3- Règle de jeu");
+			System.out.println("4- Score de jeu");
+			int choix = choixValide(1, 4, "Que voulez vous faire ?");
+
+			if(choix == 1){
+				while(reinitialiser){
+					initialisationPlateau();
+					creationPieceRandom();
+					etatPlateau();
+					if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
+						reinitialiser = false;
+				}
+				play();
 			}
-			play();
-		}
-		else if(choix == 2){
-			chargerPartie();
-			System.out.println("Content de vous revoir "+this.pseudo+" !");
-			etatPlateau();
-			play();
-		}
+			else if(choix == 2){
+				chargerPartie();
+				System.out.println("Content de vous revoir "+this.pseudo+" !");
+				etatPlateau();
+				play();
+			}
+			else if(choix == 3){
+				
+			}
+			else if(choix == 4){
+				afficheScore();
+			}
+	}
 	}
 	
 //######## Jouer ########
-	public void play(){
-		boolean end = false;
-		
+	public void play(){		
 		//POUR TEST://
 		/*System.out.println("Ajout d'une pièce");
 		this.plateauConsole.addPiece(this.pieceAJouer.get(1), new ArrayList<Integer>(Arrays.asList(2, 4)));
@@ -65,7 +73,7 @@ public class PlayConsole{
 		this.pieceAJouer.remove(1);*/
 		//FIN TEST//
 			
-		while(end == false){
+		while(!this.end){
 			int choix = choix();
 			if(choixYesNo("Etes vous sûr de ce choix ?")){
 				if(choix==1)
@@ -235,7 +243,6 @@ public class PlayConsole{
 		if(choixYesNo("Voulez vous sauvegardez votre score ?")){
 			pseudo();
 			try{
-				SauvegardeScore sauvegardeScore = new SauvegardeScore();
 				sauvegardeScore.write(this);
 			}
 			catch(Exception e){
@@ -357,6 +364,14 @@ public class PlayConsole{
 		for(int i = 0 ; i <= this.pieceAJouer.size()-1; i++){
 			System.out.println("Piece "+(i+1)+":");
 			System.out.println(this.pieceAJouer.get(i));
+		}
+	}
+	
+	private void afficheScore(){
+		try{
+			sauvegardeScore.affiche();
+		}catch(Exception e){
+			
 		}
 	}
 
