@@ -33,6 +33,7 @@ public class PlayConsole{
 		System.out.println("1- Nouvelle partie");
 		System.out.println("2- Charger partie");
 		System.out.println("3- Règle de jeu");
+		System.out.println("4- Score de jeu");
 		int choix = choixValide(1, 3, "Que voulez vous faire ?");
 		
 		if(choix == 1){
@@ -76,8 +77,7 @@ public class PlayConsole{
 				else if(choix==4)
 					rotationPiece();
 				else if(choix==5){
-					score();
-					end = true;
+					end = score();
 				}
 				else if(choix==6){
 					pseudo();
@@ -85,9 +85,8 @@ public class PlayConsole{
 				}
 			}
 			etatPlateau();
-			//En attente du score:
-			end=true;
 		}
+		finDePartie();
 	}
 	
 	
@@ -221,14 +220,29 @@ public class PlayConsole{
 	
 	
 //######## Fin/quitter jeu ########
-	private void score(){
-		
+	private boolean score(){
+		System.out.println("Votre score : "+this.plateauConsole.getScore());
+		return choixYesNo("Voulez vous arretez la partie ?");
 	}
 	
 	private void pseudo(){
 		System.out.println("Quel est votre pseudo ?");
 		Scanner pseudoScan = new Scanner(System.in);
 		pseudo = pseudoScan.next();
+	}
+	
+	private void finDePartie(){
+		if(choixYesNo("Voulez vous sauvegardez votre score ?")){
+			pseudo();
+			try{
+				SauvegardeScore sauvegardeScore = new SauvegardeScore();
+				sauvegardeScore.write(this);
+			}
+			catch(Exception e){
+				System.out.println("Impossible de sauvegarder le score");
+			}
+		}
+		System.out.println("Merci d'avoir jouer !");
 	}
 	
 //######## Validation/effectuer des choix ########	
