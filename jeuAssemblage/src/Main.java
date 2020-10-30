@@ -1,6 +1,7 @@
 import controleur.*;
 import piecesPuzzle.pieces.*;
 import modele.*;
+import vue.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import util.*;
@@ -26,9 +27,17 @@ public class Main {
         
 	public static void main(String[] args){
 
+            //######### POUR LANCER LA VUE - ENLENVER LES COMMANTAIRES (LIGNE 30 à 38)#####// 
+            //######### + ENLEVR COMMENTAIRES DANS CONSTRUCTEURS DE PLAYCONSOLE############//
+            /*int x=0;
+            int y=0;
+            PlateauPuzzle play = new PlateauPuzzle(x,y);
+            InterfaceGraphique fenetre = new InterfaceGraphique(play);*/
+            PlayConsole lol = new PlayConsole(/*fenetre*/);
+            /*test.getLigne().addActionListener(lol);
+            test.getColonne().addActionListener(lol);
+            test.getValide().addActionListener(lol);*/
             
-            
-            PlayConsole play = new PlayConsole();
             /*int x = 5;
             int y = 5;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
