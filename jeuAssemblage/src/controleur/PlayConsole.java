@@ -1,16 +1,11 @@
 package controleur;
 
 import file.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import static jdk.nashorn.tools.ShellFunctions.input;
 import modele.PlateauPuzzle;
 import piecesPuzzle.pieces.*;
 
@@ -22,9 +17,6 @@ public class PlayConsole{
 	ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 	boolean explicationRot = true;
 	String pseudo;
-	
-	//Chemin du fichier
-	private String path = null;
 	
 	public PlayConsole(){
 		menu();
@@ -55,6 +47,7 @@ public class PlayConsole{
 		}
 		else if(choix == 2){
 			chargerPartie();
+			System.out.println("Content de vous revoir "+this.pseudo+" !");
 			etatPlateau();
 			play();
 		}
