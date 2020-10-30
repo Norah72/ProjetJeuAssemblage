@@ -34,7 +34,7 @@ public class PlayConsole{
 			System.out.println();
 			System.out.println("----- Menu -----");
 			System.out.println("1- Nouvelle partie");
-			System.out.println("2- Charger partie");
+			System.out.println("2- Charger la dernière partie");
 			System.out.println("3- Règle de jeu");
 			System.out.println("4- Score de jeu");
 			int choix = choixValide(1, 4, "Que voulez vous faire ?");
@@ -56,7 +56,7 @@ public class PlayConsole{
 				play();
 			}
 			else if(choix == 3){
-				
+				regle();
 			}
 			else if(choix == 4){
 				afficheScore();
@@ -210,6 +210,7 @@ public class PlayConsole{
 			System.out.println("Rotation non effectuer par manque de place");
 	}
 	
+//######## Regle ########
 	private void explicationRotation(){
 		if(choixYesNo("Explication rotation ?")){
 			System.out.println("Les rotations se font dans le sens horaires.");
@@ -224,6 +225,26 @@ public class PlayConsole{
 		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
 			explicationRot = false;
 		
+	}
+	
+	private void regle(){
+		System.out.println("Le but du jeu est qu'il y est le minimum d'aire entre les pièces.");
+		System.out.println("Bien sûr, il faut que toutes les pièces disponible soit placer.");
+		System.out.println("Vous pouvez calculer votre score que si vous avez posé toutes les pièces sur le plateau.");
+		System.out.println("Pour ce faire, vous pouvez placer, déplacer, supprimer ou encore effectuer une rotation des pièces placer.");
+		System.out.println();
+		System.out.println("Il y a 4 pièces différentes: ");
+		
+		System.out.println((new PieceH(3,4)));
+		System.out.println();
+		System.out.println(new PieceL(3,4));
+		System.out.println();
+		System.out.println(new PieceRectangle(3,4));
+		System.out.println();
+		System.out.println(new PieceT(3,4));
+		System.out.println();
+		
+		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie ou charger la dernière partie sauvegarder");
 	}
 	
 	
