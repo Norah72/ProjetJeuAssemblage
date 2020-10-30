@@ -28,8 +28,8 @@ public class Main {
 
             
             
-            //PlayConsole play = new PlayConsole();
-            int x = 5;
+            PlayConsole play = new PlayConsole();
+            /*int x = 5;
             int y = 5;
             PlateauPuzzle plateau = new PlateauPuzzle(x,y);
      

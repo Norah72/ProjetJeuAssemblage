@@ -114,15 +114,18 @@ public class PlateauPuzzle implements Listenable{
 
         public boolean rotationPiece(PiecesPuzzle p , Integer rotation){
             removePiece(p);
+            boolean out;
             int rotationOrigine = p.getRotation();
             p.createPiece(rotation);
             if(!validePlacement(p,p.getCoo())){
                 p.createPiece(rotationOrigine);
-		return false;
+		out = false;
+            }else{
+                out = true;
             }
             add(p,p.getCoo());
             update();
-            return true;
+            return out;
         }
         
         public boolean libre(ArrayList coo){
