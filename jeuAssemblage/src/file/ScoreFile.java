@@ -11,10 +11,6 @@ public class ScoreFile {
 	
 	private File scoreFile = new File("src/file/partie/score.txt");
 
-	public ScoreFile(){
-
-	}
-
 	public void write(PlayConsole jeu) throws IOException {
 		try{
 			if(!this.scoreFile.exists()){

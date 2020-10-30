@@ -41,7 +41,7 @@ public class PlayConsole implements ActionListener{
 		System.out.println("--------------------------------------------");
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
 		System.out.println("--------------------------------------------");
-		while(!this.end == false);{
+		while(!this.end){
 			System.out.println();
 			System.out.println("----- Menu -----");
 			System.out.println("1- Nouvelle partie");
@@ -72,7 +72,7 @@ public class PlayConsole implements ActionListener{
 			else if(choix == 4){
 				afficheScore();
 			}
-	}
+		}
 	}
 	
 //######## Jouer ########
@@ -142,16 +142,15 @@ public class PlayConsole implements ActionListener{
 			}else if(piece == 3){
 				this.pieceAJouer.add(new PieceT(largeur+1,longueur+1));
 			}
-			this.pieceAJouer.get(i).createPiece();
 		}
 	}
 	
 //######## Charger/sauvegarder partie ########	
 	
 	private void sauvegarderPartie(){
-		SauvegardeFichier sauvegarde = new SauvegardeFichier();
+		SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
 		try{
-			sauvegarde.write(this);
+			sauvegarde.ecrire();
 		}
 		catch(Exception e){
 		System.out.println("Impossible de sauvegarder");
@@ -161,7 +160,7 @@ public class PlayConsole implements ActionListener{
 	private void chargerPartie(){
 		ChargerPartie charger = new ChargerPartie();
 		try{
-			charger.write(this);
+			charger.chargerSauvegarde(this);
 		}
 		catch(Exception e){
 		System.out.println("Impossible de charger le fichier");
@@ -252,7 +251,7 @@ public class PlayConsole implements ActionListener{
 		System.out.println();
 		System.out.println(new PieceRectangle(3,4));
 		System.out.println();
-		System.out.println(new PieceT(3,4));
+		System.out.println(new PieceT(3,3));
 		System.out.println();
 		
 		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie ou charger la dernière partie sauvegarder");

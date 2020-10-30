@@ -15,6 +15,8 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		this.y = y;
 		this.rotationActuel = rotation;
         this.coordonnees = null;
+		
+		createPiece(this.rotationActuel);
 	}
         
 	/**
@@ -22,9 +24,6 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 	 */
 	public abstract void pieceGrid();
 	
-	public void createPiece() {
-		createPiece(this.rotationActuel);
-	}
 	
 	/**
 	 * Choix de la rotation dans le sens horaire
