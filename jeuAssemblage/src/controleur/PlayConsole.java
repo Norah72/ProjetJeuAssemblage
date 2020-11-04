@@ -131,20 +131,39 @@ public class PlayConsole implements ActionListener{
 		this.pieceAJouer = new ArrayList<PiecesPuzzle>();
 		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
 
+                int largeur;
+                int longueur;
+                int max =  this.largeurPlateauX /2 + 2 ;
+                
+                if(max > 5){
+                    max = 5;
+                }
+                
 		for(int i = 0; i <= randPiece; i++){
-			int piece = new Random().nextInt(4);
-			int largeur = difZero((this.largeurPlateauX)/2);
-			int longueur = difZero((this.longueurPlateauY)/2);
-
-			if(piece == 0){
-				this.pieceAJouer.add((new PieceH(largeur+1,longueur+1)));
-			}else if(piece == 1){
-				this.pieceAJouer.add(new PieceL(largeur+1,longueur+1));
-			}else if(piece == 2){
-				this.pieceAJouer.add(new PieceRectangle(largeur,longueur));
-			}else if(piece == 3){
-				this.pieceAJouer.add(new PieceT(largeur+1,longueur+1));
-			}
+			int piece =new Random().nextInt(4);
+                        int rand=0;
+                        
+                        if(piece == 0){
+                            System.out.println("H");
+                            largeur = rdmMinimum(3,max);
+                            longueur = rdmMinimum(3,max);
+                            this.pieceAJouer.add(new PieceH(largeur,longueur));
+                        }else if(piece == 1){
+                            System.out.println("L");
+                            largeur = rdmMinimum(2,max);
+                            longueur = rdmMinimum(2,max);
+                            this.pieceAJouer.add(new PieceL(largeur,longueur));
+                        }else if(piece == 2){
+                            System.out.println("R");
+                            largeur = rdmMinimum(1,max-1);
+                            longueur = rdmMinimum(1,max-1);
+                            this.pieceAJouer.add(new PieceRectangle(largeur,longueur));
+                        }else if(piece == 3){
+                            System.out.println("T");
+                            largeur = rdmMinimum(2,max);
+                            longueur = rdmMinimum(3,max);
+                            this.pieceAJouer.add(new PieceT(largeur,longueur));
+                        }
 		}
 	}
 	
@@ -396,8 +415,12 @@ public class PlayConsole implements ActionListener{
 			rand = new Random().nextInt(randPiece);
 		return rand;
 	}
-	
-	
+        private int rdmMinimum(int min, int randPiece ){
+            int rand = 0;
+            while(rand < min)
+                rand = new Random().nextInt(randPiece+1);
+            return rand;
+	}
 
 //######## Affichage ########
 
