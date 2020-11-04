@@ -38,17 +38,17 @@ public class SauvegardeFichier {
 			this.sauvegarde.println(this.jeu.getlongueurPlateauY());
 			this.sauvegarde.println(".");
 			
-			for(int i = 0; i < this.jeu.getpieceAJouer().size(); i++){
-				PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getpieceAJouer().get(i);
+			for(int i = 0; i < this.jeu.getPlateauConsole().getPieceAJouer().size(); i++){
+				PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getPlateauConsole().getPieceAJouer().get(i);
 				ecrirePiece(pieceDispo);
 				this.sauvegarde.println("-");
 			}
 			
 			this.sauvegarde.println(".");
 			
-			if(!this.jeu.getpiecePlacer().isEmpty()){
-				for(int i = 0; i < this.jeu.getpiecePlacer().size() ; i++){
-					PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getpiecePlacer().get(i);
+			if(!this.jeu.getPlateauConsole().getPiecePlacer().isEmpty()){
+				for(int i = 0; i < this.jeu.getPlateauConsole().getPiecePlacer().size() ; i++){
+					PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getPlateauConsole().getPiecePlacer().get(i);
 					
 					ecrirePiece(pieceDispo);
 					

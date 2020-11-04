@@ -11,9 +11,12 @@ public class PlateauPuzzle implements Listenable{
         private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
         private int x,y;
         private ArrayList<Listener> listeners ;
+		private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+		private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+		
         
         private int minX,maxX,minY,maxY;
-        private int surfacePieces ;
+        private int surfacePieces ;    
 	
         public PlateauPuzzle(int x, int y){
             this.plateau = new HashMap<ArrayList<Integer>, PiecesPuzzle >();
@@ -31,11 +34,11 @@ public class PlateauPuzzle implements Listenable{
         }
 		
 	private void construcPlateau(int x, int y){
-            for(int i = 0; i <= x-1 ; i++){
-		for(int j = 0; j <= y-1 ; j++){
-                    this.plateau.put(new ArrayList<Integer>(Arrays.asList((Integer)i, (Integer)j)), null);
-		}
-            }
+        for(int i = 0; i <= x-1 ; i++){
+			for(int j = 0; j <= y-1 ; j++){
+				this.plateau.put(new ArrayList<Integer>(Arrays.asList((Integer)i, (Integer)j)), null);
+			}
+        }
 	}
         
         private void update(){
@@ -68,6 +71,24 @@ public class PlateauPuzzle implements Listenable{
             double score =  this.surfacePieces/ (double)surfaceTotal * 100;
             return (int) score;
         }
+		
+		
+		public void newPiece(String piece, int largeur, int longueur){
+			this.pieceAJouer.add(createNewPiece(piece, largeur, longueur, 0));	
+		}
+		
+		public PiecesPuzzle createNewPiece(String piece, int largeur, int longueur, int rotation){
+			if(piece.equals("PieceH")){
+				return new PieceH(largeur,longueur, rotation);
+			}else if(piece.equals("PieceL")){
+				return new PieceL(largeur,longueur, rotation);
+			}else if(piece.equals("PieceRectangle")){
+				return new PieceRectangle(largeur,longueur, rotation);
+			}else if(piece.equals("PieceT")){
+				return new PieceT(largeur,longueur, rotation);
+			}
+			return null;
+		}
         
         public boolean addPiece(PiecesPuzzle p , ArrayList coo){
             if (validePlacement(p,coo)){
@@ -87,15 +108,16 @@ public class PlateauPuzzle implements Listenable{
                 }
             }
             p.updateCoordonnees(coo);
-            update();
-            
+            update();        
+			this.pieceAJouer.remove(p);
+			this.piecePlacer.add(p);
         }
 
         public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
-		return true;
+				return true;
             }
             add(p,p.getCoo());
             update();
@@ -110,6 +132,8 @@ public class PlateauPuzzle implements Listenable{
                 }
             }
             update();
+			this.pieceAJouer.add(p);
+			this.piecePlacer.remove(p);
         }
 
         public boolean rotationPiece(PiecesPuzzle p , Integer rotation){
@@ -134,6 +158,14 @@ public class PlateauPuzzle implements Listenable{
             }
             return false;
         }
+		
+		public boolean selectPiece(ArrayList coo){
+			PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
+			if(pieceSelect == null)
+				return false;
+			else
+				return true;
+		}
         
         public boolean validePlacement(PiecesPuzzle p, ArrayList coo){
             for(int i=0;i<p.getLargeurX();i++){
@@ -151,7 +183,28 @@ public class PlateauPuzzle implements Listenable{
         public HashMap getPlateau(){
             return this.plateau;
         }
-        
+
+		public ArrayList<PiecesPuzzle> getPieceAJouer() {
+			return pieceAJouer;
+		}
+
+		public ArrayList<PiecesPuzzle> getPiecePlacer() {
+			return piecePlacer;
+		}		
+		
+		public PiecesPuzzle getPiece(ArrayList coo){
+			return this.plateau.get(coo);
+		}
+
+		public void setPieceAJouer(ArrayList<PiecesPuzzle> pieceAJouer) {
+			this.pieceAJouer = pieceAJouer;
+		}
+
+		public void setPiecePlacer(ArrayList<PiecesPuzzle> piecePlacer) {
+			this.piecePlacer = piecePlacer;
+		}
+		
+		
         @Override
         public void fireChangement(){
             for ( Listener listener : this.listeners){

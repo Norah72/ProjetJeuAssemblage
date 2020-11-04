@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 
 import modele.PlateauPuzzle;
 import vue.*;
-import piecesPuzzle.pieces.*;
 
 
 public class PlayConsole implements ActionListener{
@@ -20,8 +19,7 @@ public class PlayConsole implements ActionListener{
 	
 	private PlateauPuzzle plateauConsole;
 	
-	private ArrayList<PiecesPuzzle> pieceAJouer;
-	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	private ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
 	private int largeurPlateauX, longueurPlateauY;
 	private boolean explicationRot = true;
 	private boolean end = false;
@@ -128,58 +126,48 @@ public class PlayConsole implements ActionListener{
 	
 	
 	private void creationPieceRandom(){
-		this.pieceAJouer = new ArrayList<PiecesPuzzle>();
 		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
 
 		for(int i = 0; i <= randPiece; i++){
 			int piece = new Random().nextInt(4);
 			int largeur = difZero((this.largeurPlateauX)/2);
 			int longueur = difZero((this.longueurPlateauY)/2);
-
-			if(piece == 0){
-				this.pieceAJouer.add((new PieceH(largeur+1,longueur+1)));
-			}else if(piece == 1){
-				this.pieceAJouer.add(new PieceL(largeur+1,longueur+1));
-			}else if(piece == 2){
-				this.pieceAJouer.add(new PieceRectangle(largeur,longueur));
-			}else if(piece == 3){
-				this.pieceAJouer.add(new PieceT(largeur+1,longueur+1));
-			}
+			plateauConsole.newPiece(this.pieceString.get(piece), largeur, longueur);
 		}
 	}
 	
 //######## Charger/sauvegarder partie ########	
 	
 	private void sauvegarderPartie(){
-		SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
+		/*SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
 		try{
 			sauvegarde.ecrire();
 		}
 		catch(Exception e){
 			System.out.println("Impossible de sauvegarder");
-		}
+		}*/
 	}
 	
 	private void chargerPartie(){
-		ChargerPartie charger = new ChargerPartie();
+		/*ChargerPartie charger = new ChargerPartie(this);
 		try{
-			charger.chargerSauvegarde(this);
+			charger.chargerSauvegarde();
 		}
 		catch(Exception e){
 		System.out.println("Impossible de charger le fichier");
-		}
+		}*/
 	}
 	
 //######## Méthode de jeu ########		
 	
 	private void ajoutePiece(){	
 		System.out.println("Que pièce voulez vous ajouter ? (Veuillez indiqué le numéro de la pièce)");
-		int choixPiece = choixValide(1, this.pieceAJouer.size(),"Cette pièce n'existe pas");
+		int choixPiece = choixValide(1, this.plateauConsole.getPieceAJouer().size(),"Cette pièce n'existe pas");
 		
 		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
-		if(this.plateauConsole.addPiece(this.pieceAJouer.get(choixPiece-1), valideCoordonnees())){
-			this.piecePlacer.add(this.pieceAJouer.get(choixPiece-1));
-			this.pieceAJouer.remove(choixPiece-1);
+		if(this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(choixPiece-1), valideCoordonnees())){
+			//this.piecePlacer.add(this.plateauConsole.getPieceAJouer().get(choixPiece-1));
+			//this.plateauConsole.getPieceAJouer().remove(choixPiece-1);
 			System.out.println("Piece ajouter");
 		}else{
 			System.out.println("Piece non ajouter par manque de place");
@@ -189,10 +177,10 @@ public class PlayConsole implements ActionListener{
 	private void deplacementPiece(){
 		
 		System.out.println("Que pièce voulez vous déplacer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
-		PiecesPuzzle pieceADeplacer = selectPiece();
+		ArrayList coo = selectPieceValide();
 		
 		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
-		if(this.plateauConsole.movePiece(pieceADeplacer,valideCoordonnees()))
+		if(this.plateauConsole.movePiece(this.plateauConsole.getPiece(coo),valideCoordonnees()))
 			System.out.println("Piece déplacer");
 		else
 			System.out.println("Piece non déplacer par manque de place");
@@ -201,10 +189,10 @@ public class PlayConsole implements ActionListener{
 	
 	private void supprimerPiece(){
 		System.out.println("Que pièce voulez vous supprimer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
-		PiecesPuzzle pieceASupprimer = selectPiece();
-		this.plateauConsole.removePiece(pieceASupprimer);
-		this.pieceAJouer.add(pieceASupprimer);
-		this.piecePlacer.remove(pieceASupprimer);
+		ArrayList coo = selectPieceValide();
+		this.plateauConsole.removePiece(this.plateauConsole.getPiece(coo));
+		//this.plateauConsole.setPieceAJouer();pieceAJouer.add(pieceASupprimer);
+		//this.piecePlacer.remove(pieceASupprimer);
 		System.out.println("Piece supprimer");
 	}
 		
@@ -215,9 +203,9 @@ public class PlayConsole implements ActionListener{
 		}
 		
 		System.out.println("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
-		PiecesPuzzle pieceATourner = selectPiece();
+		ArrayList coo = selectPieceValide();
 		System.out.println("Quel rotation ? Rappel: Choix 0 à 3");
-		if(this.plateauConsole.rotationPiece(pieceATourner, choixValide(0,3,"Choix non accepter: 0 à 3")))
+		if(this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(coo), choixValide(0,3,"Choix non accepter: 0 à 3")))
 			System.out.println("Rotation effectuer");
 		else
 			System.out.println("Rotation non effectuer par manque de place");
@@ -228,11 +216,9 @@ public class PlayConsole implements ActionListener{
 		if(choixYesNo("Explication rotation ?")){
 			System.out.println("Les rotations se font dans le sens horaires.");
 			System.out.println("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
-			PiecesPuzzle pieceExplication = new PieceL(4,3);
 			for(int i = 0 ; i < 4; i++){
-				pieceExplication.createPiece(i);
 				System.out.println("--"+i+"--");
-				System.out.println(pieceExplication);
+				System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(1), 4, 3, i));
 			}			
 		}
 		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
@@ -248,13 +234,13 @@ public class PlayConsole implements ActionListener{
 		System.out.println();
 		System.out.println("Il y a 4 pièces différentes: ");
 		
-		System.out.println((new PieceH(3,4)));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 4, 3, 0));
 		System.out.println();
-		System.out.println(new PieceL(3,4));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 3, 4, 0));
 		System.out.println();
-		System.out.println(new PieceRectangle(3,4));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 3, 4, 0));
 		System.out.println();
-		System.out.println(new PieceT(3,3));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 3, 3, 0));
 		System.out.println();
 		
 		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie ou charger la dernière partie sauvegarder");
@@ -298,13 +284,13 @@ public class PlayConsole implements ActionListener{
 		
 		System.out.println("Que voulez vous faire ?");
 		System.out.println("1- Placer une pièce");
-		if(!this.piecePlacer.isEmpty()){
+		if(!this.plateauConsole.getPiecePlacer().isEmpty()){
 			nbrChoix = 6;
 			System.out.println("2- Déplacer une pièce");
 			System.out.println("3- Supprimer une pièce");
 			System.out.println("4- Rotation d'une pièce");
 			System.out.println("5- Sauvegarder la partie");
-			if(this.pieceAJouer.isEmpty())
+			if(this.plateauConsole.getPieceAJouer().isEmpty())
 				System.out.println("6- Score/Fin");
 		}else{
 			System.out.println("2- Sauvegarder la partie");
@@ -312,7 +298,7 @@ public class PlayConsole implements ActionListener{
 
 		int choix = choixValide(1,nbrChoix, "Choix invalide");
 		
-		if(this.piecePlacer.isEmpty() && choix == 2)
+		if(this.plateauConsole.getPiecePlacer().isEmpty() && choix == 2)
 			choix = 6;
 		
 		return choix;		
@@ -345,17 +331,16 @@ public class PlayConsole implements ActionListener{
 	}
 	
 	
-	private PiecesPuzzle selectPiece(){
+	private ArrayList selectPieceValide(){
 		boolean valide = false;
-		PiecesPuzzle pieceSelect = null;
+		ArrayList coo = null;
 		while(!valide){
-			pieceSelect = (PiecesPuzzle)this.plateauConsole.getPlateau().get(valideCoordonnees());
-			if(pieceSelect == null)
+			coo = valideCoordonnees();
+			valide = this.plateauConsole.selectPiece(coo);
+			if(!valide)
 				System.out.println("Il n'y a pas de pièce ici");
-			else
-				valide = true;
 		}
-		return pieceSelect;
+		return coo;
 	}
 
 	
@@ -409,9 +394,9 @@ public class PlayConsole implements ActionListener{
 	
 	private void printPiece(){
 		System.out.println("Voici vos pièce: ");
-		for(int i = 0 ; i <= this.pieceAJouer.size()-1; i++){
+		for(int i = 0 ; i <= this.plateauConsole.getPieceAJouer().size()-1; i++){
 			System.out.println("Piece "+(i+1)+":");
-			System.out.println(this.pieceAJouer.get(i));
+			System.out.println(this.plateauConsole.getPieceAJouer().get(i));
 		}
 	}
 
@@ -435,12 +420,6 @@ public class PlayConsole implements ActionListener{
 	public int getlongueurPlateauY(){
 		return this.longueurPlateauY;
 	}
-	public ArrayList getpieceAJouer(){
-		return this.pieceAJouer;
-	}
-	public ArrayList getpiecePlacer(){
-		return this.piecePlacer;
-	}
 	public boolean getexplicationRot(){
 		return this.explicationRot;
 	}
@@ -460,14 +439,6 @@ public class PlayConsole implements ActionListener{
 
 	public void setLongueurPlateauY(int longueurPlateauY) {
 		this.longueurPlateauY = longueurPlateauY;
-	}
-
-	public void setPieceAJouer(ArrayList<PiecesPuzzle> pieceAJouer) {
-		this.pieceAJouer = pieceAJouer;
-	}
-
-	public void setPiecePlacer(ArrayList<PiecesPuzzle> piecePlacer) {
-		this.piecePlacer = piecePlacer;
 	}
 
 	public void setExplicationRot(boolean explicationRot) {
