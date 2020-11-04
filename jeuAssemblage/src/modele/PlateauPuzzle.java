@@ -199,6 +199,9 @@ public class PlateauPuzzle implements Listenable{
             }
             return "";
 	}
-        
-        
+        public void setXY(int newx,int newy){
+            this.x = newx;
+            this.y = newy;
+            construcPlateau(this.x, this.y);
+        }
 }
