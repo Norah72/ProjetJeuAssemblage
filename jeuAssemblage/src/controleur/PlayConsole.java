@@ -22,7 +22,7 @@ public class PlayConsole implements ActionListener{
 	
 	private ArrayList<PiecesPuzzle> pieceAJouer;
 	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
-	private int largeurPlateauX, longueurPlateauY;
+	private int largeurPlateauX, longueurPlateauY = 0;
 	private boolean explicationRot = true;
 	private boolean end = false;
 
@@ -43,6 +43,12 @@ public class PlayConsole implements ActionListener{
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
 		System.out.println("--------------------------------------------");
 		while(!this.end){
+                    System.out.println();
+                    System.out.println("----- Menu -----");
+                    System.out.println("1- Vue Conssole");
+                    System.out.println("2- Vue Graphique");
+                    int start = choixValide(1, 4, "Que voulez vous faire ?");
+                    if(start == 1){
 			System.out.println();
 			System.out.println("----- Menu -----");
 			System.out.println("1- Nouvelle partie");
@@ -73,6 +79,29 @@ public class PlayConsole implements ActionListener{
 			else if(choix == 4){
 				afficheScore();
 			}
+                    }
+                    if(start == 2){                            
+                            while (reinitialiser) {
+                                vue.start(this);
+                                 try {
+                                    wait();
+                                }
+                                 catch (InterruptedException e)  {
+                                     System.out.println("jsp ce qui c'est passé");
+                                 }
+                                 reinitialiser = false;
+                             }
+                            reinitialiser = true;
+                            while(reinitialiser){
+                                initialisationPlateau();
+                                creationPieceRandom();
+                                etatPlateau();
+                                reinitialiser = false;
+                            }
+                            vue.afficheGrille();
+                            /*if(partie fini)
+                                reinistialisé*/
+                        }
 		}
 	}
 	
@@ -115,14 +144,12 @@ public class PlayConsole implements ActionListener{
 //######## Nouvelle partie ########	
 	
 	private void initialisationPlateau(){
-		this.largeurPlateauX = 0;
-		this.longueurPlateauY = 0;
-		
-		System.out.println("Veuillez entrer la grandeur du plateau au niveau largeur: ");
-		this.largeurPlateauX = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
-		System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
-		this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
-		
+		if(this.largeurPlateauX == 0 && this.longueurPlateauY == 0){
+                    System.out.println("Veuillez entrer la grandeur du plateau au niveau largeur: ");
+                    this.largeurPlateauX = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
+                    System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
+                    this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
+                }
 		this.plateauConsole = new PlateauPuzzle(this.largeurPlateauX,this.longueurPlateauY);
 	}
 	
@@ -504,18 +531,19 @@ public class PlayConsole implements ActionListener{
 
  //####Affichage grille (vue) ############//
     @Override
-	public void actionPerformed(ActionEvent event) {
+	public synchronized void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source == vue.getValide()){
 			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
-				System.out.println(vue.getLigne().getSelectedIndex());
-				System.out.println(vue.getColonne().getSelectedIndex());
-				vue.afficheGrille();
+				this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
+				this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
+				notify();
 			}
 			else{
 				System.out.println("Choisis un chiffre couillon");
 			}
+                        
 		}
+                
     }
 }
-
