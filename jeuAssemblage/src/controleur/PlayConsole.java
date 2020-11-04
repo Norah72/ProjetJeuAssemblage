@@ -19,8 +19,10 @@ public class PlayConsole implements ActionListener{
 	
 	private PlateauPuzzle plateauConsole;
 	
+
 	private ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
-	private int largeurPlateauX, longueurPlateauY;
+	private int largeurPlateauX, longueurPlateauY = 0;
+
 	private boolean explicationRot = true;
 	private boolean end = false;
 
@@ -43,33 +45,63 @@ public class PlayConsole implements ActionListener{
 		while(!this.end){
 			System.out.println();
 			System.out.println("----- Menu -----");
-			System.out.println("1- Nouvelle partie");
-			System.out.println("2- Charger la dernière partie");
-			System.out.println("3- Règle de jeu");
-			System.out.println("4- Score de jeu");
-			int choix = choixValide(1, 4, "Que voulez vous faire ?");
+			System.out.println("1- Vue Conssole");
+			System.out.println("2- Vue Graphique");
+			int start = choixValide(1, 4, "Que voulez vous faire ?");
+			if(start == 1){
+				System.out.println();
+				System.out.println("----- Menu -----");
+				System.out.println("1- Nouvelle partie");
+				System.out.println("2- Charger la dernière partie");
+				System.out.println("3- Règle de jeu");
+				System.out.println("4- Score de jeu");
+				int choix = choixValide(1, 4, "Que voulez vous faire ?");
 
-			if(choix == 1){
+				if(choix == 1){
+					while(reinitialiser){
+						initialisationPlateau();
+						creationPieceRandom();
+						etatPlateau();
+						if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
+							reinitialiser = false;
+					}
+					play();
+				}
+			
+				else if(choix == 2){
+					chargerPartie();
+					System.out.println("Content de vous revoir "+this.pseudo+" !");
+					etatPlateau();
+					play();
+				}
+				else if(choix == 3){
+					regle();
+				}
+				else if(choix == 4){
+					afficheScore();
+				}
+						}
+			if(start == 2){                            
+				while (reinitialiser) {
+					vue.start(this);
+					 try {
+						wait();
+					}
+					 catch (InterruptedException e)  {
+						 System.out.println("jsp ce qui c'est passé");
+					 }
+					 reinitialiser = false;
+				 }
+				reinitialiser = true;
 				while(reinitialiser){
 					initialisationPlateau();
 					creationPieceRandom();
 					etatPlateau();
-					if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
-						reinitialiser = false;
+					reinitialiser = false;
 				}
-				play();
-			}
-			else if(choix == 2){
-				chargerPartie();
-				System.out.println("Content de vous revoir "+this.pseudo+" !");
-				etatPlateau();
-				play();
-			}
-			else if(choix == 3){
-				regle();
-			}
-			else if(choix == 4){
-				afficheScore();
+				vue.afficheGrille();
+				/*if(partie fini)
+					reinistialisé*/
 			}
 		}
 	}
@@ -113,14 +145,12 @@ public class PlayConsole implements ActionListener{
 //######## Nouvelle partie ########	
 	
 	private void initialisationPlateau(){
-		this.largeurPlateauX = 0;
-		this.longueurPlateauY = 0;
-		
-		System.out.println("Veuillez entrer la grandeur du plateau au niveau largeur: ");
-		this.largeurPlateauX = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
-		System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
-		this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
-		
+		if(this.largeurPlateauX == 0 && this.longueurPlateauY == 0){
+                    System.out.println("Veuillez entrer la grandeur du plateau au niveau largeur: ");
+                    this.largeurPlateauX = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
+                    System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
+                    this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
+                }
 		this.plateauConsole = new PlateauPuzzle(this.largeurPlateauX,this.longueurPlateauY);
 	}
 	
@@ -128,11 +158,35 @@ public class PlayConsole implements ActionListener{
 	private void creationPieceRandom(){
 		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
 
+                int largeur = 0;
+                int longueur = 0;
+                int max =  this.largeurPlateauX /2 + 2 ;
+                
+                if(max > 5){
+                    max = 5;
+                }
+                
 		for(int i = 0; i <= randPiece; i++){
-			int piece = new Random().nextInt(4);
-			int largeur = difZero((this.largeurPlateauX)/2);
-			int longueur = difZero((this.longueurPlateauY)/2);
-			plateauConsole.newPiece(this.pieceString.get(piece), largeur, longueur);
+
+			String piece = this.pieceString.get(new Random().nextInt(4));
+			if(piece.equals("PieceH")){
+				System.out.println("H");
+				largeur = rdmMinimum(3,max);
+				longueur = rdmMinimum(3,max);
+			}else if(piece.equals("PieceL")){
+				System.out.println("L");
+				largeur = rdmMinimum(2,max);
+				longueur = rdmMinimum(2,max);
+			}else if(piece.equals("PieceRectangle")){
+				System.out.println("R");
+				largeur = rdmMinimum(1,max-1);
+				longueur = rdmMinimum(1,max-1);
+			}else if(piece.equals("PieceT")){
+				System.out.println("T");
+				largeur = rdmMinimum(2,max);
+				longueur = rdmMinimum(3,max);
+			}
+			plateauConsole.newPiece(piece, largeur, longueur);
 		}
 	}
 	
@@ -236,11 +290,11 @@ public class PlayConsole implements ActionListener{
 		
 		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 4, 3, 0));
 		System.out.println();
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 3, 4, 0));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(1), 3, 4, 0));
 		System.out.println();
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 3, 4, 0));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(2), 3, 4, 0));
 		System.out.println();
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 3, 3, 0));
+		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(3), 3, 3, 0));
 		System.out.println();
 		
 		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie ou charger la dernière partie sauvegarder");
@@ -381,8 +435,12 @@ public class PlayConsole implements ActionListener{
 			rand = new Random().nextInt(randPiece);
 		return rand;
 	}
-	
-	
+        private int rdmMinimum(int min, int randPiece ){
+            int rand = 0;
+            while(rand < min)
+                rand = new Random().nextInt(randPiece+1);
+            return rand;
+	}
 
 //######## Affichage ########
 
@@ -452,18 +510,19 @@ public class PlayConsole implements ActionListener{
 
  //####Affichage grille (vue) ############//
     @Override
-	public void actionPerformed(ActionEvent event) {
+	public synchronized void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source == vue.getValide()){
 			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
-				System.out.println(vue.getLigne().getSelectedIndex());
-				System.out.println(vue.getColonne().getSelectedIndex());
-				vue.afficheGrille();
+				this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
+				this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
+				notify();
 			}
 			else{
 				System.out.println("Choisis un chiffre couillon");
 			}
+                        
 		}
+                
     }
 }
-

@@ -1,9 +1,12 @@
 package vue;
+import controleur.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import modele.*;
 import util.*;
+import piecesPuzzle.pieces.*;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -14,44 +17,48 @@ import javax.swing.border.Border;
 
 public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel fenetre = new JPanel();
+    private JPanel BoutonDeJeu = new JPanel();
     private JPanel grille = new JPanel();
-    private PlateauPuzzle modele;
+    private JPanel listePiece = new JPanel();
+    private JPanel piece = new JPanel();
+    private PlateauPuzzle modele = new PlateauPuzzle(0,0);
+    private PlayConsole test;
     private JComboBox ligne = new JComboBox();
     private JComboBox colonne = new JComboBox();
-    private JButton valide = new JButton("VALIDER");
+    private JButton bouton;
     private String num;
-
     
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
         modele.addListener(this);
-        setTitle("Jeu-facile.exe");
+        setTitle("JyArrivePas.exe");
         setSize(650,650);
-        setContentPane(buildContentPane(0));
-	setVisible(true);
+	setVisible(false);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     
     private JPanel buildContentPane(int occ){
         fenetre.removeAll();
         if(occ==0){
+            bouton = new JButton("VALIDER");
             ligne.addItem("LIGNE");
             colonne.addItem("COLONNE");
-            for(int i = 1 ; i < 10; ++i) {
+            for(int i = 5 ; i < 21; ++i) {
                 num = Integer.toString(i);
                 ligne.addItem(num);
                 colonne.addItem(num);
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(valide);
+            fenetre.add(bouton);
         }
         else{
-            int nblignes = this.getLigne().getSelectedIndex();
-            int nbcolonne = this.getColonne().getSelectedIndex();
+            int nblignes = this.getLigne().getSelectedIndex()+4;
+            int nbcolonne = this.getColonne().getSelectedIndex()+4;
+            this.modele.setXY(nblignes,nbcolonne);
             Border blackline = BorderFactory.createLineBorder(Color.black,1);
             fenetre.setLayout(new BorderLayout()); 					
-            grille.setLayout(new GridLayout(this.getLigne().getSelectedIndex(),this.getColonne().getSelectedIndex(),4,4));
+            grille.setLayout(new GridLayout(nblignes,nbcolonne,2,2));
             grille.setBackground(Color.BLACK);
             
             for(int i = 0 ; i < nblignes; i++) {
@@ -62,9 +69,49 @@ public class InterfaceGraphique extends JFrame implements Listener{
                         }
             }
             grille.setBorder(blackline);
-            fenetre.add(grille);
+            fenetre.add(grille,BorderLayout.CENTER);
+            int i = 0;
+            PiecesPuzzle p1 = (PiecesPuzzle)test.getPlateauConsole().getPieceAJouer().get(i);
+            System.out.println(p1.getLargeurX());
+            System.out.println(p1.getLongueurY());
+            for( i = 0 ; i <= test.getPlateauConsole().getPieceAJouer().size()-1; i++){
+                piece.setLayout(new GridLayout(p1.getLargeurX(),p1.getLongueurY(),2,2));
+                for(int j = 0 ; j < p1.getLargeurX(); j++) {
+			for (int k = 0; k < p1.getLongueurY(); k++) {
+                            JPanel case0 = new JPanel();
+                            case0.setBorder(blackline);
+                            piece.add(case0);
+                        }
+                }
+                listePiece.add(piece);
             }
+            fenetre.add(listePiece,BorderLayout.EAST);
+            bouton = new JButton("PLACER");
+            BoutonDeJeu.add(bouton);
+            bouton = new JButton("DEPLACER");
+            BoutonDeJeu.add(bouton);
+            bouton = new JButton("SUPPRIMER");
+            BoutonDeJeu.add(bouton);
+            bouton = new JButton("ROTATION");
+            BoutonDeJeu.add(bouton);
+            bouton = new JButton("SAUVEGARDER");
+            BoutonDeJeu.add(bouton);
+            fenetre.add(BoutonDeJeu,BorderLayout.PAGE_END);
+            }
+        
         return fenetre;
+    } 
+    public void start(PlayConsole controleur){
+        setContentPane(buildContentPane(0));
+        getAction(controleur);
+        setVisible(true);
+    }
+    public void getAction(PlayConsole controleur){
+        getLigne().addActionListener(controleur);
+        getColonne().addActionListener(controleur);
+        getValide().addActionListener(controleur);
+        setController(controleur);
+        
     }
     @Override
 	public void update(Object obs) {
@@ -80,6 +127,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
 	return colonne;
     }
     public JButton getValide() {
-	return valide;
+        return bouton;
+    }
+    
+    public PlayConsole setController(PlayConsole controleur){
+        test = controleur;
+        return test;
     }
 }

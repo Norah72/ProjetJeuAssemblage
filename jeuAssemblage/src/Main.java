@@ -34,9 +34,9 @@ public class Main {
             PlateauPuzzle play = new PlateauPuzzle(x,y);
             InterfaceGraphique fenetre = new InterfaceGraphique(play);*/
             PlayConsole lol = new PlayConsole(/*fenetre*/);
-            /*test.getLigne().addActionListener(lol);
-            test.getColonne().addActionListener(lol);
-            test.getValide().addActionListener(lol);*/
+            /*fenetre.getLigne().addActionListener(lol);
+            fenetre.getColonne().addActionListener(lol);
+            fenetre.getValide().addActionListener(lol);*/
             
             /*int x = 5;
             int y = 5;
