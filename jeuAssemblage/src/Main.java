@@ -29,14 +29,11 @@ public class Main {
 
             //######### POUR LANCER LA VUE - ENLENVER LES COMMANTAIRES (LIGNE 30 à 38)#####// 
             //######### + ENLEVR COMMENTAIRES DANS CONSTRUCTEURS DE PLAYCONSOLE############//
-            /*int x=0;
+            int x=0;
             int y=0;
             PlateauPuzzle play = new PlateauPuzzle(x,y);
-            InterfaceGraphique fenetre = new InterfaceGraphique(play);*/
-            PlayConsole lol = new PlayConsole(/*fenetre*/);
-            /*fenetre.getLigne().addActionListener(lol);
-            fenetre.getColonne().addActionListener(lol);
-            fenetre.getValide().addActionListener(lol);*/
+            InterfaceGraphique fenetre = new InterfaceGraphique(play);
+            PlayConsole lol = new PlayConsole(fenetre);
             
             /*int x = 5;
             int y = 5;

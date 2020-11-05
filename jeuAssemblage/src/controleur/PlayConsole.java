@@ -31,7 +31,7 @@ public class PlayConsole implements ActionListener{
 	
 	private InterfaceGraphique vue;
 	
-	public PlayConsole(/*InterfaceGraphique vue*/){
+	public PlayConsole(InterfaceGraphique vue){
 		//this.vue = vue;
 		menu();
 	}
@@ -100,6 +100,9 @@ public class PlayConsole implements ActionListener{
 					reinitialiser = false;
 				}
 				vue.afficheGrille();
+                                for(int i=0; i< vue.getListeBouton().size();i++){
+                                    vue.getListeBouton().get(i).addActionListener(this);
+                                }
 				/*if(partie fini)
 					reinistialisé*/
 			}
@@ -512,7 +515,7 @@ public class PlayConsole implements ActionListener{
     @Override
 	public synchronized void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
-		if(source == vue.getValide()){
+		if(source == vue.getBouton()){
 			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
 				this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
 				this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
