@@ -31,13 +31,13 @@ public class PlayConsole implements ActionListener{
 	
 	private InterfaceGraphique vue;
 	
-	public PlayConsole(InterfaceGraphique vue){
+	public PlayConsole(InterfaceGraphique vue) throws InterruptedException{
 		//this.vue = vue;
 		menu();
 	}
 	
 //######## Menu de chargement ########
-	private void menu(){
+	private void menu() throws InterruptedException{
 		boolean reinitialiser = true;
 		System.out.println("--------------------------------------------");
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
@@ -82,16 +82,13 @@ public class PlayConsole implements ActionListener{
 				}
 						}
 			if(start == 2){                            
-				while (reinitialiser) {
+				synchronized (this) {
 					vue.start(this);
-					 try {
-						wait();
-					}
-					 catch (InterruptedException e)  {
-						 System.out.println("jsp ce qui c'est passé");
-					 }
-					 reinitialiser = false;
-				 }
+                                        for(int i=0 ; i < vue.getListeBouton().size() ; i++){
+                                                vue.getListeBouton().get(i).addActionListener(this);
+                                        }
+					wait();
+				}
 				reinitialiser = true;
 				while(reinitialiser){
 					initialisationPlateau();
@@ -100,9 +97,6 @@ public class PlayConsole implements ActionListener{
 					reinitialiser = false;
 				}
 				vue.afficheGrille();
-                                for(int i=0; i< vue.getListeBouton().size();i++){
-                                    vue.getListeBouton().get(i).addActionListener(this);
-                                }
 				/*if(partie fini)
 					reinistialisé*/
 			}
@@ -513,13 +507,15 @@ public class PlayConsole implements ActionListener{
 
  //####Affichage grille (vue) ############//
     @Override
-	public synchronized void actionPerformed(ActionEvent event) {
+	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source == vue.getBouton()){
 			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
 				this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
 				this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
-				notify();
+				synchronized(this){
+                                notify();
+                                }
 			}
 			else{
 				System.out.println("Choisis un chiffre couillon");

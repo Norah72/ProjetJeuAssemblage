@@ -41,7 +41,12 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel buildContentPane(int occ){
         fenetre.removeAll();
         if(occ==0){
-            bouton = new JButton("VALIDER");
+            creationBouton("VALIDER");
+            creationBouton("PLACER");
+            creationBouton("DEPLACER");
+            creationBouton("SUPPRIMER");
+            creationBouton("ROTATION");
+            creationBouton("SAUVEGARDER");
             ligne.addItem("LIGNE");
             colonne.addItem("COLONNE");
             for(int i = 5 ; i < 21; ++i) {
@@ -51,7 +56,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(bouton);
+            fenetre.add(BoutonDeJeu);
         }
         else{
             int nblignes = this.getLigne().getSelectedIndex()+4;
@@ -73,11 +78,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.add(grille,BorderLayout.CENTER);
             affichePieceAJouer();
             fenetre.add(listePiece,BorderLayout.NORTH);
-            creationBouton("PLACER");
-            creationBouton("DEPLACER");
-            creationBouton("SUPPRIMER");
-            creationBouton("ROTATION");
-            creationBouton("SAUVEGARDER");
             fenetre.add(BoutonDeJeu,BorderLayout.PAGE_END);
             }
         
@@ -91,7 +91,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
     public void getAction(PlayConsole controleur){
         getLigne().addActionListener(controleur);
         getColonne().addActionListener(controleur);
-        getBouton().addActionListener(controleur);
         setController(controleur);
     }
     public void creationBouton(String nom){
