@@ -72,9 +72,12 @@ public class PlateauPuzzle implements Listenable{
             return (int) score;
         }
 		
-		
 		public void newPiece(String piece, int largeur, int longueur){
-			this.pieceAJouer.add(createNewPiece(piece, largeur, longueur, 0));	
+			this.newPiece(piece, largeur, longueur, 0);	
+		}
+		
+		public void newPiece(String piece, int largeur, int longueur, int rotation){
+			this.pieceAJouer.add(createNewPiece(piece, largeur, longueur, rotation));	
 		}
 		
 		public PiecesPuzzle createNewPiece(String piece, int largeur, int longueur, int rotation){

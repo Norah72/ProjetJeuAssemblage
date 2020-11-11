@@ -1,75 +1,104 @@
-{"initialisation":{
-tt"pseudo": "o",
-tt"largeurPlateau": 10,
-tt"longeurPlateau": 12,
-tt"explication": true
-t},
-t"pieces disponible": {
-tt"0": {
-ttt"type": "PieceH",
-ttt"rotation": 0,
-ttt"largeur": 4,
-ttt"longeur": 5
-tt},
-tt"1": {
-ttt"type": "PieceL",
-ttt"rotation": 0,
-ttt"largeur": 2,
-ttt"longeur": 3
-tt},
-tt"2": {
-ttt"type": "PieceT",
-ttt"rotation": 0,
-ttt"largeur": 3,
-ttt"longeur": 4
-tt},
-tt"3": {
-ttt"type": "PieceRectangle",
-ttt"rotation": 0,
-ttt"largeur": 1,
-ttt"longeur": 4
-tt},
-tt"4": {
-ttt"type": "PieceT",
-ttt"rotation": 0,
-ttt"largeur": 3,
-ttt"longeur": 3
-tt},
-tt"5": {
-ttt"type": "PieceT",
-ttt"rotation": 0,
-ttt"largeur": 4,
-ttt"longeur": 5
-tt},
-tt"6": {
-ttt"type": "PieceL",
-ttt"rotation": 0,
-ttt"largeur": 3,
-ttt"longeur": 2
-tt},
-tt"7": {
-ttt"type": "PieceH",
-ttt"rotation": 0,
-ttt"largeur": 3,
-ttt"longeur": 4
-tt},
-tt"8": {
-ttt"type": "PieceT",
-ttt"rotation": 0,
-ttt"largeur": 3,
-ttt"longeur": 4
-tt}
-t},
-t"pieces placer": {
-tt"0": {
-ttt"type": "PieceH",
-ttt"rotation": 0,
-ttt"largeur": 4,
-ttt"longeur": 4,
-ttt"coordonnees": [
-tttt0,
-tttt0
-ttt]
-tt}
-t}
+{
+ "initialisation": {
+  "pseudo": "Yoann",
+  "largeurPlateau": 10,
+  "longeurPlateau": 16,
+  "explication": false
+ },
+ "piecesDisponible": {
+  "0": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "1": {
+   "type": "PieceL",
+   "largeur": 5,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "2": {
+   "type": "PieceL",
+   "largeur": 3,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "3": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "4": {
+   "type": "PieceL",
+   "largeur": 5,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "5": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "6": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "7": {
+   "type": "PieceT",
+   "largeur": 2,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "8": {
+   "type": "PieceRectangle",
+   "largeur": 3,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "9": {
+   "type": "PieceT",
+   "largeur": 2,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "10": {
+   "type": "PieceT",
+   "largeur": 3,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "11": {
+   "type": "PieceL",
+   "largeur": 2,
+   "longeur": 4,
+   "rotation": 0
+  }
+ },
+ "piecesPlacer": {
+  "0": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 2,
+   "coordonnees": [
+    0,
+    7
+   ]
+  },
+  "1": {
+   "type": "PieceRectangle",
+   "largeur": 3,
+   "longeur": 2,
+   "rotation": 0,
+   "coordonnees": [
+    2,
+    2
+   ]
+  }
+ }
 }

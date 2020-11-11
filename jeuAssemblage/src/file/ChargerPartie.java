@@ -1,28 +1,26 @@
 package file;
 
-import controleur.PlayConsole;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import modele.PlateauPuzzle;
-import piecesPuzzle.pieces.PieceH;
-import piecesPuzzle.pieces.PieceL;
-import piecesPuzzle.pieces.PieceRectangle;
-import piecesPuzzle.pieces.PieceT;
-import piecesPuzzle.pieces.PiecesPuzzle;
+import controleur.PlayConsole;
 
 public class ChargerPartie {
 
+	private PlayConsole jeu;
 	private File partieFichier = new File("src/file/partie/partie.txt"); 
 	
-	private ArrayList<ArrayList<Integer>> piecesPlacerCoordonnees = new ArrayList<ArrayList<Integer>>();
-	
-	private String piece, rotation, x, y;
-	private int changementDeMemoirePiece = 0;
-	private boolean pieceAjouter = false;
-	
-	private PlayConsole jeu;
+	private int largeur, longeur, rotation, i;
+
 	
 	public ChargerPartie(PlayConsole jeu){
 		this.jeu = jeu;
@@ -30,66 +28,60 @@ public class ChargerPartie {
 	
 	
 	public void chargerSauvegarde() throws IOException{
-		int changementDeMemoire = 0;
+		try{
+		JsonParser parseCharger = new JsonParser();
+		JsonObject chargerPartie = (JsonObject) parseCharger.parse(new FileReader(partieFichier));
 		
-		for (String ligne : Files.readAllLines(partieFichier.toPath())) {
-			if(ligne.equals("."))
-				changementDeMemoire++;
+		JsonObject initialisation = chargerPartie.get("initialisation").getAsJsonObject();
+		
+		
+		this.jeu.setPseudo(initialisation.get("pseudo").getAsString());
+
+		largeur = initialisation.get("largeurPlateau").getAsInt();
+		longeur = initialisation.get("longeurPlateau").getAsInt();
+		this.jeu.setLargeurPlateauX(largeur);
+		this.jeu.setLongueurPlateauY(longeur);
+		this.jeu.setPlateauConsole(new PlateauPuzzle(largeur,longeur));
+		
+		this.jeu.setExplicationRot(initialisation.get("explication").getAsBoolean());
+		
+		
+		JsonObject piecesDisponible = chargerPartie.get("piecesDisponible").getAsJsonObject();
+		i = 0;
+		while(piecesDisponible.has(""+i)){
+			JsonObject pieces = piecesDisponible.get(""+i).getAsJsonObject();
+			ajoutPieceList(pieces);
+			i++;
+		}
+		
+		
+		JsonObject piecesPlacer = chargerPartie.get("piecesPlacer").getAsJsonObject();
+		i=0;
+		while(piecesPlacer.has(""+i)){
+			JsonObject pieces = piecesPlacer.get(""+i).getAsJsonObject();
+			ajoutPieceList(pieces);
 			
-			else if(ligne.equals("end")){
-				this.jeu.setPlateauConsole(new PlateauPuzzle(this.jeu.getlargeurPlateauX(),this.jeu.getlongueurPlateauY()));
-				
-			}else if(changementDeMemoire<3){
-				
-				if(changementDeMemoire==0){
-					this.jeu.setPseudo(ligne);
-				}else if(changementDeMemoire==1){
-					this.jeu.setLargeurPlateauX(Integer.parseInt(ligne));
-					System.out.println(ligne);
-				}else if(changementDeMemoire==2){
-					this.jeu.setLongueurPlateauY(Integer.parseInt(ligne));
-				}
-				
-			}else{
-				
-				if(changementDeMemoire!=5){
-					ajoutPieceList(ligne);
-					this.changementDeMemoirePiece +=1;
-				}else if(changementDeMemoire==5){
-					this.jeu.setExplicationRot(Boolean.valueOf(ligne));
-				}
-				
-			}
+			JsonArray coo = pieces.get("coordonnees").getAsJsonArray();
+			int cooX = coo.get(0).getAsInt();
+			int cooY = coo.get(1).getAsInt();
+			
+			this.jeu.getPlateauConsole().addPiece(this.jeu.getPlateauConsole().getPieceAJouer().get(this.jeu.getPlateauConsole().getPieceAJouer().size()-1), new ArrayList(Arrays.asList(cooX,cooY)));
+			i++;
+		}
+		
+		}catch(Exception e){
+			System.out.println("Impossible de charger la partie: "+e);
 		}
 	}
 	
-	private void ajoutPieceList(String ligne){
-		if(this.pieceAjouter){
-			this.pieceAjouter = false;
-			this.changementDeMemoirePiece = 0;
-		}
-		
-		if(this.changementDeMemoirePiece == 0)
-			piece = ligne;
-		else if(this.changementDeMemoirePiece == 1)
-			rotation = ligne;
-		else if(this.changementDeMemoirePiece == 2)
-			x = ligne;
-		else if(this.changementDeMemoirePiece == 3)
-			y = ligne;
-		else if(ligne.equals("-")){
-			this.jeu.getPlateauConsole().newPiece(piece, Integer.parseInt(y),Integer.parseInt(rotation));
-			
-			this.pieceAjouter = true;
-			
-		}else if(this.changementDeMemoirePiece == 4){
-			ArrayList<Integer> coo = new ArrayList<Integer>();
-			
-			for(String caractere : ligne.split(","))
-				coo.add(Integer.parseInt(caractere));
-			this.jeu.getPlateauConsole().newPiece(piece, Integer.parseInt(y),Integer.parseInt(rotation));
-			this.jeu.getPlateauConsole().addPiece(this.jeu.getPlateauConsole().getPieceAJouer().get(-1), coo);
-			this.piecesPlacerCoordonnees.add(coo);
+	
+	private void ajoutPieceList(JsonObject piece){
+		largeur = piece.get("largeur").getAsInt();
+		longeur = piece.get("longeur").getAsInt();
+		rotation = piece.get("rotation").getAsInt();
+		for(int z = 0; z< this.jeu.getPieceString().size();z++){
+			if((this.jeu.getPieceString().get(z)).equals(piece.get("type").getAsString()))
+				this.jeu.getPlateauConsole().newPiece(this.jeu.getPieceString().get(z), largeur, longeur, rotation);
 		}
 	}
 }

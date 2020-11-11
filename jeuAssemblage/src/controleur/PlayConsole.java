@@ -196,7 +196,6 @@ public class PlayConsole implements ActionListener{
 	private void sauvegarderPartie(){
 		SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
 		try{
-			System.out.println("Tchou tchou...");
 			sauvegarde.ecrire();
 		}
 		catch(Exception e){
@@ -205,13 +204,13 @@ public class PlayConsole implements ActionListener{
 	}
 	
 	private void chargerPartie(){
-		/*ChargerPartie charger = new ChargerPartie(this);
+		ChargerPartie charger = new ChargerPartie(this);
 		try{
 			charger.chargerSauvegarde();
 		}
 		catch(Exception e){
 		System.out.println("Impossible de charger le fichier");
-		}*/
+		}
 	}
 	
 //######## Méthode de jeu ########		
@@ -485,6 +484,10 @@ public class PlayConsole implements ActionListener{
 	}
 	public String getpseudo(){
 		return this.pseudo;
+	}
+
+	public ArrayList<String> getPieceString() {
+		return pieceString;
 	}
 	
 //######## set pour chargement ########

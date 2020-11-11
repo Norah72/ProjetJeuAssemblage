@@ -25,7 +25,6 @@
 	<attribute name="Main-Class" value="Main"/>
         <attribute name="Class-Path" value="lib\piecesPuzzle-0.1.jar" />
 		<attribute name="Class-PathGson" value="lib\gson-2.3.1.jar" />
-		<attribute name="Class-PathJson" value="lib\java-json.jar" />
 </manifest>
 </jar>
 <!--  ==================== All Target ======================================  -->

@@ -68,7 +68,7 @@ auxiliary.show.customizer.message=<message>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="compile">lib/piecesPuzzle-0.1.jar:lib/gson-2.3.1.jar:lib/java-json.jar</classpath>
+                <classpath mode="compile">lib/piecesPuzzle-0.1.jar:lib/gson-2.3.1.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
