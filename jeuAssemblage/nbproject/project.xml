@@ -16,14 +16,14 @@ auxiliary.show.customizer.message=<message>
             <properties/>
             <folders>
                 <source-folder>
-                    <label>src</label>
-                    <type>java</type>
-                    <location>src</location>
+                    <label>jeuAssemblage</label>
+                    <location>.</location>
                     <encoding>UTF-8</encoding>
                 </source-folder>
                 <source-folder>
-                    <label>jeuAssemblage</label>
-                    <location>.</location>
+                    <label>src</label>
+                    <type>java</type>
+                    <location>src</location>
                     <encoding>UTF-8</encoding>
                 </source-folder>
             </folders>
@@ -68,7 +68,7 @@ auxiliary.show.customizer.message=<message>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="compile">lib/piecesPuzzle-0.1.jar</classpath>
+                <classpath mode="compile">lib/piecesPuzzle-0.1.jar:lib/gson-2.3.1.jar:lib/java-json.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>

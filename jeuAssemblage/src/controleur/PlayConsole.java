@@ -31,13 +31,13 @@ public class PlayConsole implements ActionListener{
 	
 	private InterfaceGraphique vue;
 	
-	public PlayConsole(InterfaceGraphique vue) throws InterruptedException{
+	public PlayConsole(InterfaceGraphique vue){
 		//this.vue = vue;
 		menu();
 	}
 	
 //######## Menu de chargement ########
-	private void menu() throws InterruptedException{
+	private void menu(){
 		boolean reinitialiser = true;
 		System.out.println("--------------------------------------------");
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
@@ -81,24 +81,28 @@ public class PlayConsole implements ActionListener{
 					afficheScore();
 				}
 						}
-			if(start == 2){                            
-				synchronized (this) {
-					vue.start(this);
-                                        for(int i=0 ; i < vue.getListeBouton().size() ; i++){
-                                                vue.getListeBouton().get(i).addActionListener(this);
-                                        }
-					wait();
+			if(start == 2){
+				try{
+					synchronized (this) {
+						vue.start(this);
+						for(int i=0 ; i < vue.getListeBouton().size() ; i++){
+							vue.getListeBouton().get(i).addActionListener(this);
+						}
+						wait();
+					}
+					reinitialiser = true;
+					while(reinitialiser){
+						initialisationPlateau();
+						creationPieceRandom();
+						etatPlateau();
+						reinitialiser = false;
+					}
+					vue.afficheGrille();
+					/*if(partie fini)
+						reinistialisé*/
+				}catch(Exception e){
+					System.out.println("Impossible de charger la vue: "+e);
 				}
-				reinitialiser = true;
-				while(reinitialiser){
-					initialisationPlateau();
-					creationPieceRandom();
-					etatPlateau();
-					reinitialiser = false;
-				}
-				vue.afficheGrille();
-				/*if(partie fini)
-					reinistialisé*/
 			}
 		}
 	}
@@ -190,13 +194,14 @@ public class PlayConsole implements ActionListener{
 //######## Charger/sauvegarder partie ########	
 	
 	private void sauvegarderPartie(){
-		/*SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
+		SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
 		try{
+			System.out.println("Tchou tchou...");
 			sauvegarde.ecrire();
 		}
 		catch(Exception e){
 			System.out.println("Impossible de sauvegarder");
-		}*/
+		}
 	}
 	
 	private void chargerPartie(){
@@ -350,7 +355,7 @@ public class PlayConsole implements ActionListener{
 		int choix = choixValide(1,nbrChoix, "Choix invalide");
 		
 		if(this.plateauConsole.getPiecePlacer().isEmpty() && choix == 2)
-			choix = 6;
+			choix = 5;
 		
 		return choix;		
 	}

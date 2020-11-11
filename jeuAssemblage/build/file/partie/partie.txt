@@ -1,31 +1,75 @@
-ghjk
-.
-10
-.
-10
-.
-PieceH
-0
-3
-1
--
-PieceT
-0
-1
-1
--
-PieceH
-0
-4
-2
--
-.
-PieceT
-0
-1
-2
-0,2
--
-.
-true
-end
+{"initialisation":{
+tt"pseudo": "o",
+tt"largeurPlateau": 10,
+tt"longeurPlateau": 12,
+tt"explication": true
+t},
+t"pieces disponible": {
+tt"0": {
+ttt"type": "PieceH",
+ttt"rotation": 0,
+ttt"largeur": 4,
+ttt"longeur": 5
+tt},
+tt"1": {
+ttt"type": "PieceL",
+ttt"rotation": 0,
+ttt"largeur": 2,
+ttt"longeur": 3
+tt},
+tt"2": {
+ttt"type": "PieceT",
+ttt"rotation": 0,
+ttt"largeur": 3,
+ttt"longeur": 4
+tt},
+tt"3": {
+ttt"type": "PieceRectangle",
+ttt"rotation": 0,
+ttt"largeur": 1,
+ttt"longeur": 4
+tt},
+tt"4": {
+ttt"type": "PieceT",
+ttt"rotation": 0,
+ttt"largeur": 3,
+ttt"longeur": 3
+tt},
+tt"5": {
+ttt"type": "PieceT",
+ttt"rotation": 0,
+ttt"largeur": 4,
+ttt"longeur": 5
+tt},
+tt"6": {
+ttt"type": "PieceL",
+ttt"rotation": 0,
+ttt"largeur": 3,
+ttt"longeur": 2
+tt},
+tt"7": {
+ttt"type": "PieceH",
+ttt"rotation": 0,
+ttt"largeur": 3,
+ttt"longeur": 4
+tt},
+tt"8": {
+ttt"type": "PieceT",
+ttt"rotation": 0,
+ttt"largeur": 3,
+ttt"longeur": 4
+tt}
+t},
+t"pieces placer": {
+tt"0": {
+ttt"type": "PieceH",
+ttt"rotation": 0,
+ttt"largeur": 4,
+ttt"longeur": 4,
+ttt"coordonnees": [
+tttt0,
+tttt0
+ttt]
+tt}
+t}
+}

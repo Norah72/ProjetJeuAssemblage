@@ -7,3 +7,6 @@ norah 62
 norah 35
 danoh 35
 test 57
+yo 0
+yo 0
+y 0

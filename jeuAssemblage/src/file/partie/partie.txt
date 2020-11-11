@@ -1,31 +1,23 @@
-ghjk
-.
-10
-.
-10
-.
-PieceH
-0
-3
-1
--
-PieceT
-0
-1
-1
--
-PieceH
-0
-4
-2
--
-.
-PieceT
-0
-1
-2
-0,2
--
-.
-true
-end
+{
+ "initialisation": {
+  "pseudo": "ui",
+  "largeurPlateau": 10,
+  "longeurPlateau": 12,
+  "explication": true
+ },
+ "pieces disponible": {
+  "0": {
+   "type": "PieceH",
+   "rotation": 0,
+   "largeur": 4,
+   "longeur": 3
+  },
+  "1": {
+   "type": "PieceL",
+   "rotation": 0,
+   "largeur": 4,
+   "longeur": 3
+  }
+ },
+ "pieces placer": {}
+}
