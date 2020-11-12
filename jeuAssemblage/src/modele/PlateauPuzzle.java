@@ -146,7 +146,7 @@ public class PlateauPuzzle implements Listenable{
             p.createPiece(rotation);
             if(!validePlacement(p,p.getCoo())){
                 p.createPiece(rotationOrigine);
-		out = false;
+				out = false;
             }else{
                 out = true;
             }

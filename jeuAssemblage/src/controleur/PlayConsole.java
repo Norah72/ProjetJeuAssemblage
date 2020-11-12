@@ -25,6 +25,7 @@ public class PlayConsole implements ActionListener{
 
 	private boolean explicationRot = true;
 	private boolean end = false;
+	private boolean stop = false;
 
 	private String pseudo = null;
 	private ScoreFile sauvegardeScore = new ScoreFile();
@@ -32,7 +33,7 @@ public class PlayConsole implements ActionListener{
 	private InterfaceGraphique vue;
 	
 	public PlayConsole(InterfaceGraphique vue){
-		//this.vue = vue;
+		this.vue = vue;
 		menu();
 	}
 	
@@ -45,7 +46,7 @@ public class PlayConsole implements ActionListener{
 		while(!this.end){
 			System.out.println();
 			System.out.println("----- Menu -----");
-			System.out.println("1- Vue Conssole");
+			System.out.println("1- Vue Console");
 			System.out.println("2- Vue Graphique");
 			int start = choixValide(1, 4, "Que voulez vous faire ?");
 			if(start == 1){
@@ -109,13 +110,7 @@ public class PlayConsole implements ActionListener{
 	
 //######## Jouer ########
 	public void play(){		
-		//POUR TEST://
-		/*System.out.println("Ajout d'une pièce");
-		this.plateauConsole.addPiece(this.pieceAJouer.get(1), new ArrayList<Integer>(Arrays.asList(2, 4)));
-		this.piecePlacer.add(this.pieceAJouer.get(1));
-		this.pieceAJouer.remove(1);*/
-		//FIN TEST//
-			
+
 		while(!this.end){
 			int choix = choix();
 			if(choixYesNo("Etes vous sûr de ce choix ?")){
@@ -128,16 +123,18 @@ public class PlayConsole implements ActionListener{
 				else if(choix==4)
 					rotationPiece();
 				else if(choix==5){
-					if(this.pseudo == null)
-						this.pseudo();
+					pseudo();
 					sauvegarderPartie();
-					end = choixYesNo("Voulez vous arretez la partie ?");
+					this.stop = choixYesNo("Voulez vous arretez la partie ?");
+					if(stop)
+						this.end = true;
 				}
 				else if(choix==6){
-					end = score();
+					this.end = score();
 				}
 			}
-			etatPlateau();
+			if(!end)
+				etatPlateau();
 		}
 		finDePartie();
 	}
@@ -157,16 +154,16 @@ public class PlayConsole implements ActionListener{
 	
 	
 	private void creationPieceRandom(){
-		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
+		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/3);
 
-                int largeur = 0;
-                int longueur = 0;
-                int max =  this.largeurPlateauX /2 + 2 ;
+        int largeur = 0;
+        int longueur = 0;
+        int max =  this.largeurPlateauX /2 + 2 ;
                 
-                if(max > 5){
-                    max = 5;
-                }
-                
+		if(max > 5){
+			max = 5;
+		}
+           
 		for(int i = 0; i <= randPiece; i++){
 
 			String piece = this.pieceString.get(new Random().nextInt(4));
@@ -257,9 +254,9 @@ public class PlayConsole implements ActionListener{
 			explicationRotation();
 		}
 		
-		System.out.println("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
+		System.out.println("Quelle pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
 		ArrayList coo = selectPieceValide();
-		System.out.println("Quel rotation ? Rappel: Choix 0 à 3");
+		System.out.println("Quelle rotation ? Rappel: Choix 0 à 3");
 		if(this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(coo), choixValide(0,3,"Choix non accepter: 0 à 3")))
 			System.out.println("Rotation effectuer");
 		else
@@ -309,27 +306,33 @@ public class PlayConsole implements ActionListener{
 	}
 	
 	private void pseudo(){
-		System.out.println("Quel est votre pseudo ?");
-		Scanner pseudoScan = new Scanner(System.in);
-		this.pseudo = pseudoScan.next();
+		if(pseudo != null){
+			if(choixYesNo("Votre pseudo : "+pseudo+" Voulez vous le changer ?"))
+				this.pseudo = null;
+		}
+		if(pseudo == null){
+			System.out.println("Inscrivez votre pseudo: ");
+			Scanner pseudoScan = new Scanner(System.in);
+			this.pseudo = pseudoScan.next();
+		}
 	}
 	
 	private void finDePartie(){
-		if(choixYesNo("Voulez vous sauvegardez votre score ?")){
-			if(pseudo == null)
+		if(!stop){
+			if(choixYesNo("Voulez vous sauvegardez votre score ?")){
 				pseudo();
-			else
-				if(choixYesNo("Votre pseudo : "+pseudo+" Voulez vous le changer ?"))
-					pseudo();
-			
-			try{
-				sauvegardeScore.write(this);
-			}
-			catch(Exception e){
-				System.out.println("Impossible de sauvegarder le score");
+
+				try{
+					sauvegardeScore.write(this);
+				}
+				catch(Exception e){
+					System.out.println("Impossible de sauvegarder le score");
+				}
 			}
 		}
 		System.out.println("Merci d'avoir jouer !");
+		if(stop)
+		System.out.println("A bientôt !");
 	}
 	
 //######## Validation/effectuer des choix ########	
@@ -436,11 +439,12 @@ public class PlayConsole implements ActionListener{
 			rand = new Random().nextInt(randPiece);
 		return rand;
 	}
-        private int rdmMinimum(int min, int randPiece ){
-            int rand = 0;
-            while(rand < min)
-                rand = new Random().nextInt(randPiece+1);
-            return rand;
+	
+	private int rdmMinimum(int min, int randPiece ){
+		int rand = 0;
+		while(rand < min)
+			rand = new Random().nextInt(randPiece+1);
+		return rand;
 	}
 
 //######## Affichage ########

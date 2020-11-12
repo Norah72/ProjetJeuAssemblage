@@ -1,6 +1,6 @@
 {
  "initialisation": {
-  "pseudo": "Yoann",
+  "pseudo": "zerty",
   "largeurPlateau": 10,
   "longeurPlateau": 16,
   "explication": false
