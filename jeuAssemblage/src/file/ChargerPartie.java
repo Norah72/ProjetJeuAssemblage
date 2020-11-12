@@ -79,9 +79,9 @@ public class ChargerPartie {
 		largeur = piece.get("largeur").getAsInt();
 		longeur = piece.get("longeur").getAsInt();
 		rotation = piece.get("rotation").getAsInt();
-		for(int z = 0; z< this.jeu.getPieceString().size();z++){
-			if((this.jeu.getPieceString().get(z)).equals(piece.get("type").getAsString()))
-				this.jeu.getPlateauConsole().newPiece(this.jeu.getPieceString().get(z), largeur, longeur, rotation);
+		for(int z = 0; z< this.jeu.getPlateauConsole().getPieceString().size();z++){
+			if((this.jeu.getPlateauConsole().getPieceString().get(z)).equals(piece.get("type").getAsString()))
+				this.jeu.getPlateauConsole().newPiece(this.jeu.getPlateauConsole().getPieceString().get(z), largeur, longeur, rotation);
 		}
 	}
 }

@@ -13,6 +13,7 @@ public class PlateauPuzzle implements Listenable{
         private ArrayList<Listener> listeners ;
 		private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
 		private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+		private ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
 		
         
         private int minX,maxX,minY,maxY;
@@ -81,13 +82,13 @@ public class PlateauPuzzle implements Listenable{
 		}
 		
 		public PiecesPuzzle createNewPiece(String piece, int largeur, int longueur, int rotation){
-			if(piece.equals("PieceH")){
+			if(piece.equals(pieceString.get(0))){
 				return new PieceH(largeur,longueur, rotation);
-			}else if(piece.equals("PieceL")){
+			}else if(piece.equals(pieceString.get(1))){
 				return new PieceL(largeur,longueur, rotation);
-			}else if(piece.equals("PieceRectangle")){
+			}else if(piece.equals(pieceString.get(2))){
 				return new PieceRectangle(largeur,longueur, rotation);
-			}else if(piece.equals("PieceT")){
+			}else if(piece.equals(pieceString.get(3))){
 				return new PieceT(largeur,longueur, rotation);
 			}
 			return null;
@@ -197,6 +198,10 @@ public class PlateauPuzzle implements Listenable{
 		
 		public PiecesPuzzle getPiece(ArrayList coo){
 			return this.plateau.get(coo);
+		}
+
+		public ArrayList<String> getPieceString() {
+			return pieceString;
 		}
 
 		public void setPieceAJouer(ArrayList<PiecesPuzzle> pieceAJouer) {

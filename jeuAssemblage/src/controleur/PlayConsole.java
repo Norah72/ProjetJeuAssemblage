@@ -19,8 +19,6 @@ public class PlayConsole implements ActionListener{
 	
 	private PlateauPuzzle plateauConsole;
 	
-
-	private ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
 	private int largeurPlateauX, longueurPlateauY = 0;
 
 	private boolean explicationRot = true;
@@ -50,38 +48,40 @@ public class PlayConsole implements ActionListener{
 			System.out.println("2- Vue Graphique");
 			int start = choixValide(1, 4, "Que voulez vous faire ?");
 			if(start == 1){
-				System.out.println();
-				System.out.println("----- Menu -----");
-				System.out.println("1- Nouvelle partie");
-				System.out.println("2- Charger la dernière partie");
-				System.out.println("3- Règle de jeu");
-				System.out.println("4- Score de jeu");
-				int choix = choixValide(1, 4, "Que voulez vous faire ?");
+				while(!this.end){
+					System.out.println();
+					System.out.println("----- Menu -----");
+					System.out.println("1- Nouvelle partie");
+					System.out.println("2- Charger la dernière partie");
+					System.out.println("3- Règle de jeu");
+					System.out.println("4- Score de jeu");
+					int choix = choixValide(1, 4, "Que voulez vous faire ?");
 
-				if(choix == 1){
-					while(reinitialiser){
-						initialisationPlateau();
-						creationPieceRandom();
-						etatPlateau();
-						if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
-							reinitialiser = false;
-					}
-					play();
-				}
-			
-				else if(choix == 2){
-					chargerPartie();
-					System.out.println("Content de vous revoir "+this.pseudo+" !");
-					etatPlateau();
-					play();
-				}
-				else if(choix == 3){
-					regle();
-				}
-				else if(choix == 4){
-					afficheScore();
-				}
+					if(choix == 1){
+						while(reinitialiser){
+							initialisationPlateau();
+							creationPieceRandom();
+							etatPlateau();
+							if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
+								reinitialiser = false;
 						}
+						play();
+					}
+
+					else if(choix == 2){
+						chargerPartie();
+						System.out.println("Content de vous revoir "+this.pseudo+" !");
+						etatPlateau();
+						play();
+					}
+					else if(choix == 3){
+						regle();
+					}
+					else if(choix == 4){
+						afficheScore();
+					}
+				}
+			}
 			if(start == 2){
 				try{
 					synchronized (this) {
@@ -166,21 +166,18 @@ public class PlayConsole implements ActionListener{
            
 		for(int i = 0; i <= randPiece; i++){
 
-			String piece = this.pieceString.get(new Random().nextInt(4));
+			String piece = this.plateauConsole.getPieceString().get(new Random().nextInt(this.plateauConsole.getPieceString().size()));
+			
 			if(piece.equals("PieceH")){
-				System.out.println("H");
 				largeur = rdmMinimum(3,max);
 				longueur = rdmMinimum(3,max);
 			}else if(piece.equals("PieceL")){
-				System.out.println("L");
 				largeur = rdmMinimum(2,max);
 				longueur = rdmMinimum(2,max);
 			}else if(piece.equals("PieceRectangle")){
-				System.out.println("R");
 				largeur = rdmMinimum(1,max-1);
 				longueur = rdmMinimum(1,max-1);
 			}else if(piece.equals("PieceT")){
-				System.out.println("T");
 				largeur = rdmMinimum(2,max);
 				longueur = rdmMinimum(3,max);
 			}
@@ -270,7 +267,7 @@ public class PlayConsole implements ActionListener{
 			System.out.println("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
 			for(int i = 0 ; i < 4; i++){
 				System.out.println("--"+i+"--");
-				System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(1), 4, 3, i));
+				System.out.println(this.plateauConsole.createNewPiece(this.plateauConsole.getPieceString().get(1), 4, 3, i));
 			}			
 		}
 		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
@@ -286,13 +283,14 @@ public class PlayConsole implements ActionListener{
 		System.out.println();
 		System.out.println("Il y a 4 pièces différentes: ");
 		
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(0), 4, 3, 0));
+		PlateauPuzzle plateauRegle = new PlateauPuzzle(10,10);
+		System.out.println(plateauRegle.createNewPiece(this.plateauConsole.getPieceString().get(0), 4, 3, 0));
 		System.out.println();
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(1), 3, 4, 0));
+		System.out.println(plateauRegle.createNewPiece(this.plateauConsole.getPieceString().get(1), 3, 4, 0));
 		System.out.println();
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(2), 3, 4, 0));
+		System.out.println(plateauRegle.createNewPiece(this.plateauConsole.getPieceString().get(2), 3, 4, 0));
 		System.out.println();
-		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(3), 3, 3, 0));
+		System.out.println(plateauRegle.createNewPiece(this.plateauConsole.getPieceString().get(3), 3, 3, 0));
 		System.out.println();
 		
 		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie ou charger la dernière partie sauvegarder");
@@ -332,7 +330,7 @@ public class PlayConsole implements ActionListener{
 		}
 		System.out.println("Merci d'avoir jouer !");
 		if(stop)
-		System.out.println("A bientôt !");
+			System.out.println("A bientôt !");
 	}
 	
 //######## Validation/effectuer des choix ########	
@@ -488,10 +486,6 @@ public class PlayConsole implements ActionListener{
 	}
 	public String getpseudo(){
 		return this.pseudo;
-	}
-
-	public ArrayList<String> getPieceString() {
-		return pieceString;
 	}
 	
 //######## set pour chargement ########
