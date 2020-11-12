@@ -346,7 +346,7 @@ private void menu(){
 //######## Fin/quitter jeu ########
 	private boolean score(){
                 System.out.println();
-		System.out.println("Votre score : "+this.plateauConsole.getScore());
+		System.out.println("Votre score : "+this.plateauConsole.getScore() + "pts");
 		return choixYesNo("Voulez vous arretez la partie ?");
 	}
 	

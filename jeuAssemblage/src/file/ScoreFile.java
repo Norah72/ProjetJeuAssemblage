@@ -37,11 +37,11 @@ public class ScoreFile {
 						if(affichePseudo)
 							System.out.print("- Pseudo : ");
 						else
-							System.out.print(" Score : ");
+							System.out.print(" | Score : ");
 						System.out.print(caractere);
 						affichePseudo = !affichePseudo;
 					}
-					System.out.println();
+					System.out.println(" point(s)");
 				}
 			}
 		}

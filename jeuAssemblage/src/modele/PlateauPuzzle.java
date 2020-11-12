@@ -11,8 +11,8 @@ public class PlateauPuzzle implements Listenable{
         private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
         private int x,y;
         private ArrayList<Listener> listeners ;
-		private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
-		private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+	private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
 		
         
         private int minX,maxX,minY,maxY;
@@ -69,6 +69,7 @@ public class PlateauPuzzle implements Listenable{
         public int getScore(){
             int surfaceTotal = (this.maxX - this.minX + 1)*(this.maxY - this.minY +1);
             double score =  this.surfacePieces/ (double)surfaceTotal * 100;
+            score *= this.piecePlacer.size();
             return (int) score;
         }
 		
