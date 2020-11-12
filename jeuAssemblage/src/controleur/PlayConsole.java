@@ -37,7 +37,7 @@ public class PlayConsole implements ActionListener{
 	}
 	
 //######## Menu de chargement ########
-	private void menu(){
+private void menu(){
 		boolean reinitialiser = true;
 		System.out.println("--------------------------------------------");
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
@@ -45,7 +45,7 @@ public class PlayConsole implements ActionListener{
 		while(!this.end){
 			System.out.println();
 			System.out.println("----- Menu -----");
-			System.out.println("1- Vue Conssole");
+			System.out.println("1- Vue Console");
 			System.out.println("2- Vue Graphique");
 			int start = choixValide(1, 4, "Que voulez vous faire ?");
 			if(start == 1){
@@ -65,12 +65,16 @@ public class PlayConsole implements ActionListener{
 						if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
 							reinitialiser = false;
 					}
+
+                                        System.out.println("\n\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 					play();
 				}
 			
 				else if(choix == 2){
 					chargerPartie();
+                                        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 					System.out.println("Content de vous revoir "+this.pseudo+" !");
+                                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 					etatPlateau();
 					play();
 				}
@@ -152,7 +156,7 @@ public class PlayConsole implements ActionListener{
                     System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
                     this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
                 }
-		this.plateauConsole = new PlateauPuzzle(this.largeurPlateauX,this.longueurPlateauY);
+		this.plateauConsole = new PlateauPuzzle(this.largeurPlateauX,this.longueurPlateauY); 
 	}
 	
 	
@@ -227,9 +231,15 @@ public class PlayConsole implements ActionListener{
 		if(this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(choixPiece-1), valideCoordonnees())){
 			//this.piecePlacer.add(this.plateauConsole.getPieceAJouer().get(choixPiece-1));
 			//this.plateauConsole.getPieceAJouer().remove(choixPiece-1);
-			System.out.println("Piece ajouter");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("[---- Piece ajouter ----]");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
 		}else{
-			System.out.println("Piece non ajouter par manque de place");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("[---- Piece non ajouter par manque de place ----]");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
 		}
 	}
 	
@@ -239,10 +249,18 @@ public class PlayConsole implements ActionListener{
 		ArrayList coo = selectPieceValide();
 		
 		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
-		if(this.plateauConsole.movePiece(this.plateauConsole.getPiece(coo),valideCoordonnees()))
-			System.out.println("Piece déplacer");
-		else
-			System.out.println("Piece non déplacer par manque de place");
+		if(this.plateauConsole.movePiece(this.plateauConsole.getPiece(coo),valideCoordonnees())){
+			System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("[---- Piece déplacer ----]");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
+                }
+                else{
+			System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("[---- Piece non déplacer par manque de place ----]");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
+                }
 		
 	}
 	
@@ -252,7 +270,10 @@ public class PlayConsole implements ActionListener{
 		this.plateauConsole.removePiece(this.plateauConsole.getPiece(coo));
 		//this.plateauConsole.setPieceAJouer();pieceAJouer.add(pieceASupprimer);
 		//this.piecePlacer.remove(pieceASupprimer);
-		System.out.println("Piece supprimer");
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+		System.out.println("[---- Piece supprimer ----] ");
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                System.out.println(" ");
 	}
 		
 	
@@ -264,21 +285,33 @@ public class PlayConsole implements ActionListener{
 		System.out.println("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
 		ArrayList coo = selectPieceValide();
 		System.out.println("Quel rotation ? Rappel: Choix 0 à 3");
-		if(this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(coo), choixValide(0,3,"Choix non accepter: 0 à 3")))
-			System.out.println("Rotation effectuer");
-		else
-			System.out.println("Rotation non effectuer par manque de place");
+		if(this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(coo), choixValide(0,3,"/!\\ Choix non accepter, vous devez choisir une valeur entre 0 et 3 /!\\"))){
+			System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("[---- Rotation effectuer ----]");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
+                }
+                else{
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("[---- Rotation non effectuer par manque de place ----]");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
+                }
 	}
 	
 //######## Regle ########
 	private void explicationRotation(){
 		if(choixYesNo("Explication rotation ?")){
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println(" ");
 			System.out.println("Les rotations se font dans le sens horaires.");
 			System.out.println("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
 			for(int i = 0 ; i < 4; i++){
 				System.out.println("--"+i+"--");
 				System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(1), 4, 3, i));
-			}			
+			}
+                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 		}
 		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
 			explicationRot = false;
@@ -286,6 +319,8 @@ public class PlayConsole implements ActionListener{
 	}
 	
 	private void regle(){
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                System.out.println(" ");
 		System.out.println("Le but du jeu est qu'il y est le minimum d'aire entre les pièces.");
 		System.out.println("Bien sûr, il faut que toutes les pièces disponible soit placer.");
 		System.out.println("Vous pouvez calculer votre score que si vous avez posé toutes les pièces sur le plateau.");
@@ -302,23 +337,28 @@ public class PlayConsole implements ActionListener{
 		System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(3), 3, 3, 0));
 		System.out.println();
 		
-		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie ou charger la dernière partie sauvegarder");
+		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie pour la reprendre plus tard");
+                System.out.println(" ");
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 	}
 	
 	
 //######## Fin/quitter jeu ########
 	private boolean score(){
+                System.out.println();
 		System.out.println("Votre score : "+this.plateauConsole.getScore());
 		return choixYesNo("Voulez vous arretez la partie ?");
 	}
 	
 	private void pseudo(){
+                System.out.println();
 		System.out.println("Quel est votre pseudo ?");
 		Scanner pseudoScan = new Scanner(System.in);
 		this.pseudo = pseudoScan.next();
 	}
 	
 	private void finDePartie(){
+                System.out.println();
 		if(choixYesNo("Voulez vous sauvegardez votre score ?")){
 			if(pseudo == null)
 				pseudo();
@@ -521,7 +561,7 @@ public class PlayConsole implements ActionListener{
     @Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
-		if(source == vue.getBouton()){
+		if(source == vue.getListeBouton().get(0)){
 			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
 				this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
 				this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
@@ -534,6 +574,8 @@ public class PlayConsole implements ActionListener{
 			}
                         
 		}
-                
+                if(source == vue.getListeBouton().get(1)){
+                       vue.placmentPiece();
+                }
     }
 }

@@ -56,7 +56,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(BoutonDeJeu);
+            fenetre.add(BoutonDeJeu.getComponent(0));
         }
         else{
             int nblignes = this.getLigne().getSelectedIndex()+4;
@@ -130,10 +130,14 @@ public class InterfaceGraphique extends JFrame implements Listener{
                 listePiece.add(piece);
             }
     }
+    public void placmentPiece(){
+        /*dialogue pour indiquer sur quoi clicker + mouse Listener*/
+    }
     @Override
 	public void update(Object obs) {
             fenetre.repaint();
         }
+     
     public void afficheGrille(){
         setContentPane(buildContentPane(1));
     }
