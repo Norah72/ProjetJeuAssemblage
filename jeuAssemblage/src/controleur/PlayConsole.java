@@ -54,7 +54,7 @@ private void menu(){
 				System.out.println("1- Nouvelle partie");
 				System.out.println("2- Charger la dernière partie");
 				System.out.println("3- Règle de jeu");
-				System.out.println("4- Score de jeu");
+				System.out.println("4- Score de jeu\n");
 				int choix = choixValide(1, 4, "Que voulez vous faire ?");
 
 				if(choix == 1){
@@ -62,18 +62,18 @@ private void menu(){
 						initialisationPlateau();
 						creationPieceRandom();
 						etatPlateau();
-						if(!choixYesNo("Voulez vous une nouvelle configuration ?"))
+						if(choixYesNo("Cette configuraion vous convient-elle ?"))
 							reinitialiser = false;
 					}
 
-                                        System.out.println("\n\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+                                        System.out.println();
 					play();
 				}
 			
 				else if(choix == 2){
 					chargerPartie();
                                         System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-					System.out.println("Content de vous revoir "+this.pseudo+" !");
+					System.out.println("[---- Content de vous revoir "+this.pseudo+" ! ----]");
                                         System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 					etatPlateau();
 					play();
@@ -110,6 +110,7 @@ private void menu(){
 			}
 		}
 	}
+	
 	
 //######## Jouer ########
 	public void play(){		
@@ -235,15 +236,13 @@ private void menu(){
 		if(this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(choixPiece-1), valideCoordonnees())){
 			//this.piecePlacer.add(this.plateauConsole.getPieceAJouer().get(choixPiece-1));
 			//this.plateauConsole.getPieceAJouer().remove(choixPiece-1);
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=");
 			System.out.println("[---- Piece ajouter ----]");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 		}else{
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 			System.out.println("[---- Piece non ajouter par manque de place ----]");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 		}
 	}
 	
@@ -254,16 +253,14 @@ private void menu(){
 		
 		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
 		if(this.plateauConsole.movePiece(this.plateauConsole.getPiece(coo),valideCoordonnees())){
-			System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=");
                         System.out.println("[---- Piece déplacer ----]");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=\n");
                 }
                 else{
-			System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                         System.out.println("[---- Piece non déplacer par manque de place ----]");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
                 }
 		
 	}
@@ -274,10 +271,9 @@ private void menu(){
 		this.plateauConsole.removePiece(this.plateauConsole.getPiece(coo));
 		//this.plateauConsole.setPieceAJouer();pieceAJouer.add(pieceASupprimer);
 		//this.piecePlacer.remove(pieceASupprimer);
-                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 		System.out.println("[---- Piece supprimer ----] ");
-                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                System.out.println(" ");
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 	}
 		
 	
@@ -290,32 +286,28 @@ private void menu(){
 		ArrayList coo = selectPieceValide();
 		System.out.println("Quel rotation ? Rappel: Choix 0 à 3");
 		if(this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(coo), choixValide(0,3,"/!\\ Choix non accepter, vous devez choisir une valeur entre 0 et 3 /!\\"))){
-			System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                         System.out.println("[---- Rotation effectuer ----]");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
                 }
                 else{
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 			System.out.println("[---- Rotation non effectuer par manque de place ----]");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
                 }
 	}
 	
 //######## Regle ########
 	private void explicationRotation(){
 		if(choixYesNo("Explication rotation ?")){
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        System.out.println(" ");
+                        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 			System.out.println("Les rotations se font dans le sens horaires.");
 			System.out.println("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
 			for(int i = 0 ; i < 4; i++){
 				System.out.println("--"+i+"--");
 				System.out.println(this.plateauConsole.createNewPiece(this.pieceString.get(1), 4, 3, i));
 			}
-                        System.out.println(" ");
-                        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 		}
 		if(!choixYesNo("Voulez vous avoir des explications la prochaine fois ?"))
 			explicationRot = false;
@@ -323,8 +315,7 @@ private void menu(){
 	}
 	
 	private void regle(){
-                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                System.out.println(" ");
+                System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 		System.out.println("Le but du jeu est qu'il y est le minimum d'aire entre les pièces.");
 		System.out.println("Bien sûr, il faut que toutes les pièces disponible soit placer.");
 		System.out.println("Vous pouvez calculer votre score que si vous avez posé toutes les pièces sur le plateau.");
@@ -342,8 +333,7 @@ private void menu(){
 		System.out.println();
 		
 		System.out.println("Bien sûr, vous pouvez sauvegarder votre partie pour la reprendre plus tard");
-                System.out.println(" ");
-                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 	}
 	
 	
@@ -377,7 +367,9 @@ private void menu(){
 				System.out.println("Impossible de sauvegarder le score");
 			}
 		}
-		System.out.println("Merci d'avoir jouer !");
+                System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+		System.out.println("[---- Merci d'avoir jouer ! ----]");
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 	}
 	
 //######## Validation/effectuer des choix ########	
@@ -494,6 +486,7 @@ private void menu(){
 //######## Affichage ########
 
 	private void etatPlateau(){
+                System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 		System.out.println("Voici le plateau:");
 		System.out.println(this.plateauConsole);
 		printPiece();
@@ -574,7 +567,7 @@ private void menu(){
                                 }
 			}
 			else{
-				System.out.println("Choisis un chiffre couillon");
+				System.out.println("Choisis un chiffre cou***** ( il faut être poli voyons ! )");
 			}
                         
 		}
