@@ -165,19 +165,23 @@ private void menu(){
                 int largeur = 0;
                 int longueur = 0;
                 
-                // maximum pour la taille des pièces
-                int max =  (this.largeurPlateauX + longueurPlateauY) /4 + 2 ;
+                // minimum et maximum pour la taille des pièces
+                int max =  (this.largeurPlateauX + longueurPlateauY) /4 ;
+                
+                // On ne veux pas de pièce trop grandes, on borne donc leur taille à 5, pour permettre d'avoir 
+                //une grande grille de petites pièces, et non des pièces de taille relatives à la taille du plateau.
+                if (max < 3) {
+                    max = 3;
+                }else if(max > 5){
+                    max = 5;
+                }
                 
                 // minimum et maximum pour le nombre de pièce, puis aléatoire entre ces deux valeurs
                 int minPiece = (this.largeurPlateauX + longueurPlateauY) /3;
                 int maxPiece = (this.largeurPlateauX+this.longueurPlateauY)/2;
                 int randPiece = new Random().nextInt(maxPiece - minPiece ) + minPiece;
                 
-                // On ne veux pas de pièce trop grandes, on borne donc leur taille à 5, pour permettre d'avoir 
-                //une grande grille de petites pièces, et non des pièces de taille relatives à la taille du plateau.
-                if(max > 5){
-                    max = 5;
-                }
+
                 
 		for(int i = 0; i <= randPiece; i++){
 
