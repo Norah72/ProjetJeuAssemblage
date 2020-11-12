@@ -32,7 +32,7 @@ public class PlayConsole implements ActionListener{
 	private InterfaceGraphique vue;
 	
 	public PlayConsole(InterfaceGraphique vue){
-		//this.vue = vue;
+		this.vue = vue;
 		menu();
 	}
 	
@@ -45,7 +45,7 @@ public class PlayConsole implements ActionListener{
 		while(!this.end){
 			System.out.println();
 			System.out.println("----- Menu -----");
-			System.out.println("1- Vue Conssole");
+			System.out.println("1- Vue Console");
 			System.out.println("2- Vue Graphique");
 			int start = choixValide(1, 4, "Que voulez vous faire ?");
 			if(start == 1){
@@ -517,7 +517,7 @@ public class PlayConsole implements ActionListener{
     @Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
-		if(source == vue.getBouton()){
+		if(source == vue.getListeBouton().get(0)){
 			if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
 				this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
 				this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
@@ -530,6 +530,8 @@ public class PlayConsole implements ActionListener{
 			}
                         
 		}
-                
+                if(source == vue.getListeBouton().get(1)){
+                       vue.placmentPiece();
+                }
     }
 }
