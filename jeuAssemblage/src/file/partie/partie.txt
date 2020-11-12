@@ -1,6 +1,6 @@
 {
  "initialisation": {
-  "pseudo": "zerty",
+  "pseudo": "yui",
   "largeurPlateau": 10,
   "longeurPlateau": 16,
   "explication": false
