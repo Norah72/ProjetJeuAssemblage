@@ -32,7 +32,7 @@ public class PlayConsole implements ActionListener{
 	private InterfaceGraphique vue;
 	
 	public PlayConsole(InterfaceGraphique vue){
-		//this.vue = vue;
+		this.vue = vue;
 		menu();
 	}
 	
@@ -157,12 +157,20 @@ public class PlayConsole implements ActionListener{
 	
 	
 	private void creationPieceRandom(){
-		int randPiece = difZero((this.largeurPlateauX*this.longueurPlateauY)/this.largeurPlateauX);
 
                 int largeur = 0;
                 int longueur = 0;
-                int max =  this.largeurPlateauX /2 + 2 ;
                 
+                // maximum pour la taille des pièces
+                int max =  (this.largeurPlateauX + longueurPlateauY) /4 + 2 ;
+                
+                // minimum et maximum pour le nombre de pièce, puis aléatoire entre ces deux valeurs
+                int minPiece = (this.largeurPlateauX + longueurPlateauY) /3;
+                int maxPiece = (this.largeurPlateauX+this.longueurPlateauY)/2;
+                int randPiece = new Random().nextInt(maxPiece - minPiece ) + minPiece;
+                
+                // On ne veux pas de pièce trop grandes, on borne donc leur taille à 5, pour permettre d'avoir 
+                //une grande grille de petites pièces, et non des pièces de taille relatives à la taille du plateau.
                 if(max > 5){
                     max = 5;
                 }
@@ -171,19 +179,15 @@ public class PlayConsole implements ActionListener{
 
 			String piece = this.pieceString.get(new Random().nextInt(4));
 			if(piece.equals("PieceH")){
-				System.out.println("H");
 				largeur = rdmMinimum(3,max);
 				longueur = rdmMinimum(3,max);
 			}else if(piece.equals("PieceL")){
-				System.out.println("L");
 				largeur = rdmMinimum(2,max);
 				longueur = rdmMinimum(2,max);
 			}else if(piece.equals("PieceRectangle")){
-				System.out.println("R");
 				largeur = rdmMinimum(1,max-1);
 				longueur = rdmMinimum(1,max-1);
 			}else if(piece.equals("PieceT")){
-				System.out.println("T");
 				largeur = rdmMinimum(2,max);
 				longueur = rdmMinimum(3,max);
 			}
