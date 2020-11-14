@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ggu 56
 tito 80
 toto 62
@@ -12,8 +11,6 @@ yo 0
 yo 0
 y 0
 ty 30
-=======
 Clem 513
 Clem 480
 Clem 288
->>>>>>> ab834d8e1bb304df9111436f6f5429942b819735

@@ -1,103 +1,50 @@
 {
  "initialisation": {
-  "pseudo": "yui",
-  "largeurPlateau": 10,
-  "longeurPlateau": 16,
+  "pseudo": "uio",
+  "largeurPlateau": 20,
+  "longeurPlateau": 20,
   "explication": false
  },
- "piecesDisponible": {
-  "0": {
-   "type": "PieceT",
-   "largeur": 4,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "1": {
-   "type": "PieceL",
-   "largeur": 5,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "2": {
-   "type": "PieceL",
-   "largeur": 3,
-   "longeur": 3,
-   "rotation": 0
-  },
-  "3": {
-   "type": "PieceH",
-   "largeur": 4,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "4": {
-   "type": "PieceL",
-   "largeur": 5,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "5": {
-   "type": "PieceH",
-   "largeur": 4,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "6": {
-   "type": "PieceH",
-   "largeur": 4,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "7": {
-   "type": "PieceT",
-   "largeur": 2,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "8": {
-   "type": "PieceRectangle",
-   "largeur": 3,
-   "longeur": 3,
-   "rotation": 0
-  },
-  "9": {
-   "type": "PieceT",
-   "largeur": 2,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "10": {
-   "type": "PieceT",
-   "largeur": 3,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "11": {
-   "type": "PieceL",
-   "largeur": 2,
-   "longeur": 4,
-   "rotation": 0
-  }
- },
+ "piecesDisponible": {},
  "piecesPlacer": {
   "0": {
    "type": "PieceT",
-   "largeur": 4,
-   "longeur": 3,
-   "rotation": 2,
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 0,
    "coordonnees": [
     0,
-    7
+    0
    ]
   },
   "1": {
-   "type": "PieceRectangle",
+   "type": "PieceT",
    "largeur": 3,
-   "longeur": 2,
-   "rotation": 0,
+   "longeur": 4,
+   "rotation": 1,
    "coordonnees": [
-    2,
-    2
+    0,
+    5
+   ]
+  },
+  "2": {
+   "type": "PieceT",
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 2,
+   "coordonnees": [
+    6,
+    0
+   ]
+  },
+  "3": {
+   "type": "PieceT",
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 3,
+   "coordonnees": [
+    6,
+    6
    ]
   }
  }

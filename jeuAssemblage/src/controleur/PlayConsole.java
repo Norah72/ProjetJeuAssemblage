@@ -368,10 +368,10 @@ private void menu(){
 			}
 		}
 		System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-		System.out.println("Merci d'avoir jouer !");
+		System.out.println("[---- Merci d'avoir jouer ! ----]");
 		if(stop)
-			System.out.println("A bientôt !");
-		System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			System.out.println("[--------- A bientôt ! ---------]");
+		System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 	}
 	
 //######## Validation/effectuer des choix ########	
