@@ -9,12 +9,15 @@ import java.util.Scanner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.util.HashMap;
+import javax.swing.JPanel;
 
 import modele.PlateauPuzzle;
 import vue.*;
 
 
-public class PlayConsole implements ActionListener{
+public class PlayConsole extends MouseAdapter implements ActionListener{
 
 	
 	private PlateauPuzzle plateauConsole;
@@ -27,11 +30,12 @@ public class PlayConsole implements ActionListener{
 
 	private String pseudo = null;
 	private ScoreFile sauvegardeScore = new ScoreFile();
-	
 	private InterfaceGraphique vue;
+        private MouseClicker laPetiteSouris;
 	
-	public PlayConsole(InterfaceGraphique vue){
+	public PlayConsole(InterfaceGraphique vue, PlateauPuzzle plateauConsole){
 		this.vue = vue;
+                this.plateauConsole = plateauConsole;
 		menu();
 	}
 	
@@ -87,27 +91,7 @@ private void menu(){
 				}
 			}
 			if(start == 2){
-				try{
-					synchronized (this) {
-						vue.start(this);
-						for(int i=0 ; i < vue.getListeBouton().size() ; i++){
-							vue.getListeBouton().get(i).addActionListener(this);
-						}
-						wait();
-					}
-					reinitialiser = true;
-					while(reinitialiser){
-						initialisationPlateau();
-						creationPieceRandom();
-						etatPlateau();
-						reinitialiser = false;
-					}
-					vue.afficheGrille();
-					/*if(partie fini)
-						reinistialisé*/
-				}catch(Exception e){
-					System.out.println("Impossible de charger la vue: "+e);
-				}
+				playVue();
 			}
 		}
 	}
@@ -144,7 +128,71 @@ private void menu(){
 		finDePartie();
 	}
 	
-	
+	private void playVue(){
+            boolean reinitialiser = true;
+            try{
+		synchronized (this) {
+                    vue.start(this);
+                    for(int i=0 ; i < vue.getListeBouton().size() ; i++)
+			vue.getListeBouton().get(i).addActionListener(this);
+                    wait();
+		}
+		while(reinitialiser){
+                    initialisationPlateau();
+                    creationPieceRandom();
+                    etatPlateau();
+                    reinitialiser = false;
+		}
+		vue.afficheGrille();
+                reinitialiser = true;
+                laPetiteSouris = new MouseClicker(vue);
+                while(reinitialiser){
+                    synchronized (this) {
+                        System.out.println("test1");
+                        wait();
+                    }
+                    System.out.println("test2");
+                    addPieceListener(this.vue.getListePieceForClick());
+                    while(!laPetiteSouris.verif()){
+                        System.out.print("");
+                        /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
+                    }
+                    laPetiteSouris.setVerif(false);
+                    removePieceListener(vue.getListePieceForClick());
+                    System.out.println("test3");
+                    addCaseListener(vue.getListeCaseForClick());
+                    while(!laPetiteSouris.verif()){
+                        System.out.print("");
+                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
+                    }
+                    laPetiteSouris.setVerif(false);
+                    removeCaseListener(vue.getListeCaseForClick());
+                    System.out.println("test4");
+                    this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()), laPetiteSouris.getCaseSelectionné());
+                    System.out.println(this.plateauConsole);
+                }
+            }catch(Exception e){
+                    System.out.println("Impossible de charger la vue: "+e);
+		}
+        }
+        private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
+            for(ArrayList<Integer> i : woula.keySet()){
+                woula.get(i).removeMouseListener(laPetiteSouris);
+            }
+        }
+        private void addCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
+            for(ArrayList<Integer> i : woula.keySet()){
+                woula.get(i).addMouseListener(laPetiteSouris);
+            }
+        }
+        private void removePieceListener(ArrayList<JPanel> woula){
+            for(int i=0 ; i < woula.size() ; i++)
+                        woula.get(i).removeMouseListener(laPetiteSouris);
+        }
+        private void addPieceListener(ArrayList<JPanel> woula){
+            for(int i=0 ; i < woula.size() ; i++)
+                        woula.get(i).addMouseListener(laPetiteSouris);
+        }
 //######## Nouvelle partie ########	
 	
 	private void initialisationPlateau(){
@@ -154,7 +202,7 @@ private void menu(){
                     System.out.println("Veuillez entrer la grandeur du plateau au niveau longueur: ");
                     this.longueurPlateauY = choixValide(5,20,"Le nombre doit être au minimum de 5 et au maximum de 20");
                 }
-		this.plateauConsole = new PlateauPuzzle(this.largeurPlateauX,this.longueurPlateauY); 
+		this.plateauConsole.setXY(this.largeurPlateauX,this.longueurPlateauY);
 	}
 	
 	
@@ -571,7 +619,9 @@ private void menu(){
                         
 		}
                 if(source == vue.getListeBouton().get(1)){
-                       vue.placmentPiece();
+                    synchronized(this){
+                        notify();
+                        }
                 }
     }
 }

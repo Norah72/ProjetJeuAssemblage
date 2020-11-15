@@ -33,7 +33,7 @@ public class Main {
             int y=0;
             PlateauPuzzle play = new PlateauPuzzle(x,y);
             InterfaceGraphique fenetre = new InterfaceGraphique(play);
-            PlayConsole lol = new PlayConsole(fenetre);
+            PlayConsole lol = new PlayConsole(fenetre,play);
             
             /*int x = 5;
             int y = 5;

@@ -7,6 +7,8 @@ import util.*;
 import piecesPuzzle.pieces.*;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -20,14 +22,16 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel BoutonDeJeu = new JPanel();
     private JPanel grille = new JPanel();
     private JPanel listePiece = new JPanel();
+    private JPanel case0 = new JPanel();
     private Border bordure = BorderFactory.createLineBorder(Color.black,1);
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
-    private PlateauPuzzle modele = new PlateauPuzzle(0,0);
+    private HashMap<ArrayList<Integer>, JPanel > listeCase0ForClick = new HashMap<ArrayList<Integer>, JPanel>();
+    private ArrayList<JPanel> listePieceForClick = new ArrayList<JPanel>();
+    private PlateauPuzzle modele;
     private PlayConsole test;
     private JComboBox ligne = new JComboBox();
     private JComboBox colonne = new JComboBox();
     private JButton bouton;
-    private String num;
     
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
@@ -50,7 +54,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             ligne.addItem("LIGNE");
             colonne.addItem("COLONNE");
             for(int i = 5 ; i < 21; ++i) {
-                num = Integer.toString(i);
+                String num = Integer.toString(i);
                 ligne.addItem(num);
                 colonne.addItem(num);
             }
@@ -71,6 +75,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
 			for (int j = 0; j < nbcolonne; j++) {
                             JPanel case0 = new JPanel();
                             case0.setBorder(bordure);
+                            case0.setName(Integer.toString(j+i*nbcolonne));
+                            listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
                             grille.add(case0);
                         }
             }
@@ -80,7 +86,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.add(listePiece,BorderLayout.NORTH);
             fenetre.add(BoutonDeJeu,BorderLayout.PAGE_END);
             }
-        
         return fenetre;
     } 
     public void start(PlayConsole controleur){
@@ -128,11 +133,10 @@ public class InterfaceGraphique extends JFrame implements Listener{
                         }
                 }
                 listePiece.add(piece);
+                listePieceForClick.add(piece);
             }
     }
-    public void placmentPiece(){
-        /*dialogue pour indiquer sur quoi clicker + mouse Listener*/
-    }
+    
     @Override
 	public void update(Object obs) {
             fenetre.repaint();
@@ -147,11 +151,14 @@ public class InterfaceGraphique extends JFrame implements Listener{
     public JComboBox getColonne() {
 	return colonne;
     }
-    public JButton getBouton() {
-        return bouton;
-    }
     public ArrayList<JButton> getListeBouton(){
         return listeBouton;
+    }
+    public HashMap<ArrayList<Integer>,JPanel> getListeCaseForClick(){
+        return listeCase0ForClick;
+    }
+    public ArrayList<JPanel> getListePieceForClick(){
+        return listePieceForClick;
     }
     public PlayConsole setController(PlayConsole controleur){
         test = controleur;
