@@ -155,7 +155,6 @@ private void menu(){
                     addPieceListener(this.vue.getListePieceForClick());
                     while(!laPetiteSouris.verif()){
                         System.out.print("");
-                        /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
                     }
                     laPetiteSouris.setVerif(false);
                     removePieceListener(vue.getListePieceForClick());
@@ -163,7 +162,6 @@ private void menu(){
                     addCaseListener(vue.getListeCaseForClick());
                     while(!laPetiteSouris.verif()){
                         System.out.print("");
-                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
                     }
                     laPetiteSouris.setVerif(false);
                     removeCaseListener(vue.getListeCaseForClick());
@@ -176,23 +174,23 @@ private void menu(){
                     System.out.println("Impossible de charger la vue: "+e);
 		}
         }
-        private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
-            for(ArrayList<Integer> i : woula.keySet()){
-                woula.get(i).removeMouseListener(laPetiteSouris);
+        private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> liste){
+            for(ArrayList<Integer> i : liste.keySet()){
+                liste.get(i).removeMouseListener(laPetiteSouris);
             }
         }
-        private void addCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
-            for(ArrayList<Integer> i : woula.keySet()){
-                woula.get(i).addMouseListener(laPetiteSouris);
+        private void addCaseListener(HashMap<ArrayList<Integer>,JPanel> liste){
+            for(ArrayList<Integer> i : liste.keySet()){
+                liste.get(i).addMouseListener(laPetiteSouris);
             }
         }
-        private void removePieceListener(ArrayList<JPanel> woula){
-            for(int i=0 ; i < woula.size() ; i++)
-                        woula.get(i).removeMouseListener(laPetiteSouris);
+        private void removePieceListener(ArrayList<JPanel> liste){
+            for(int i=0 ; i < liste.size() ; i++)
+                        liste.get(i).removeMouseListener(laPetiteSouris);
         }
-        private void addPieceListener(ArrayList<JPanel> woula){
-            for(int i=0 ; i < woula.size() ; i++)
-                        woula.get(i).addMouseListener(laPetiteSouris);
+        private void addPieceListener(ArrayList<JPanel> liste){
+            for(int i=0 ; i < liste.size() ; i++)
+                        liste.get(i).addMouseListener(laPetiteSouris);
         }
 //######## Nouvelle partie ########	
 	

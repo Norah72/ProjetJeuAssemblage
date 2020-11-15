@@ -19,7 +19,7 @@ import javax.swing.border.Border;
 
 public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel fenetre = new JPanel();
-    private JPanel BoutonDeJeu = new JPanel();
+    private JPanel boutonDeJeu = new JPanel();
     private JPanel grille = new JPanel();
     private JPanel listePiece = new JPanel();
     private JPanel case0 = new JPanel();
@@ -32,7 +32,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JComboBox ligne = new JComboBox();
     private JComboBox colonne = new JComboBox();
     private JButton bouton;
-	private int nblignes, nbcolonne;
+    private int nblignes, nbcolonne;
     
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
@@ -61,7 +61,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(BoutonDeJeu.getComponent(0));
+            fenetre.add(boutonDeJeu.getComponent(0));
         }
         else{
             nblignes = this.getLigne().getSelectedIndex()+4;
@@ -87,7 +87,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.add(grille,BorderLayout.CENTER);
             affichePieceAJouer();
             fenetre.add(listePiece,BorderLayout.NORTH);
-            fenetre.add(BoutonDeJeu,BorderLayout.PAGE_END);
+            fenetre.add(boutonDeJeu,BorderLayout.PAGE_END);
             }
         return fenetre;
     } 
@@ -96,17 +96,17 @@ public class InterfaceGraphique extends JFrame implements Listener{
         getAction(controleur);
         setVisible(true);
     }
-    public void getAction(PlayConsole controleur){
+    private void getAction(PlayConsole controleur){
         getLigne().addActionListener(controleur);
         getColonne().addActionListener(controleur);
         setController(controleur);
     }
-    public void creationBouton(String nom){
+    private void creationBouton(String nom){
         bouton = new JButton(nom);
         listeBouton.add(bouton);
-        BoutonDeJeu.add(bouton);
+        boutonDeJeu.add(bouton);
     }
-    public void affichePieceAJouer(){
+    private void affichePieceAJouer(){
         for(int i = 0 ; i < test.getPlateauConsole().getPieceAJouer().size(); i++){
                 JPanel piece = new JPanel();
                 PiecesPuzzle p1 = (PiecesPuzzle)test.getPlateauConsole().getPieceAJouer().get(i);
