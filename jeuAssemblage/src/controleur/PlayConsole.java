@@ -170,6 +170,7 @@ private void menu(){
                     System.out.println("test4");
                     this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()), laPetiteSouris.getCaseSelectionné());
                     System.out.println(this.plateauConsole);
+					vue.setModele();
                 }
             }catch(Exception e){
                     System.out.println("Impossible de charger la vue: "+e);
