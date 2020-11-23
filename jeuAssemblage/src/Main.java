@@ -26,7 +26,11 @@ public class Main {
         
         
 	public static void main(String[] args){
-
+            
+            Play p = new Play();
+            p.menu();
+            
+            /*
             //######### POUR LANCER LA VUE - ENLENVER LES COMMANTAIRES (LIGNE 30 à 38)#####// 
             //######### + ENLEVR COMMENTAIRES DANS CONSTRUCTEURS DE PLAYCONSOLE############//
             int x=0;
