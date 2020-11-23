@@ -32,7 +32,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JComboBox ligne = new JComboBox();
     private JComboBox colonne = new JComboBox();
     private JButton bouton;
-	private int nblignes, nbcolonne;
+    private int nblignes, nbcolonne;
     
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
@@ -76,10 +76,12 @@ public class InterfaceGraphique extends JFrame implements Listener{
 			for (int j = 0; j < nbcolonne; j++) {
                             JPanel case0 = new JPanel();
                             case0.setBorder(bordure);
-                            case0.setName(Integer.toString(j+i*nbcolonne));
                             listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
-							if(this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))) != null)
-								case0.setBackground((Color.blue));
+                            PiecesPuzzle p0= (PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)));
+                            if(p0 != null){
+                                colorization(p0,case0);
+                            }
+                            /*this.modele.addListener(case0);*/
                             grille.add(case0);
                         }
             }
@@ -96,41 +98,26 @@ public class InterfaceGraphique extends JFrame implements Listener{
         getAction(controleur);
         setVisible(true);
     }
-    public void getAction(PlayConsole controleur){
+    private void getAction(PlayConsole controleur){
         getLigne().addActionListener(controleur);
         getColonne().addActionListener(controleur);
         setController(controleur);
     }
-    public void creationBouton(String nom){
+    private void creationBouton(String nom){
         bouton = new JButton(nom);
         listeBouton.add(bouton);
         BoutonDeJeu.add(bouton);
     }
-    public void affichePieceAJouer(){
+    private void affichePieceAJouer(){
         for(int i = 0 ; i < test.getPlateauConsole().getPieceAJouer().size(); i++){
                 JPanel piece = new JPanel();
                 PiecesPuzzle p1 = (PiecesPuzzle)test.getPlateauConsole().getPieceAJouer().get(i);
                 piece.setLayout(new GridLayout(p1.getLargeurX(),p1.getLongueurY(),2,2));
                 for(int j = 0 ; j < p1.getLargeurX(); j++) {
-						for (int k = 0; k < p1.getLongueurY(); k++) {
+                        for (int k = 0; k < p1.getLongueurY(); k++) {
                             JPanel case0 = new JPanel();
                             if (p1.getGrid()[j][k]==true){
-                                if(p1.getClass().getName() == "piecesPuzzle.pieces.PieceT"){
-                                    case0.setBackground(Color.BLUE);
-                                }
-                                else if(p1.getClass().getName() == "piecesPuzzle.pieces.PieceL"){
-                                    case0.setBackground(Color.GREEN);
-                                }
-                                else if(p1.getClass().getName() == "piecesPuzzle.pieces.PieceH"){
-                                    case0.setBackground(Color.CYAN);
-                                }
-                                else if(p1.getClass().getName() == "piecesPuzzle.pieces.PieceRectangle"){
-                                    case0.setBackground(Color.ORANGE);
-                                }
-                                else{
-                                    case0.setBackground(Color.RED);
-                                }
-                                case0.setBorder(bordure);
+                                colorization(p1,case0);
                             }
                             piece.add(case0);
                         }
@@ -138,6 +125,19 @@ public class InterfaceGraphique extends JFrame implements Listener{
                 listePiece.add(piece);
                 listePieceForClick.add(piece);
 		}
+    }
+    private void colorization(PiecesPuzzle p, JPanel case0){
+        if(p instanceof PieceT)
+            case0.setBackground(Color.BLUE);
+        else if(p instanceof PieceL)
+            case0.setBackground(Color.GREEN);
+        else if(p instanceof PieceH)
+            case0.setBackground(Color.CYAN);
+        else if(p instanceof PieceRectangle)
+            case0.setBackground(Color.ORANGE);
+        else
+            case0.setBackground(Color.RED);
+        case0.setBorder(bordure);
     }
     
     @Override
@@ -169,33 +169,31 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
 	
 	public void setModele(){
-		fenetre.remove(grille);
-		grille.removeAll();
-		listeCase0ForClick.clear();
-		listePieceForClick.clear();
-		
-		grille.setLayout(new GridLayout(nblignes,nbcolonne,2,2));
+            fenetre.remove(grille);
+            grille.removeAll();
+            listeCase0ForClick.clear();
+            listePieceForClick.clear();	
+            grille.setLayout(new GridLayout(nblignes,nbcolonne,2,2));
             grille.setBackground(Color.BLACK);
 
             for(int i = 0 ; i < nblignes; i++) {
-			for (int j = 0; j < nbcolonne; j++) {
-                            JPanel case0 = new JPanel();
-                            case0.setBorder(bordure);
-                            case0.setName(Integer.toString(j+i*nbcolonne));
-							
-                            listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
-							if(this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))) != null)
-								case0.setBackground((Color.blue));
-                            grille.add(case0);
-                        }
+		for (int j = 0; j < nbcolonne; j++) {
+                    JPanel case0 = new JPanel();
+                    case0.setBorder(bordure);
+                    listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
+                    if(this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))) != null){
+                        colorization((PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))),case0);
+                    }
+                    grille.add(case0);
+                }
             }
             grille.setBorder(bordure);
 
             fenetre.add(grille,BorderLayout.CENTER);
-			listePiece.removeAll();
-			affichePieceAJouer();
-			fenetre.add(listePiece,BorderLayout.NORTH);
-			setContentPane(fenetre);
+            listePiece.removeAll();
+            affichePieceAJouer();
+            fenetre.add(listePiece,BorderLayout.NORTH);
+            setContentPane(fenetre);
 	}
 			
 }

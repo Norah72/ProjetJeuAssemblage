@@ -32,15 +32,16 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
 	private ScoreFile sauvegardeScore = new ScoreFile();
 	private InterfaceGraphique vue;
         private MouseClicker laPetiteSouris;
-	
+	private int choix;
+        
 	public PlayConsole(InterfaceGraphique vue, PlateauPuzzle plateauConsole){
 		this.vue = vue;
                 this.plateauConsole = plateauConsole;
 		menu();
 	}
 	
-//######## Menu de chargement ########
-private void menu(){
+        //######## Menu de chargement ########
+        private void menu(){
 		boolean reinitialiser = true;
 		System.out.println("--------------------------------------------");
 		System.out.println("| ## Bienvenue dans le jeu Assemblage ! ## |");
@@ -101,7 +102,7 @@ private void menu(){
 	public void play(){		
 
 		while(!this.end){
-			int choix = choix();
+			choix = choix();
 			if(choixYesNo("Etes vous sûr de ce choix ?")){
 				if(choix==1)
 					ajoutePiece();
@@ -132,68 +133,134 @@ private void menu(){
             boolean reinitialiser = true;
             try{
 		synchronized (this) {
-                    vue.start(this);
+                    this.vue.start(this);
                     for(int i=0 ; i < vue.getListeBouton().size() ; i++)
-			vue.getListeBouton().get(i).addActionListener(this);
+			this.vue.getListeBouton().get(i).addActionListener(this);
                     wait();
 		}
-		while(reinitialiser){
-                    initialisationPlateau();
-                    creationPieceRandom();
-                    etatPlateau();
-                    reinitialiser = false;
-		}
-		vue.afficheGrille();
-                reinitialiser = true;
+                initialisationPlateau();
+                creationPieceRandom();
+                etatPlateau();
+                this.vue.afficheGrille();
                 laPetiteSouris = new MouseClicker(vue);
                 while(reinitialiser){
-                    synchronized (this) {
-                        System.out.println("test1");
+                    synchronized (this){
                         wait();
                     }
-                    System.out.println("test2");
-                    addPieceListener(this.vue.getListePieceForClick());
-                    while(!laPetiteSouris.verif()){
-                        System.out.print("");
-                        /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
+                    if(choix==1)
+                        placementPieceVue();
+                    else if(choix==2)
+                        deplacementPieceVue();
+                    else if (choix==3)
+                        supprimerPieceVue();
+                    else if (choix==4){
+                        System.out.print("test1");
+                        rotationPieceVue();
                     }
-                    laPetiteSouris.setVerif(false);
-                    removePieceListener(vue.getListePieceForClick());
-                    System.out.println("test3");
-                    addCaseListener(vue.getListeCaseForClick());
-                    while(!laPetiteSouris.verif()){
-                        System.out.print("");
-                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
-                    }
-                    laPetiteSouris.setVerif(false);
-                    removeCaseListener(vue.getListeCaseForClick());
-                    System.out.println("test4");
-                    this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()), laPetiteSouris.getCaseSelectionné());
-                    System.out.println(this.plateauConsole);
-					vue.setModele();
                 }
-            }catch(Exception e){
+            }
+            catch(Exception e){
                     System.out.println("Impossible de charger la vue: "+e);
 		}
         }
+        
+        private void placementPieceVue(){
+            addPieceListener(this.vue.getListePieceForClick());
+            while(!laPetiteSouris.verif()){
+                System.out.print("");
+                        /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
+            }
+            laPetiteSouris.setVerif(false);
+            removePieceListener(this.vue.getListePieceForClick());
+            addCaseListener(this.vue.getListeCaseForClick());
+            while(!laPetiteSouris.verif()){
+                System.out.print("");
+                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
+            }
+            laPetiteSouris.setVerif(false);
+            removeCaseListener(this.vue.getListeCaseForClick());
+            this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()), laPetiteSouris.getCaseSelectionné());
+            System.out.println(this.plateauConsole);
+            this.vue.setModele();
+        }
+        
+        private void deplacementPieceVue(){
+            addCaseListener(this.vue.getListeCaseForClick());
+            ArrayList<Integer> pieceSelectionne = new ArrayList();
+            ArrayList<Integer> deplacementSelectionne = new ArrayList();
+            while(!laPetiteSouris.verif()){
+                if(this.plateauConsole.selectPiece(laPetiteSouris.getCaseSelectionné()))
+                    pieceSelectionne = laPetiteSouris.getCaseSelectionné();
+                else
+                    this.laPetiteSouris.setVerif(false);
+            }
+            laPetiteSouris.setVerif(false);                                                     
+            while(!laPetiteSouris.verif()){
+                System.out.print("");
+                deplacementSelectionne = laPetiteSouris.getCaseSelectionné();
+            }
+            laPetiteSouris.setVerif(false);
+            this.plateauConsole.movePiece(this.plateauConsole.getPiece(pieceSelectionne), deplacementSelectionne);
+            System.out.println(this.plateauConsole);
+            removeCaseListener(this.vue.getListeCaseForClick());
+            this.vue.setModele();
+        }
+        
+        private void supprimerPieceVue(){
+            addCaseListener(this.vue.getListeCaseForClick());
+            ArrayList<Integer> pieceSelectionne = new ArrayList();
+            while(!laPetiteSouris.verif()){
+                if(this.plateauConsole.selectPiece(laPetiteSouris.getCaseSelectionné()))
+                    pieceSelectionne = laPetiteSouris.getCaseSelectionné();
+                else
+                    this.laPetiteSouris.setVerif(false);
+            }
+            laPetiteSouris.setVerif(false);
+            this.plateauConsole.removePiece(this.plateauConsole.getPiece(pieceSelectionne));
+            System.out.println(this.plateauConsole);
+            removeCaseListener(this.vue.getListeCaseForClick());
+            this.vue.setModele();
+        }
+        
+        private void rotationPieceVue(){
+            addCaseListener(this.vue.getListeCaseForClick());
+            ArrayList<Integer> pieceSelectionne = new ArrayList();
+            System.out.print("test1");
+            while(!laPetiteSouris.verif()){
+                if(this.plateauConsole.selectPiece(laPetiteSouris.getCaseSelectionné()))
+                    pieceSelectionne = laPetiteSouris.getCaseSelectionné();
+                else
+                    this.laPetiteSouris.setVerif(false);
+            }
+            System.out.print("test2");
+            laPetiteSouris.setVerif(false);
+            this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(pieceSelectionne), (this.plateauConsole.getPiece(pieceSelectionne).getRotation()+1)%4);
+            System.out.println(this.plateauConsole);
+            this.vue.setModele();
+        }
+        
         private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
             for(ArrayList<Integer> i : woula.keySet()){
                 woula.get(i).removeMouseListener(laPetiteSouris);
             }
         }
+        
         private void addCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
             for(ArrayList<Integer> i : woula.keySet()){
                 woula.get(i).addMouseListener(laPetiteSouris);
             }
         }
+        
         private void removePieceListener(ArrayList<JPanel> woula){
             for(int i=0 ; i < woula.size() ; i++)
                         woula.get(i).removeMouseListener(laPetiteSouris);
         }
+        
         private void addPieceListener(ArrayList<JPanel> woula){
             for(int i=0 ; i < woula.size() ; i++)
                         woula.get(i).addMouseListener(laPetiteSouris);
         }
+        
 //######## Nouvelle partie ########	
 	
 	private void initialisationPlateau(){
@@ -620,9 +687,29 @@ private void menu(){
                         
 		}
                 if(source == vue.getListeBouton().get(1)){
+                    choix=1;
                     synchronized(this){
                         notify();
-                        }
+                    }
+                }
+                if(source == vue.getListeBouton().get(2)){
+                    choix=2;
+                    synchronized(this){
+                        notify();
+                    }
+                }
+                if(source == vue.getListeBouton().get(3)){
+                    choix=3;
+                    synchronized(this){
+                        notify();
+                    }
+                }
+                if(source == vue.getListeBouton().get(4)){
+                    System.out.print("test-1");
+                    choix=4;
+                    synchronized(this){
+                        notify();
+                    }
                 }
     }
 }
