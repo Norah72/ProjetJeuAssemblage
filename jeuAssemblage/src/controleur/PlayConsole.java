@@ -153,10 +153,6 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                     deplacementPieceVue();
                 else if (choix==3)
                     supprimerPieceVue();
-                else if (choix==4){
-                    System.out.print("test1");
-                    rotationPieceVue();
-                }
             }
         }
         catch(Exception e){
@@ -205,6 +201,7 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
             else
                 this.laPetiteSouris.setVerif(false);
         }
+        this.vue.visualisationRotation(this.plateauConsole.getPiece(pieceSelectionne));
         this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
         laPetiteSouris.setVerif(false);                                                     
         while(!laPetiteSouris.verif()){
@@ -212,6 +209,13 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
             deplacementSelectionne = laPetiteSouris.getCaseSelectionné();
         }
         laPetiteSouris.setVerif(false);
+        int test=0;
+        for(int i=0; i<4; i++){
+            if(this.vue.getListeRotation().get(i).isSelected()){
+                test=i;
+            }    
+        }
+        this.plateauConsole.getPiece(pieceSelectionne).createPiece(test);
         this.plateauConsole.movePiece(this.plateauConsole.getPiece(pieceSelectionne), deplacementSelectionne);
         System.out.println(this.plateauConsole);
         removeCaseListener(this.vue.getListeCaseForClick());
@@ -232,29 +236,6 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
         this.plateauConsole.removePiece(this.plateauConsole.getPiece(pieceSelectionne));
         System.out.println(this.plateauConsole);
         removeCaseListener(this.vue.getListeCaseForClick());
-        this.vue.setModele();
-    }
-
-    private void rotationPieceVue(){
-        this.vue.texteInformation("Sélectionnez une pièce");
-        addCaseListener(this.vue.getListeCaseForClick());
-        ArrayList<Integer> pieceSelectionne = new ArrayList();
-        while(!laPetiteSouris.verif()){
-            if(this.plateauConsole.selectPiece(laPetiteSouris.getCaseSelectionné()))
-                pieceSelectionne = laPetiteSouris.getCaseSelectionné();
-            else
-                this.laPetiteSouris.setVerif(false);
-        }
-        /*this.vue.visualisationRotation(this.plateauConsole.getPiece(pieceSelectionne));
-        int test=0;
-        for(int i=0; i<4; i++){
-            if(this.vue.getListeRotation().get(i).isSelected()){
-                test=i;
-            }    
-        }*/
-        laPetiteSouris.setVerif(false);
-        this.plateauConsole.rotationPiece(this.plateauConsole.getPiece(pieceSelectionne), (this.plateauConsole.getPiece(pieceSelectionne).getRotation()+1)%4);
-        System.out.println(this.plateauConsole);
         this.vue.setModele();
     }
 
@@ -719,12 +700,6 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
             }
             if(source == vue.getListeBouton().get(3)){
                 choix=3;
-                synchronized(this){
-                    notify();
-                }
-            }
-            if(source == vue.getListeBouton().get(4)){
-                choix=4;
                 synchronized(this){
                     notify();
                 }

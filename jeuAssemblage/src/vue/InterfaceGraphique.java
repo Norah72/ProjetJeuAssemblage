@@ -56,7 +56,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
             creationBouton("PLACER");
             creationBouton("DEPLACER");
             creationBouton("SUPPRIMER");
-            creationBouton("ROTATION");
             creationBouton("SAUVEGARDER");
             ligne.addItem("LIGNE");
             colonne.addItem("COLONNE");
@@ -150,7 +149,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         listeRotation = new ArrayList<JRadioButton>();
         choixRotation.removeAll();
         ButtonGroup group = new ButtonGroup();
-        Border border = BorderFactory.createTitledBorder("Sélection");
+        Border border = BorderFactory.createTitledBorder("Sélection rotation");
         choixRotation.setBorder(border);
         JRadioButton rota0 = new JRadioButton("");
         JRadioButton rota1 = new JRadioButton("");
