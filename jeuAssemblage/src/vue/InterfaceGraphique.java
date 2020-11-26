@@ -153,12 +153,18 @@ public class InterfaceGraphique extends JFrame implements Listener{
         choixRotation.setBorder(border);
         JRadioButton rota0 = new JRadioButton("");
         JRadioButton rota1 = new JRadioButton("");
-        JRadioButton rota2 = new JRadioButton("",true);
+        JRadioButton rota2 = new JRadioButton("");
         JRadioButton rota3 = new JRadioButton("");
         listeRotation.add(rota0);
         listeRotation.add(rota1);
         listeRotation.add(rota2);
         listeRotation.add(rota3);
+        for(int i=0; i<4; i++){
+            if(i==p.getRotation()){
+                getListeRotation().get(i).setSelected(true);
+            }    
+        }
+        getListeRotation();
         choixRotation.add(rota0);
         p.createPiece(0);
         choixRotation.add(parcourir(p));   
