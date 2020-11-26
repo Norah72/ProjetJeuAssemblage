@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
@@ -23,12 +26,15 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel grille = new JPanel();
     private JPanel listePiece = new JPanel();
     private JPanel case0 = new JPanel();
+    private JLabel info = new JLabel();
+    private JPanel choixRotation = new JPanel(new GridLayout(0,2,8,8));
     private Border bordure = BorderFactory.createLineBorder(Color.black,1);
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
     private HashMap<ArrayList<Integer>, JPanel > listeCase0ForClick = new HashMap<ArrayList<Integer>, JPanel>();
     private ArrayList<JPanel> listePieceForClick = new ArrayList<JPanel>();
+    private ArrayList<JRadioButton> listeRotation;
     private PlateauPuzzle modele;
-    private PlayConsole test;
+    private PlayConsole controleur;
     private JComboBox ligne = new JComboBox();
     private JComboBox colonne = new JComboBox();
     private JButton bouton;
@@ -38,7 +44,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         this.modele = modele;
         modele.addListener(this);
         setTitle("JyArrivePas.exe");
-        setSize(650,650);
+        setSize(850,850);
 	setVisible(false);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -89,7 +95,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.add(grille,BorderLayout.CENTER);
             affichePieceAJouer();
             fenetre.add(listePiece,BorderLayout.NORTH);
-            fenetre.add(BoutonDeJeu,BorderLayout.PAGE_END);
+            fenetre.add(BoutonDeJeu,BorderLayout.SOUTH);
             }
         return fenetre;
     } 
@@ -109,23 +115,70 @@ public class InterfaceGraphique extends JFrame implements Listener{
         BoutonDeJeu.add(bouton);
     }
     private void affichePieceAJouer(){
-        for(int i = 0 ; i < test.getPlateauConsole().getPieceAJouer().size(); i++){
-                JPanel piece = new JPanel();
-                PiecesPuzzle p1 = (PiecesPuzzle)test.getPlateauConsole().getPieceAJouer().get(i);
-                piece.setLayout(new GridLayout(p1.getLargeurX(),p1.getLongueurY(),2,2));
-                for(int j = 0 ; j < p1.getLargeurX(); j++) {
-                        for (int k = 0; k < p1.getLongueurY(); k++) {
-                            JPanel case0 = new JPanel();
-                            if (p1.getGrid()[j][k]==true){
-                                colorization(p1,case0);
-                            }
-                            piece.add(case0);
-                        }
-                }
-                listePiece.add(piece);
-                listePieceForClick.add(piece);
-		}
+        JPanel piece = new JPanel();
+        for(int i = 0 ; i < controleur.getPlateauConsole().getPieceAJouer().size(); i++){
+            PiecesPuzzle p1 = (PiecesPuzzle)controleur.getPlateauConsole().getPieceAJouer().get(i);
+            piece = parcourir(p1);
+            listePiece.add(piece);
+            listePieceForClick.add(piece);
+        }
     }
+    
+    public void texteInformation(String texte){
+        info.setText(texte);
+        info.setForeground(Color.RED);
+        BoutonDeJeu.add(info);
+        setContentPane(fenetre);
+    }
+    
+    private JPanel parcourir(PiecesPuzzle p){
+        JPanel piece = new JPanel();
+        piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
+        for(int j = 0 ; j < p.getLargeurX(); j++) {
+                for (int k = 0; k < p.getLongueurY(); k++) {
+                    JPanel case0 = new JPanel();
+                    if (p.getGrid()[j][k]==true){
+                        colorization(p,case0);
+                    }
+                    piece.add(case0);
+                }
+        }
+        return piece;
+    }
+    
+    public void visualisationRotation(PiecesPuzzle p){
+        listeRotation = new ArrayList<JRadioButton>();
+        choixRotation.removeAll();
+        ButtonGroup group = new ButtonGroup();
+        Border border = BorderFactory.createTitledBorder("Sélection");
+        choixRotation.setBorder(border);
+        JRadioButton rota0 = new JRadioButton("");
+        JRadioButton rota1 = new JRadioButton("");
+        JRadioButton rota2 = new JRadioButton("",true);
+        JRadioButton rota3 = new JRadioButton("");
+        listeRotation.add(rota0);
+        listeRotation.add(rota1);
+        listeRotation.add(rota2);
+        listeRotation.add(rota3);
+        choixRotation.add(rota0);
+        p.createPiece(0);
+        choixRotation.add(parcourir(p));   
+        group.add(rota0);
+        choixRotation.add(rota1);
+        p.createPiece(1);
+        choixRotation.add(parcourir(p));
+        group.add(rota1);
+        choixRotation.add(rota2);
+        p.createPiece(2);
+        choixRotation.add(parcourir(p));
+        group.add(rota2);
+        choixRotation.add(rota3);
+        p.createPiece(3);
+        choixRotation.add(parcourir(p));
+        group.add(rota3);
+        fenetre.add(choixRotation,BorderLayout.EAST);
+    }
+    
     private void colorization(PiecesPuzzle p, JPanel case0){
         if(p instanceof PieceT)
             case0.setBackground(Color.BLUE);
@@ -157,6 +210,9 @@ public class InterfaceGraphique extends JFrame implements Listener{
     public ArrayList<JButton> getListeBouton(){
         return listeBouton;
     }
+    public ArrayList<JRadioButton> getListeRotation(){
+        return new ArrayList((ArrayList<JRadioButton>)listeRotation.clone());
+    }
     public HashMap<ArrayList<Integer>,JPanel> getListeCaseForClick(){
         return listeCase0ForClick;
     }
@@ -164,12 +220,14 @@ public class InterfaceGraphique extends JFrame implements Listener{
         return listePieceForClick;
     }
     public PlayConsole setController(PlayConsole controleur){
-        test = controleur;
-        return test;
+        this.controleur = controleur;
+        return this.controleur;
     }
 	
 	public void setModele(){
             fenetre.remove(grille);
+            fenetre.remove(choixRotation);
+            BoutonDeJeu.remove(info);
             grille.removeAll();
             listeCase0ForClick.clear();
             listePieceForClick.clear();	
