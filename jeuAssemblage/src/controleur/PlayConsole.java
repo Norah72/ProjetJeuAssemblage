@@ -164,29 +164,40 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
         this.vue.texteInformation("Sélectionnez une pièce");
         addPieceListener(this.vue.getListePieceForClick());
         while(!laPetiteSouris.verif()){
+            if(choix==5){
+                break;
+            }
             System.out.print("");
                     /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
         }
-        laPetiteSouris.setVerif(false);
-        removePieceListener(this.vue.getListePieceForClick());
-        this.vue.visualisationRotation(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()));
-        this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
-        addCaseListener(this.vue.getListeCaseForClick());
-        while(!laPetiteSouris.verif()){
-            System.out.print("");
-                    /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
+        if(choix!=5){
+            laPetiteSouris.setVerif(false);
+            removePieceListener(this.vue.getListePieceForClick());
+            this.vue.visualisationRotation(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()));
+            this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
+            addCaseListener(this.vue.getListeCaseForClick());
+            while(!laPetiteSouris.verif()){
+                if(choix==5){
+                    break;
+                }
+                System.out.print("");
+                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
+            }
+            if(choix!=5){
+                laPetiteSouris.setVerif(false);
+                removeCaseListener(this.vue.getListeCaseForClick());
+                int test=0;
+                for(int i=0; i<4; i++){
+                    if(this.vue.getListeRotation().get(i).isSelected()){
+                        test=i;
+                    }    
+                }
+                this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()).createPiece(test);
+                this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()), laPetiteSouris.getCaseSelectionné());
+                System.out.println(this.plateauConsole);
+            }
         }
-        laPetiteSouris.setVerif(false);
-        removeCaseListener(this.vue.getListeCaseForClick());
-	int test=0;
-        for(int i=0; i<4; i++){
-            if(this.vue.getListeRotation().get(i).isSelected()){
-                test=i;
-            }    
-        }
-        this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()).createPiece(test);
-        this.plateauConsole.addPiece(this.plateauConsole.getPieceAJouer().get(laPetiteSouris.getPieceSelectionné()), laPetiteSouris.getCaseSelectionné());
-        System.out.println(this.plateauConsole);
+        vue.getListeBouton().get(1).setText("PLACER");
         this.vue.setModele();
     }
 
@@ -196,29 +207,40 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
         ArrayList<Integer> pieceSelectionne = new ArrayList();
         ArrayList<Integer> deplacementSelectionne = new ArrayList();
         while(!laPetiteSouris.verif()){
+            if(choix==5){
+                break;
+            }
             if(this.plateauConsole.selectPiece(laPetiteSouris.getCaseSelectionné()))
                 pieceSelectionne = laPetiteSouris.getCaseSelectionné();
             else
                 this.laPetiteSouris.setVerif(false);
         }
-        this.vue.visualisationRotation(this.plateauConsole.getPiece(pieceSelectionne));
-        this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
-        laPetiteSouris.setVerif(false);                                                     
-        while(!laPetiteSouris.verif()){
-            System.out.print("");
-            deplacementSelectionne = laPetiteSouris.getCaseSelectionné();
+        if(choix!=5){
+            this.vue.visualisationRotation(this.plateauConsole.getPiece(pieceSelectionne));
+            this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
+            laPetiteSouris.setVerif(false);                                                     
+            while(!laPetiteSouris.verif()){
+                if(choix==5){
+                    break;
+                }
+                System.out.print("");
+                deplacementSelectionne = laPetiteSouris.getCaseSelectionné();
+            }
+            if(choix!=5){
+                laPetiteSouris.setVerif(false);
+                int test=0;
+                for(int i=0; i<4; i++){
+                    if(this.vue.getListeRotation().get(i).isSelected()){
+                        test=i;
+                    }    
+                }
+                this.plateauConsole.getPiece(pieceSelectionne).createPiece(test);
+                this.plateauConsole.movePiece(this.plateauConsole.getPiece(pieceSelectionne), deplacementSelectionne);
+                System.out.println(this.plateauConsole);
+                removeCaseListener(this.vue.getListeCaseForClick());
+            }
         }
-        laPetiteSouris.setVerif(false);
-        int test=0;
-        for(int i=0; i<4; i++){
-            if(this.vue.getListeRotation().get(i).isSelected()){
-                test=i;
-            }    
-        }
-        this.plateauConsole.getPiece(pieceSelectionne).createPiece(test);
-        this.plateauConsole.movePiece(this.plateauConsole.getPiece(pieceSelectionne), deplacementSelectionne);
-        System.out.println(this.plateauConsole);
-        removeCaseListener(this.vue.getListeCaseForClick());
+        this.vue.getListeBouton().get(2).setText("DEPLACER");
         this.vue.setModele();
     }
 
@@ -227,15 +249,21 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
         addCaseListener(this.vue.getListeCaseForClick());
         ArrayList<Integer> pieceSelectionne = new ArrayList();
         while(!laPetiteSouris.verif()){
+            if(choix==5){
+                break;
+            }
             if(this.plateauConsole.selectPiece(laPetiteSouris.getCaseSelectionné()))
                 pieceSelectionne = laPetiteSouris.getCaseSelectionné();
             else
                 this.laPetiteSouris.setVerif(false);
         }
-        laPetiteSouris.setVerif(false);
-        this.plateauConsole.removePiece(this.plateauConsole.getPiece(pieceSelectionne));
-        System.out.println(this.plateauConsole);
-        removeCaseListener(this.vue.getListeCaseForClick());
+        if(choix!=5){
+            laPetiteSouris.setVerif(false);
+            this.plateauConsole.removePiece(this.plateauConsole.getPiece(pieceSelectionne));
+            System.out.println(this.plateauConsole);
+            removeCaseListener(this.vue.getListeCaseForClick());
+        }
+        this.vue.getListeBouton().get(3).setText("SUPRIMER");
         this.vue.setModele();
     }
 
@@ -687,21 +715,39 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
 
             }
             if(source == vue.getListeBouton().get(1)){
-                choix=1;
-                synchronized(this){
-                    notify();
+                if(vue.getListeBouton().get(1).getText()=="ANNULER"){
+                    choix=5;
+                }
+                else{
+                    vue.getListeBouton().get(1).setText("ANNULER");
+                    choix=1;
+                    synchronized(this){
+                        notify();
+                    }
                 }
             }
             if(source == vue.getListeBouton().get(2)){
-                choix=2;
-                synchronized(this){
-                    notify();
+                if(vue.getListeBouton().get(2).getText()=="ANNULER"){
+                    choix=5;
+                }
+                else{
+                    vue.getListeBouton().get(2).setText("ANNULER");
+                    choix=2;
+                    synchronized(this){
+                        notify();
+                    }
                 }
             }
             if(source == vue.getListeBouton().get(3)){
-                choix=3;
-                synchronized(this){
-                    notify();
+                if(vue.getListeBouton().get(3).getText()=="ANNULER"){
+                    choix=5;
+                }
+                else{
+                    vue.getListeBouton().get(3).setText("ANNULER");
+                    choix=3;
+                    synchronized(this){
+                        notify();
+                    }
                 }
             }
 }

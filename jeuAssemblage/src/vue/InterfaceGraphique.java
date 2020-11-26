@@ -27,6 +27,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel listePiece = new JPanel();
     private JPanel case0 = new JPanel();
     private JLabel info = new JLabel();
+    private JLabel score = new JLabel("Score : 0");
     private JPanel choixRotation = new JPanel(new GridLayout(0,2,8,8));
     private Border bordure = BorderFactory.createLineBorder(Color.black,1);
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
@@ -52,6 +53,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel buildContentPane(int occ){
         fenetre.removeAll();
         if(occ==0){
+            BoutonDeJeu.add(score);
             creationBouton("VALIDER");
             creationBouton("PLACER");
             creationBouton("DEPLACER");
@@ -66,7 +68,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(BoutonDeJeu.getComponent(0));
+            fenetre.add(BoutonDeJeu.getComponent(1));
         }
         else{
             nblignes = this.getLigne().getSelectedIndex()+4;
@@ -232,6 +234,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
 	public void setModele(){
             fenetre.remove(grille);
             fenetre.remove(choixRotation);
+            score.setText("Score : " + Integer.toString(this.modele.getScore()));
             BoutonDeJeu.remove(info);
             grille.removeAll();
             listeCase0ForClick.clear();
