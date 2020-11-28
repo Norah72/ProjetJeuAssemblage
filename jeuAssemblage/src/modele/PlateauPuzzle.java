@@ -75,26 +75,26 @@ public class PlateauPuzzle implements Listenable{
             return (int) score;
         }
 		
-		public void newPiece(String piece, int largeur, int longueur){
-			this.newPiece(piece, largeur, longueur, 0);	
-		}
-		
-		public void newPiece(String piece, int largeur, int longueur, int rotation){
-			this.pieceAJouer.add(createNewPiece(piece, largeur, longueur, rotation));	
-		}
-		
-		public PiecesPuzzle createNewPiece(String piece, int largeur, int longueur, int rotation){
-			if(piece.equals(pieceString.get(0))){
-				return new PieceH(largeur,longueur, rotation);
-			}else if(piece.equals(pieceString.get(1))){
-				return new PieceL(largeur,longueur, rotation);
-			}else if(piece.equals(pieceString.get(2))){
-				return new PieceRectangle(largeur,longueur, rotation);
-			}else if(piece.equals(pieceString.get(3))){
-				return new PieceT(largeur,longueur, rotation);
-			}
-			return null;
-		}
+        public void newPiece(String piece, int largeur, int longueur){
+                this.newPiece(piece, largeur, longueur, 0);	
+        }
+
+        public void newPiece(String piece, int largeur, int longueur, int rotation){
+                this.pieceAJouer.add(createNewPiece(piece, largeur, longueur, rotation));	
+        }
+
+        public PiecesPuzzle createNewPiece(String piece, int largeur, int longueur, int rotation){
+                if(piece.equals(pieceString.get(0))){
+                        return new PieceH(largeur,longueur, rotation);
+                }else if(piece.equals(pieceString.get(1))){
+                        return new PieceL(largeur,longueur, rotation);
+                }else if(piece.equals(pieceString.get(2))){
+                        return new PieceRectangle(largeur,longueur, rotation);
+                }else if(piece.equals(pieceString.get(3))){
+                        return new PieceT(largeur,longueur, rotation);
+                }
+                return null;
+        }
         
         public boolean addPiece(PiecesPuzzle p , ArrayList coo){
             if (validePlacement(p,coo)){
@@ -123,7 +123,8 @@ public class PlateauPuzzle implements Listenable{
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
-				return true;
+                update();
+                return true;
             }
             add(p,p.getCoo());
             update();
