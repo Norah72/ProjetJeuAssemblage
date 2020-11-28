@@ -17,12 +17,13 @@ import controleur.PlayConsole;
 public class SauvegardeFichier {
 	
 	private PlayConsole jeu;
-	private File partieFichier = new File("src/file/partie/partie.txt"); 
+	private File partieFichier; 
 	private JsonWriter sauvegarde;
 	
 	
-	public SauvegardeFichier(PlayConsole jeu){
+	public SauvegardeFichier(PlayConsole jeu, String file){
 		this.jeu = jeu;
+		this.partieFichier = new File(file);
 	}
 	
 	public void ecrire() throws IOException{

@@ -17,13 +17,14 @@ import controleur.PlayConsole;
 public class ChargerPartie {
 
 	private PlayConsole jeu;
-	private File partieFichier = new File("src/file/partie/partie.txt"); 
+	private File partieFichier;
 	
 	private int largeur, longeur, rotation, i;
 
 	
-	public ChargerPartie(PlayConsole jeu){
+	public ChargerPartie(PlayConsole jeu, String file){
 		this.jeu = jeu;
+		this.partieFichier = new File(file);
 	}
 	
 	
