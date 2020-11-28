@@ -1,5 +1,5 @@
-import controleur.*;
 import piecesPuzzle.pieces.*;
+import controleur.*;
 import modele.*;
 import vue.*;
 import java.util.ArrayList;
@@ -26,7 +26,10 @@ public class Main {
         
         
 	public static void main(String[] args){
-
+               
+            PlayMenu.menu();
+            
+            /*
             //######### POUR LANCER LA VUE - ENLENVER LES COMMANTAIRES (LIGNE 30 à 38)#####// 
             //######### + ENLEVR COMMENTAIRES DANS CONSTRUCTEURS DE PLAYCONSOLE############//
             int x=0;
