@@ -32,7 +32,7 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
     private ScoreFile sauvegardeScore = new ScoreFile();
     private InterfaceGraphique vue;
     private MouseClicker laPetiteSouris;
-    private int choix;
+    private int choix=0;
 
     public PlayConsole(InterfaceGraphique vue, PlateauPuzzle plateauConsole){
             this.vue = vue;
@@ -748,6 +748,21 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                     synchronized(this){
                         notify();
                     }
+                }
+            }
+            if(source == vue.getListeBouton().get(5)){
+                this.vue.Explication(choix);
+            }
+            if(source == vue.getListeBouton().get(6)){
+                if(choix!=0){
+                    choix--;
+                    this.vue.Explication(choix);
+                }
+            }
+            if(source == vue.getListeBouton().get(7)){
+                if(choix!=6){
+                    choix++;
+                    this.vue.Explication(choix);
                 }
             }
 }

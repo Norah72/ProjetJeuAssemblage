@@ -2,6 +2,7 @@ package vue;
 import controleur.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import modele.*;
 import util.*;
 import piecesPuzzle.pieces.*;
@@ -17,17 +18,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
 public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel fenetre = new JPanel();
-    private JPanel BoutonDeJeu = new JPanel();
+    private JPanel boutonDeJeu = new JPanel();
     private JPanel grille = new JPanel();
     private JPanel listePiece = new JPanel();
     private JPanel case0 = new JPanel();
     private JLabel info = new JLabel();
     private JLabel score = new JLabel("Score : 0");
+    private JFrame explication = new JFrame();
     private JPanel choixRotation = new JPanel(new GridLayout(0,2,8,8));
     private Border bordure = BorderFactory.createLineBorder(Color.black,1);
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
@@ -46,19 +49,29 @@ public class InterfaceGraphique extends JFrame implements Listener{
         modele.addListener(this);
         setTitle("JyArrivePas.exe");
         setSize(850,850);
+        setLocationRelativeTo(null);
 	setVisible(false);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     
     private JPanel buildContentPane(int occ){
         fenetre.removeAll();
+        /*JLabel text = new JLabel("TETRIS: PUZZLE EDITION");
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setFont(new java.awt.Font("Arial",Font.BOLD,20));
+        JLabel text2 = new JLabel("20/20OuRien.inc vous présente :");
+        text2.setHorizontalAlignment(SwingConstants.CENTER);
+        fenetre.add(text,)*/
         if(occ==0){
-            BoutonDeJeu.add(score);
+            boutonDeJeu.add(score);
             creationBouton("VALIDER");
             creationBouton("PLACER");
             creationBouton("DEPLACER");
             creationBouton("SUPPRIMER");
             creationBouton("SAUVEGARDER");
+            creationBouton("EXPLICATION");
+            creationBouton("PRECEDENT");
+            creationBouton("SUIVANT");
             ligne.addItem("LIGNE");
             colonne.addItem("COLONNE");
             for(int i = 5 ; i < 21; ++i) {
@@ -68,7 +81,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(BoutonDeJeu.getComponent(1));
+            fenetre.add(boutonDeJeu.getComponent(1));
+            fenetre.add(boutonDeJeu.getComponent(5));            
         }
         else{
             nblignes = this.getLigne().getSelectedIndex()+4;
@@ -96,7 +110,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.add(grille,BorderLayout.CENTER);
             affichePieceAJouer();
             fenetre.add(listePiece,BorderLayout.NORTH);
-            fenetre.add(BoutonDeJeu,BorderLayout.SOUTH);
+            fenetre.add(boutonDeJeu,BorderLayout.SOUTH);
             }
         return fenetre;
     } 
@@ -113,7 +127,10 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private void creationBouton(String nom){
         bouton = new JButton(nom);
         listeBouton.add(bouton);
-        BoutonDeJeu.add(bouton);
+        if(nom != "SUIVANT" && nom != "PRECEDENT"){
+            System.out.println(nom);
+            boutonDeJeu.add(bouton);
+        }
     }
     private void affichePieceAJouer(){
         JPanel piece = new JPanel();
@@ -125,13 +142,67 @@ public class InterfaceGraphique extends JFrame implements Listener{
         }
     }
     
+    public void Explication(int page){
+        JPanel pieceDemo = new JPanel();
+        explication.setSize(1000,1000);
+        explication.setLocationRelativeTo(null);
+        JLabel text = new JLabel("<html>Dans ce jeu l'objectif est simple ! Vous devez placer ses pièces en prenant le moins de place possible sur le plateau.<br><br>"
+                + "Pour cela, plusieurs action sont possibles :<ul>"
+                + "<li><U>Placer une pièce</U></li>Vous pouvez placer des pieces parmi celle présente dans votre liste (exemple ci-dessous) en cliquant dessus. Vous aurez alors plusieurs"
+                + "rotations disponible.<br>Il vous suffira alors de cliquer sur la grille de jeu pour placer votre pièces.<br><br>"
+                + "<U>!!!ATTENTION!!!<U> : Quand vous séléctionnez une case sur la grille, ce sont les coordonées 0,0 de la pièces qui s'y placeront "
+                + "(exemple: derniere pièce ci-dessous). <U>CECI EST VALABLE POUR TOUTES LES INTERACTIONS!</U><br><br>"
+                + "<li><U>Deplacer</U></li>Il est possible de déplacer une pièce sur la grille. Pour cela rien de plus simple, il suffit d'appuyer sur le bouton DEPLACER, "
+                + "de séléctionner la pièce, de modifier la rotation si nécessaire, et de sélectionner son nouvel emplacement.<br><br>"
+                + "<li><U>Supprimer</U></li>Il est aussi possible de supprimer une pièce du plateau pour la remettre dans votre liste de pièce. Comme pour le déplacement,"
+                + "il vous suffit de cliquer sur le bouton SUPPRIMER et cliquer la pièces à enlever<br><br>"
+                + "<li><U>Sauvegarder</U></li>Et enfin vous pouvez sauvegader votre partie pour la continuer plus tard.</ul><br>"
+                + "Notre jeu est également muni d'un tableau des scores, accesible une fois la partie terminé. Comme annoncer au début, pour avoir le meilleur score"
+                + "vous devez placer vos pièces en prennant le moins de place possible sur la grille. Ce score est consultable à gauche des bouton de jeu  </html>");
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setFont(new java.awt.Font("Arial",Font.BOLD,18));
+        pieceDemo.add(new JPanel().add(parcourir(new PieceT(3,3))));
+        pieceDemo.add(new JPanel().add(parcourir(new PieceH(3,3))));
+        pieceDemo.add(new JPanel().add(parcourir(new PieceRectangle(3,3))));
+        PieceL p = new PieceL(3,3);
+        p.createPiece(3);
+        pieceDemo.add(parcourirDemo(p));
+        JPanel tste = new JPanel();
+        tste.add(pieceDemo);
+        explication.add(text);
+        explication.add(tste,BorderLayout.SOUTH);
+        /*JPanel nav = new JPanel();
+        nav.add(getListeBouton().get(6));
+        nav.add(getListeBouton().get(7));
+        explication.add(nav,BorderLayout.SOUTH);*/
+        explication.setVisible(true);
+    }
+    
     public void texteInformation(String texte){
         info.setText(texte);
         info.setForeground(Color.RED);
-        BoutonDeJeu.add(info);
+        boutonDeJeu.add(info);
         setContentPane(fenetre);
     }
     
+    private JPanel parcourirDemo(PiecesPuzzle p){
+        JPanel piece = new JPanel();
+        piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
+        for(int j = 0 ; j < p.getLargeurX(); j++) {
+                for (int k = 0; k < p.getLongueurY(); k++) {
+                    JPanel case0 = new JPanel();
+                    if (j==0 && k==0){
+                        case0.setBackground(Color.RED);
+                    }
+                    if (p.getGrid()[j][k]==true){
+                        colorization(p,case0);
+                    }
+                    piece.add(case0);
+                }
+        }
+        return piece;
+    }
+
     private JPanel parcourir(PiecesPuzzle p){
         JPanel piece = new JPanel();
         piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
@@ -195,8 +266,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
             case0.setBackground(Color.CYAN);
         else if(p instanceof PieceRectangle)
             case0.setBackground(Color.ORANGE);
-        else
-            case0.setBackground(Color.RED);
         case0.setBorder(bordure);
     }
     
@@ -235,7 +304,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.remove(grille);
             fenetre.remove(choixRotation);
             score.setText("Score : " + Integer.toString(this.modele.getScore()));
-            BoutonDeJeu.remove(info);
+            boutonDeJeu.remove(info);
             grille.removeAll();
             listeCase0ForClick.clear();
             listePieceForClick.clear();	
