@@ -17,7 +17,7 @@ public class Play {
     public PlateauPuzzle plateau;
     
     private boolean montreMessage;
-    private boolean end;
+    private boolean endPlay;
     
     private int largeurPlateau =5;
     private int longueurPlateau =5;
@@ -75,7 +75,7 @@ public class Play {
                     reinitialiser = false;
             }
             nouvellePartie();
-            this.end=false;
+            this.endPlay=false;
             jeu();
             
         }else if (choix == 2){
@@ -147,9 +147,36 @@ public class Play {
     }
     
     private void jeu(){
-        while(!this.end){
-            //
+        while(!this.endPlay){
+            System.out.println(choixJeu());
         }
+    }
+    
+    private int choixJeu(){
+        int nbrChoix = (this.joueurActuel instanceof PlayIA ? 1 : 2);;
+		
+        if(!this.plateau.getPiecePlacer().isEmpty())
+            nbrChoix = (this.joueurActuel instanceof PlayIA ? 4 : 5);
+
+        if(this.plateau.getPieceAJouer().isEmpty())
+            nbrChoix = (this.joueurActuel instanceof PlayIA ? 5 : 6);
+        
+        affiche("1- Placer une pièce");
+        if(nbrChoix == 5){
+            affiche("2- Déplacer une pièce");
+            affiche("3- Supprimer une pièce");
+            affiche("4- Rotation d'une pièce");
+            affiche("5- Sauvegarder la partie");
+            if(nbrChoix == 6)
+                affiche("6- Score/Fin");
+            
+        }else{
+            affiche("2- Sauvegarder la partie");
+        }
+        
+        return this.joueurActuel.choix(1,nbrChoix);
+        
+        
     }
     
     //Méthode d'affichage
