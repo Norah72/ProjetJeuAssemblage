@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * @author leovi
  */
     public class MouseClicker extends MouseAdapter {
-        boolean verification = false;
-        int pieceSelectionné;
-        ArrayList<Integer> caseSelectionné = new ArrayList();
-        InterfaceGraphique vue;
+        private boolean verification = false;
+        private int pieceSelectionné;
+        private ArrayList<Integer> caseSelectionné = new ArrayList();
+        private InterfaceGraphique vue;
         
         public MouseClicker(InterfaceGraphique vue){
             this.vue=vue;
