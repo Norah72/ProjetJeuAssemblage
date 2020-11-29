@@ -6,22 +6,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import piecesPuzzle.pieces.PieceH;
-import piecesPuzzle.pieces.PieceL;
-import piecesPuzzle.pieces.PieceRectangle;
-import piecesPuzzle.pieces.PieceT;
-import piecesPuzzle.pieces.PiecesPuzzle;
-import controleur.PlayConsole;
+import piecesPuzzle.pieces.*;
+import controleur.*;
 
 
 public class SauvegardeFichier {
 	
-	private PlayConsole jeu;
+	private Play jeu;
 	private File partieFichier = new File("src/file/partie/partie.txt"); 
 	private JsonWriter sauvegarde;
 	
 	
-	public SauvegardeFichier(PlayConsole jeu){
+	public SauvegardeFichier(Play jeu){
 		this.jeu = jeu;
 	}
 	
@@ -34,18 +30,18 @@ public class SauvegardeFichier {
 			this.sauvegarde.beginObject();
 				this.sauvegarde.name("initialisation");
 				this.sauvegarde.beginObject();
-					this.sauvegarde.name("pseudo").value(this.jeu.getpseudo());
-					this.sauvegarde.name("largeurPlateau").value(this.jeu.getlargeurPlateauX());
-					this.sauvegarde.name("longeurPlateau").value(this.jeu.getlongueurPlateauY());
-					this.sauvegarde.name("explication").value(this.jeu.getexplicationRot());
+					this.sauvegarde.name("pseudo").value(this.jeu.getPseudo());
+					this.sauvegarde.name("largeurPlateau").value(this.jeu.getLargeur());
+					this.sauvegarde.name("longeurPlateau").value(this.jeu.getLongueur());
+					this.sauvegarde.name("explication").value(this.jeu.getExplicationRot());
 				this.sauvegarde.endObject();
 
 				this.sauvegarde.name("piecesDisponible");
 				this.sauvegarde.beginObject();
-					for(int i = 0; i < this.jeu.getPlateauConsole().getPieceAJouer().size(); i++){
+					for(int i = 0; i < this.jeu.getPlateau().getPieceAJouer().size(); i++){
 						this.sauvegarde.name(""+i);
 						this.sauvegarde.beginObject();
-							PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getPlateauConsole().getPieceAJouer().get(i);
+							PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getPlateau().getPieceAJouer().get(i);
 							ecrirePiece(pieceDispo);
 						this.sauvegarde.endObject();
 					}
@@ -53,12 +49,12 @@ public class SauvegardeFichier {
 
 				this.sauvegarde.name("piecesPlacer");
 				this.sauvegarde.beginObject();
-					if(!this.jeu.getPlateauConsole().getPiecePlacer().isEmpty()){
-						for(int i = 0; i < this.jeu.getPlateauConsole().getPiecePlacer().size() ; i++){			
+					if(!this.jeu.getPlateau().getPiecePlacer().isEmpty()){
+						for(int i = 0; i < this.jeu.getPlateau().getPiecePlacer().size() ; i++){			
 							this.sauvegarde.name(""+i);
 
 							this.sauvegarde.beginObject();
-								PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getPlateauConsole().getPiecePlacer().get(i);
+								PiecesPuzzle pieceDispo = (PiecesPuzzle)this.jeu.getPlateau().getPiecePlacer().get(i);
 
 								ecrirePiece(pieceDispo);
 

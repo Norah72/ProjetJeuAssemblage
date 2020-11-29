@@ -1,50 +1,60 @@
 {
  "initialisation": {
-  "pseudo": "uio",
-  "largeurPlateau": 20,
-  "longeurPlateau": 20,
-  "explication": false
+  "pseudo": null,
+  "largeurPlateau": 6,
+  "longeurPlateau": 6,
+  "explication": true
  },
  "piecesDisponible": {},
  "piecesPlacer": {
   "0": {
-   "type": "PieceT",
+   "type": "PieceH",
    "largeur": 3,
-   "longeur": 4,
+   "longeur": 3,
    "rotation": 0,
    "coordonnees": [
-    0,
+    1,
     0
    ]
   },
   "1": {
-   "type": "PieceT",
-   "largeur": 3,
-   "longeur": 4,
-   "rotation": 1,
-   "coordonnees": [
-    0,
-    5
-   ]
-  },
-  "2": {
-   "type": "PieceT",
-   "largeur": 3,
-   "longeur": 4,
+   "type": "PieceL",
+   "largeur": 2,
+   "longeur": 2,
    "rotation": 2,
    "coordonnees": [
-    6,
+    0,
     0
    ]
   },
-  "3": {
-   "type": "PieceT",
-   "largeur": 3,
-   "longeur": 4,
-   "rotation": 3,
+  "2": {
+   "type": "PieceRectangle",
+   "largeur": 1,
+   "longeur": 1,
+   "rotation": 0,
    "coordonnees": [
-    6,
-    6
+    0,
+    2
+   ]
+  },
+  "3": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 1,
+   "rotation": 0,
+   "coordonnees": [
+    3,
+    1
+   ]
+  },
+  "4": {
+   "type": "PieceRectangle",
+   "largeur": 1,
+   "longeur": 2,
+   "rotation": 1,
+   "coordonnees": [
+    4,
+    0
    ]
   }
  }

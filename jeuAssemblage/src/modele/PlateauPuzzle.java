@@ -131,16 +131,24 @@ public class PlateauPuzzle implements Listenable{
             return false;
         }
         
-        public void removePiece( PiecesPuzzle p){
+        public boolean removePiece( PiecesPuzzle p){
+            boolean valide = false;
             for (HashMap.Entry< ArrayList<Integer> , PiecesPuzzle > entry : this.plateau.entrySet()) {
                 if(entry.getValue() == p){
                     this.plateau.replace(entry.getKey(),null);
                     this.surfacePieces --;
+                    valide = true;
                 }
             }
-            update();
-			this.pieceAJouer.add(p);
-			this.piecePlacer.remove(p);
+            if (valide){
+                update();
+                this.pieceAJouer.add(p);
+                this.piecePlacer.remove(p);
+                return true;
+            }
+            return false;
+            
+
         }
 
         public boolean rotationPiece(PiecesPuzzle p , Integer rotation){

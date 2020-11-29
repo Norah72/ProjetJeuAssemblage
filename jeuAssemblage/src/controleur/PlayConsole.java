@@ -249,23 +249,24 @@ private void menu(){
 //######## Charger/sauvegarder partie ########	
 	
 	private void sauvegarderPartie(){
+            /*
 		SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
 		try{
 			sauvegarde.ecrire();
 		}
 		catch(Exception e){
 			System.out.println("Impossible de sauvegarder");
-		}
+		}*/
 	}
 	
 	private void chargerPartie(){
-		ChargerPartie charger = new ChargerPartie(this);
+		/*ChargerPartie charger = new ChargerPartie(this);
 		try{
 			charger.chargerSauvegarde();
 		}
 		catch(Exception e){
 		System.out.println("Impossible de charger le fichier");
-		}
+		}*/
 	}
 	
 //######## Méthode de jeu ########		
@@ -401,7 +402,7 @@ private void menu(){
 	}
 	
 	private void finDePartie(){
-        System.out.println();
+        /*System.out.println();
 		if(!stop){
 			if(choixYesNo("Voulez vous sauvegardez votre score ?")){
 				pseudo();
@@ -418,7 +419,7 @@ private void menu(){
 		System.out.println("[---- Merci d'avoir jouer ! ----]");
 		if(stop)
 			System.out.println("[--------- A bientôt ! ---------]");
-		System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+		System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");*/
 	}
 	
 //######## Validation/effectuer des choix ########	

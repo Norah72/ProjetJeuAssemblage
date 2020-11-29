@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import modele.PlateauPuzzle;
-import controleur.PlayConsole;
+import controleur.*;
 
 public class ChargerPartie {
 
-	private PlayConsole jeu;
+	private Play jeu;
 	private File partieFichier = new File("src/file/partie/partie.txt"); 
 	
 	private int largeur, longeur, rotation, i;
 
 	
-	public ChargerPartie(PlayConsole jeu){
+	public ChargerPartie(Play jeu){
 		this.jeu = jeu;
 	}
 	
@@ -39,9 +39,9 @@ public class ChargerPartie {
 
 		largeur = initialisation.get("largeurPlateau").getAsInt();
 		longeur = initialisation.get("longeurPlateau").getAsInt();
-		this.jeu.setLargeurPlateauX(largeur);
-		this.jeu.setLongueurPlateauY(longeur);
-		this.jeu.setPlateauConsole(new PlateauPuzzle(largeur,longeur));
+		this.jeu.setLargeur(largeur);
+		this.jeu.setLongueur(longeur);
+		this.jeu.setPlateau(new PlateauPuzzle(largeur,longeur));
 		
 		this.jeu.setExplicationRot(initialisation.get("explication").getAsBoolean());
 		
@@ -65,7 +65,7 @@ public class ChargerPartie {
 			int cooX = coo.get(0).getAsInt();
 			int cooY = coo.get(1).getAsInt();
 			
-			this.jeu.getPlateauConsole().addPiece(this.jeu.getPlateauConsole().getPieceAJouer().get(this.jeu.getPlateauConsole().getPieceAJouer().size()-1), new ArrayList(Arrays.asList(cooX,cooY)));
+			this.jeu.getPlateau().addPiece(this.jeu.getPlateau().getPieceAJouer().get(this.jeu.getPlateau().getPieceAJouer().size()-1), new ArrayList(Arrays.asList(cooX,cooY)));
 			i++;
 		}
 		
@@ -79,9 +79,9 @@ public class ChargerPartie {
 		largeur = piece.get("largeur").getAsInt();
 		longeur = piece.get("longeur").getAsInt();
 		rotation = piece.get("rotation").getAsInt();
-		for(int z = 0; z< this.jeu.getPlateauConsole().getPieceString().size();z++){
-			if((this.jeu.getPlateauConsole().getPieceString().get(z)).equals(piece.get("type").getAsString()))
-				this.jeu.getPlateauConsole().newPiece(this.jeu.getPlateauConsole().getPieceString().get(z), largeur, longeur, rotation);
+		for(int z = 0; z< this.jeu.getPlateau().getPieceString().size();z++){
+			if((this.jeu.getPlateau().getPieceString().get(z)).equals(piece.get("type").getAsString()))
+				this.jeu.getPlateau().newPiece(this.jeu.getPlateau().getPieceString().get(z), largeur, longeur, rotation);
 		}
 	}
 }

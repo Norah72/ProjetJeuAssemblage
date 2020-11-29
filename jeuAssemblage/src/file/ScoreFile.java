@@ -1,6 +1,6 @@
 package file;
 
-import controleur.PlayConsole;
+import controleur.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,14 +11,14 @@ public class ScoreFile {
 	
 	private File scoreFile = new File("src/file/partie/score.txt");
 
-	public void write(PlayConsole jeu) throws IOException {
+	public void write(Play jeu) throws IOException {
 		try{
 			if(!this.scoreFile.exists()){
 				this.scoreFile.createNewFile();
 			}
 			
 			FileWriter score = new FileWriter (this.scoreFile, true);
-			score.write(jeu.getpseudo()+" "+jeu.getPlateauConsole().getScore()+"\n");
+			score.write(jeu.getPseudo()+" "+jeu.getPlateau().getScore()+"\n");
 			score.close();
 		}
 		catch(Exception e){

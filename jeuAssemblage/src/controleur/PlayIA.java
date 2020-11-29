@@ -5,7 +5,8 @@ import java.util.*;
 public class PlayIA implements InterfacePlay{
     
     public int choix(int borneInf, int borneSup){
-        int choix = ((new Random()).nextInt(borneSup-borneInf))+borneInf;
+        System.out.println("Inf : "+ borneInf+ "  |  Sup : "+borneSup);
+        int choix = ((new Random()).nextInt(borneSup-borneInf + 1))+borneInf;
         System.out.println("Chhooiixx : "+choix); // chhooiix ?? D'accord =l
         return choix;
     }
