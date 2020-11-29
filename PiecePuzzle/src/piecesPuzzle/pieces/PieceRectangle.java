@@ -18,6 +18,6 @@ public class PieceRectangle extends AbstractPiece{
 			for(int j= 0 ; j < longueurYActuel ; j++) {
 				grid[i][j]=true;
 			}
-		}
+		};
 	}
 }
