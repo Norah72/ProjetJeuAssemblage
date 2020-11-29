@@ -157,6 +157,10 @@ public class PlateauPuzzle implements Listenable{
             update();
             return out;
         }
+		
+		public void rotationPieceDisponible(int numPieceRotation , Integer rotation){
+			this.pieceAJouer.get(numPieceRotation).createPiece(rotation);
+		}
         
         public boolean libre(ArrayList coo){
             if(this.plateau.get(coo) == null && this.plateau.containsKey(coo)){

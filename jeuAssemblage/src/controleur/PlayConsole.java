@@ -111,14 +111,16 @@ private void menu(){
 					supprimerPiece();
 				else if(choix==4)
 					rotationPiece();
-				else if(choix==5){
+				else if(choix==5)
+					rotationPieceDisponible();
+				else if(choix==6){
 					pseudo();
 					sauvegarderPartie();
 					this.stop = choixYesNo("Voulez vous arretez la partie ?");
 					if(stop)
 						this.end = true;
 				}
-				else if(choix==6){
+				else if(choix==7){
 					this.end = score();
 				}
 			}
@@ -339,6 +341,14 @@ private void menu(){
         }
 	}
 	
+	private void rotationPieceDisponible(){
+		System.out.println("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué le numéro de la pièce)");
+		int choixPiece = choixValide(1, this.plateauConsole.getPieceAJouer().size(),"Cette pièce n'existe pas");
+		System.out.println("Quel rotation ? Rappel: Choix 0 à 3");
+		int rotation = choixValide(0,3,"/!\\ Choix non accepter, vous devez choisir une valeur entre 0 et 3 /!\\");
+		this.plateauConsole.rotationPieceDisponible(choixPiece-1, rotation);
+	}
+	
 //######## Regle ########
 	private void explicationRotation(){
 		if(choixYesNo("Explication rotation ?")){
@@ -424,26 +434,33 @@ private void menu(){
 //######## Validation/effectuer des choix ########	
 	
 	private int choix(){
-		int nbrChoix=2;
+		int nbrChoix=3;
 		
 		System.out.println("Que voulez vous faire ?");
 		System.out.println("1- Placer une pièce");
+		
 		if(!this.plateauConsole.getPiecePlacer().isEmpty()){
-			nbrChoix = 6;
+			nbrChoix = 7;
 			System.out.println("2- Déplacer une pièce");
 			System.out.println("3- Supprimer une pièce");
-			System.out.println("4- Rotation d'une pièce");
-			System.out.println("5- Sauvegarder la partie");
+			System.out.println("4- Rotation d'une pièce placer");
+			System.out.println("5- Rotation d'une pièce disponible");
+			System.out.println("6- Sauvegarder la partie");
 			if(this.plateauConsole.getPieceAJouer().isEmpty())
-				System.out.println("6- Score/Fin");
+				System.out.println("7- Score/Fin");
 		}else{
-			System.out.println("2- Sauvegarder la partie");
+			System.out.println("2- Rotation d'une pièce disponible");
+			System.out.println("3- Sauvegarder la partie");
 		}
 
 		int choix = choixValide(1,nbrChoix, "Choix invalide");
 		
 		if(this.plateauConsole.getPiecePlacer().isEmpty() && choix == 2)
 			choix = 5;
+		
+		if(this.plateauConsole.getPiecePlacer().isEmpty() && choix == 3)
+			choix = 6;
+		
 		
 		return choix;		
 	}
