@@ -158,7 +158,7 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                     else if (choix==3)
                         supprimerPieceVue();
                     if(this.plateauConsole.getPieceAJouer().isEmpty()){
-                        int rep = this.vue.fin();
+                        int rep = this.vue.ouiNon("Il n'y a plus de piece. \n Avez-vous fini?","C'est fini !");
                         if(rep==0){
                             this.pseudo = this.vue.pseudo();
                             if(pseudo!=null){
@@ -168,8 +168,14 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                                 synchronized (this){
                                     wait();
                                 }
-                                reinitialiser=false;
                             }
+                            else{
+                            rep = this.vue.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
+                            }
+                            if(rep==1){
+                                reinitialiser = !reinitialiser;
+                            }
+                           reinitialiser = ! reinitialiser;
                         }
                     }
                 }

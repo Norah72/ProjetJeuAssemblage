@@ -49,7 +49,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
         modele.addListener(this);
-        setTitle("JyArrivePas.exe");
+        setTitle("Tetris : Puzzle Edition.exe");
         setSize(850,850);
         setLocationRelativeTo(null);
 	setVisible(false);
@@ -304,10 +304,9 @@ public class InterfaceGraphique extends JFrame implements Listener{
         return this.controleur;
     }
     
-    public int fin(){
+    public int ouiNon(String texte, String titre){
         JOptionPane p = new JOptionPane();
-        int reponse = p.showConfirmDialog(this, "Il n'y a plus de piece. \n" +
-				"Avez-vous fini?","C'est fini !", JOptionPane.YES_NO_OPTION);
+        int reponse = p.showConfirmDialog(this, texte,titre, JOptionPane.YES_NO_OPTION);
         return reponse;
     }
     public String pseudo(){

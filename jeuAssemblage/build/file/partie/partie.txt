@@ -1,6 +1,6 @@
 {
  "initialisation": {
-  "pseudo": "sauvegarde",
+  "pseudo": "test",
   "largeurPlateau": 10,
   "longeurPlateau": 10,
   "explication": true
@@ -19,36 +19,30 @@
    "rotation": 0
   },
   "2": {
-   "type": "PieceRectangle",
-   "largeur": 2,
-   "longeur": 1,
-   "rotation": 0
-  },
-  "3": {
    "type": "PieceH",
    "largeur": 3,
    "longeur": 5,
    "rotation": 0
   },
-  "4": {
+  "3": {
    "type": "PieceRectangle",
    "largeur": 1,
    "longeur": 2,
    "rotation": 0
   },
-  "5": {
+  "4": {
    "type": "PieceT",
    "largeur": 2,
    "longeur": 4,
    "rotation": 0
   },
-  "6": {
+  "5": {
    "type": "PieceL",
    "largeur": 3,
    "longeur": 2,
    "rotation": 0
   },
-  "7": {
+  "6": {
    "type": "PieceRectangle",
    "largeur": 4,
    "longeur": 1,
@@ -64,6 +58,16 @@
    "coordonnees": [
     6,
     0
+   ]
+  },
+  "1": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 1,
+   "rotation": 0,
+   "coordonnees": [
+    7,
+    1
    ]
   }
  }
