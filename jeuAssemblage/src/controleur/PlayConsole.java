@@ -32,7 +32,7 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
     private ScoreFile sauvegardeScore = new ScoreFile();
     private InterfaceGraphique vue;
     private MouseClicker laPetiteSouris;
-    private int choix=0;
+    private int choix;
 
     public PlayConsole(InterfaceGraphique vue, PlateauPuzzle plateauConsole){
             this.vue = vue;
@@ -130,34 +130,60 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
     }
 
     private void playVue(){
-        boolean reinitialiser = true;
-        try{
-            synchronized (this) {
-                this.vue.start(this);
-                for(int i=0 ; i < vue.getListeBouton().size() ; i++)
-                    this.vue.getListeBouton().get(i).addActionListener(this);
-                wait();
-            }
-            initialisationPlateau();
-            creationPieceRandom();
-            etatPlateau();
-            this.vue.afficheGrille();
-            laPetiteSouris = new MouseClicker(vue);
-            while(reinitialiser){
-                synchronized (this){
+        while(!this.end){
+            boolean reinitialiser = true;
+            try{
+                synchronized (this) {
+                    this.vue.start(this);
+                    for(int i=0 ; i < vue.getListeBouton().size() ; i++)
+                        this.vue.getListeBouton().get(i).addActionListener(this);
                     wait();
                 }
-                if(choix==1)
-                    placementPieceVue();
-                else if(choix==2)
-                    deplacementPieceVue();
-                else if (choix==3)
-                    supprimerPieceVue();
+                if(choix==1){
+                    initialisationPlateau();
+                    creationPieceRandom();
+                }
+                this.vue.chargerModele(this.plateauConsole);
+                //etatPlateau();  
+                this.vue.afficheGrille();
+                laPetiteSouris = new MouseClicker(vue);
+                while(reinitialiser){
+                    synchronized (this){
+                        wait();
+                    }
+                    if(choix==1)
+                        placementPieceVue();
+                    else if(choix==2)
+                        deplacementPieceVue();
+                    else if (choix==3)
+                        supprimerPieceVue();
+                    if(this.plateauConsole.getPieceAJouer().isEmpty()){
+                        int rep = this.vue.fin();
+                        if(rep==0){
+                            this.pseudo = this.vue.pseudo();
+                            if(pseudo!=null){
+                                sauvegardeScore.write(this);
+                                afficheScore();
+                                this.vue.tableauScore(this.sauvegardeScore);
+                                synchronized (this){
+                                    wait();
+                                }
+                                reinitialiser=false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception e){
+                    System.out.println("Impossible de charger la vue: "+e);
+                }
+            if(!this.end){
+                this.vue.dispose();
+                this.plateauConsole = new PlateauPuzzle(0,0);
+                this.vue = new InterfaceGraphique(plateauConsole);
             }
         }
-        catch(Exception e){
-                System.out.println("Impossible de charger la vue: "+e);
-            }
+        System.exit(0);
     }
 
     private void placementPieceVue(){
@@ -267,26 +293,26 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
         this.vue.setModele();
     }
 
-    private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
-        for(ArrayList<Integer> i : woula.keySet()){
-            woula.get(i).removeMouseListener(laPetiteSouris);
+    private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> liste){
+        for(ArrayList<Integer> i : liste.keySet()){
+            liste.get(i).removeMouseListener(laPetiteSouris);
         }
     }
 
-    private void addCaseListener(HashMap<ArrayList<Integer>,JPanel> woula){
-        for(ArrayList<Integer> i : woula.keySet()){
-            woula.get(i).addMouseListener(laPetiteSouris);
+    private void addCaseListener(HashMap<ArrayList<Integer>,JPanel> liste){
+        for(ArrayList<Integer> i : liste.keySet()){
+            liste.get(i).addMouseListener(laPetiteSouris);
         }
     }
 
-    private void removePieceListener(ArrayList<JPanel> woula){
-        for(int i=0 ; i < woula.size() ; i++)
-                    woula.get(i).removeMouseListener(laPetiteSouris);
+    private void removePieceListener(ArrayList<JPanel> liste){
+        for(int i=0 ; i < liste.size() ; i++)
+                    liste.get(i).removeMouseListener(laPetiteSouris);
     }
 
-    private void addPieceListener(ArrayList<JPanel> woula){
-        for(int i=0 ; i < woula.size() ; i++)
-                    woula.get(i).addMouseListener(laPetiteSouris);
+    private void addPieceListener(ArrayList<JPanel> liste){
+        for(int i=0 ; i < liste.size() ; i++)
+                    liste.get(i).addMouseListener(laPetiteSouris);
     }
 
 //######## Nouvelle partie ########	
@@ -705,6 +731,7 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                     if(vue.getLigne().getSelectedIndex()!=0 && vue.getColonne().getSelectedIndex()!=0){
                             this.largeurPlateauX = vue.getLigne().getSelectedIndex()+4;
                             this.longueurPlateauY = vue.getColonne().getSelectedIndex()+4;
+                            choix=1;
                             synchronized(this){
                             notify();
                             }
@@ -750,20 +777,26 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                     }
                 }
             }
+            if(source == vue.getListeBouton().get(4)){
+                this.pseudo = this.vue.pseudo();
+                sauvegarderPartie();
+            }
             if(source == vue.getListeBouton().get(5)){
-                this.vue.Explication(choix);
+                chargerPartie();
+                synchronized(this){
+                    notify();
+                }
             }
             if(source == vue.getListeBouton().get(6)){
-                if(choix!=0){
-                    choix--;
-                    this.vue.Explication(choix);
-                }
+                this.vue.Explication();
             }
             if(source == vue.getListeBouton().get(7)){
-                if(choix!=6){
-                    choix++;
-                    this.vue.Explication(choix);
+                synchronized(this){
+                        notify();
                 }
             }
-}
+            if(source == vue.getListeBouton().get(8)){
+                this.end=true;
+            }
+    }
 }

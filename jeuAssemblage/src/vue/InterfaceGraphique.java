@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import modele.*;
 import util.*;
+import file.*;
 import piecesPuzzle.pieces.*;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
@@ -63,15 +65,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
         text2.setHorizontalAlignment(SwingConstants.CENTER);
         fenetre.add(text,)*/
         if(occ==0){
+            listeCreationBouton();
             boutonDeJeu.add(score);
-            creationBouton("VALIDER");
-            creationBouton("PLACER");
-            creationBouton("DEPLACER");
-            creationBouton("SUPPRIMER");
-            creationBouton("SAUVEGARDER");
-            creationBouton("EXPLICATION");
-            creationBouton("PRECEDENT");
-            creationBouton("SUIVANT");
             ligne.addItem("LIGNE");
             colonne.addItem("COLONNE");
             for(int i = 5 ; i < 21; ++i) {
@@ -81,30 +76,29 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
             fenetre.add(ligne);
             fenetre.add(colonne);
-            fenetre.add(boutonDeJeu.getComponent(1));
-            fenetre.add(boutonDeJeu.getComponent(5));            
+            fenetre.add(listeBouton.get(0));
+            fenetre.add(listeBouton.get(5));
+            fenetre.add(listeBouton.get(6));            
         }
         else{
-            nblignes = this.getLigne().getSelectedIndex()+4;
-            nbcolonne = this.getColonne().getSelectedIndex()+4;
-            this.modele.setXY(nblignes,nbcolonne);
-            
+            nblignes = this.modele.getX();
+            nbcolonne = this.modele.getY();
             fenetre.setLayout(new BorderLayout()); 					
             grille.setLayout(new GridLayout(nblignes,nbcolonne,2,2));
             grille.setBackground(Color.BLACK);
             
             for(int i = 0 ; i < nblignes; i++) {
-			for (int j = 0; j < nbcolonne; j++) {
-                            JPanel case0 = new JPanel();
-                            case0.setBorder(bordure);
-                            listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
-                            PiecesPuzzle p0= (PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)));
-                            if(p0 != null){
-                                colorization(p0,case0);
-                            }
-                            /*this.modele.addListener(case0);*/
-                            grille.add(case0);
-                        }
+                for (int j = 0; j < nbcolonne; j++) {
+                    JPanel case0 = new JPanel();
+                    case0.setBorder(bordure);
+                    listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
+                    PiecesPuzzle p0= (PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)));
+                    if(p0 != null){
+                        colorization(p0,case0);
+                    }
+                    /*this.modele.addListener(case0);*/
+                    grille.add(case0);
+                }
             }
             grille.setBorder(bordure);
             fenetre.add(grille,BorderLayout.CENTER);
@@ -124,11 +118,21 @@ public class InterfaceGraphique extends JFrame implements Listener{
         getColonne().addActionListener(controleur);
         setController(controleur);
     }
+    private void listeCreationBouton(){
+        creationBouton("VALIDER");
+        creationBouton("PLACER");
+        creationBouton("DEPLACER");
+        creationBouton("SUPPRIMER");
+        creationBouton("SAUVEGARDER");
+        creationBouton("CHARGER");
+        creationBouton("EXPLICATION");
+        creationBouton("RETOUR AU MENU");
+        creationBouton("QUITTER");
+    }
     private void creationBouton(String nom){
         bouton = new JButton(nom);
         listeBouton.add(bouton);
-        if(nom != "SUIVANT" && nom != "PRECEDENT"){
-            System.out.println(nom);
+        if(nom == "PLACER" || nom == "DEPLACER" || nom =="SUPPRIMER" || nom =="SAUVEGARDER" ){
             boutonDeJeu.add(bouton);
         }
     }
@@ -142,7 +146,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         }
     }
     
-    public void Explication(int page){
+    public void Explication(){
         JPanel pieceDemo = new JPanel();
         explication.setSize(1000,1000);
         explication.setLocationRelativeTo(null);
@@ -299,36 +303,79 @@ public class InterfaceGraphique extends JFrame implements Listener{
         this.controleur = controleur;
         return this.controleur;
     }
-	
-	public void setModele(){
-            fenetre.remove(grille);
-            fenetre.remove(choixRotation);
-            score.setText("Score : " + Integer.toString(this.modele.getScore()));
-            boutonDeJeu.remove(info);
-            grille.removeAll();
-            listeCase0ForClick.clear();
-            listePieceForClick.clear();	
-            grille.setLayout(new GridLayout(nblignes,nbcolonne,2,2));
-            grille.setBackground(Color.BLACK);
+    
+    public int fin(){
+        JOptionPane p = new JOptionPane();
+        int reponse = p.showConfirmDialog(this, "Il n'y a plus de piece. \n" +
+				"Avez-vous fini?","C'est fini !", JOptionPane.YES_NO_OPTION);
+        return reponse;
+    }
+    public String pseudo(){
+        JOptionPane p = new JOptionPane();
+        String reponse = p.showInputDialog(this, "Rentrez un pseudo","Sauvegarder", JOptionPane.OK_OPTION);
+        return reponse;
+    }
+    
+    public void tableauScore(ScoreFile tab){
+        fenetre.removeAll();
+        JLabel titre = new JLabel("Tableau des scores");
+        titre.setHorizontalAlignment(SwingConstants.CENTER);
+        titre.setFont(new java.awt.Font("Arial",Font.BOLD,20));
+        fenetre.add(titre,BorderLayout.NORTH);
+        JLabel score = new JLabel("<html><ul>");
+        ArrayList<String> t = new ArrayList();
+        for(String i : tab.getListeScore().values()){
+            t.add(i);
+        }
+        int i = 0;
+        for(String j : tab.getListeScore().keySet()){
+            score.setText(score.getText()+"<li>"+ j +" - "+ t.get(i)+"</li><br>");
+            i++;
+        }
+        score.setText(score.getText()+"</ul><html>");
+        score.setHorizontalAlignment(SwingConstants.CENTER);
+        score.setFont(new java.awt.Font("Arial",Font.BOLD,20));
+        fenetre.add(score,BorderLayout.CENTER);
+        boutonDeJeu.removeAll();
+        boutonDeJeu.add(listeBouton.get(7));
+        boutonDeJeu.add(listeBouton.get(8));
+        fenetre.add(boutonDeJeu,BorderLayout.SOUTH);
+        setContentPane(fenetre);
+    }
+    
+    public void chargerModele(PlateauPuzzle modele){
+        this.modele = modele;
+    }
+    
+    public void setModele(){
+        fenetre.remove(grille);
+        fenetre.remove(choixRotation);
+        score.setText("Score : " + Integer.toString(this.modele.getScore()));
+        boutonDeJeu.remove(info);
+        grille.removeAll();
+        listeCase0ForClick.clear();
+        listePieceForClick.clear();	
+        grille.setLayout(new GridLayout(nblignes,nbcolonne,2,2));
+        grille.setBackground(Color.BLACK);
 
-            for(int i = 0 ; i < nblignes; i++) {
-		for (int j = 0; j < nbcolonne; j++) {
-                    JPanel case0 = new JPanel();
-                    case0.setBorder(bordure);
-                    listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
-                    if(this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))) != null){
-                        colorization((PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))),case0);
-                    }
-                    grille.add(case0);
+        for(int i = 0 ; i < nblignes; i++) {
+            for (int j = 0; j < nbcolonne; j++) {
+                JPanel case0 = new JPanel();
+                case0.setBorder(bordure);
+                listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
+                if(this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))) != null){
+                    colorization((PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j))),case0);
                 }
+                grille.add(case0);
             }
-            grille.setBorder(bordure);
+        }
+        grille.setBorder(bordure);
 
-            fenetre.add(grille,BorderLayout.CENTER);
-            listePiece.removeAll();
-            affichePieceAJouer();
-            fenetre.add(listePiece,BorderLayout.NORTH);
-            setContentPane(fenetre);
-	}
+        fenetre.add(grille,BorderLayout.CENTER);
+        listePiece.removeAll();
+        affichePieceAJouer();
+        fenetre.add(listePiece,BorderLayout.NORTH);
+        setContentPane(fenetre);
+    }
 			
 }
