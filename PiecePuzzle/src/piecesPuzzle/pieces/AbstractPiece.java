@@ -77,9 +77,9 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		for(int i = 0 ; i < this.largeurXActuel; i++) {
 			for(int j= 0 ; j < this.longueurYActuel; j++) {
 				if(grid[i][j] == true){
-					System.out.print("■");
+					System.out.print("■ ");
 				} else {
-					System.out.print(" ");
+					System.out.print("  ");
 				}
 			}
 			System.out.println();

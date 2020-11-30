@@ -1,6 +1,7 @@
 package controleur;
 
 import java.util.*;
+import modele.*;
 
 public class PlayIA implements InterfacePlay{
     
@@ -14,5 +15,19 @@ public class PlayIA implements InterfacePlay{
     public ArrayList<Integer> selectCoordonnees(int largeurPlateau, int longueurPlateau){
         return new ArrayList(Arrays.asList(((new Random()).nextInt(largeurPlateau))+1, ((new Random()).nextInt(longueurPlateau))+1));
     }
+    
+    public ArrayList<Integer> selectPiece(int largeurPlateau, int longueurPlateau, PlateauPuzzle plateau){
+        int cooX = ((new Random()).nextInt(largeurPlateau))+1;
+        int cooY = ((new Random()).nextInt(longueurPlateau))+1;
+
+        while(plateau.getPiece(new ArrayList(Arrays.asList(cooX , cooY))) == null){
+            cooX = ((new Random()).nextInt(largeurPlateau))+1;
+            cooY = ((new Random()).nextInt(longueurPlateau))+1;
+
+        }
+
+        return new ArrayList(Arrays.asList(cooX , cooY));
+    }
+
     
 }

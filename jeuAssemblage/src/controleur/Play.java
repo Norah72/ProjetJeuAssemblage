@@ -52,10 +52,12 @@ public class Play {
             affiche("1- Nouvelle partie");
             affiche("2- Charger la dernière partie");
             affiche("3- Règle de jeu");
-            affiche("4- Score de jeu\n");
-
+            affiche("4- Score de jeu");
+            affiche("\n0- Quitter");
+            affiche("----------------");
+            
             affiche("Que voulez vous faire ?");
-            int choix = this.joueurActuel.choix(1, 4);
+            int choix = this.joueurActuel.choix(0, 4);
 
             if (choix == 1){
                 boolean reinitialiser = true;
@@ -86,7 +88,21 @@ public class Play {
                     if(this.joueurActuel.choix(0,1)==0)
                         reinitialiser = false;
                 }
-                nouvellePartie();
+                
+                if(this.ia)
+                    nouvellePartie(this.largeurPlateau,this.longueurPlateau);
+                else{
+                    reinitialiser = true;
+                    while (reinitialiser){
+                        nouvellePartie(this.largeurPlateau,this.longueurPlateau);
+                        etatPlateau();
+                        printPiece();
+                        affiche("Ce jeu vous convient-il ? 0-Oui / 1-Non : ");
+                        if(this.joueurActuel.choix(0,1)==0)
+                            reinitialiser = false;
+                    }
+                }
+                
                 this.endPlay=false;
                 jeu();
 
@@ -95,7 +111,6 @@ public class Play {
                 System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 System.out.println("[---- Content de vous revoir "+this.pseudo+" ! ----]");
                 System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-                etatPlateau();
                 jeu();
             }else if (choix == 3){
                 System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
@@ -124,29 +139,17 @@ public class Play {
                 }catch(Exception e){
 
                 }
+            }else if (choix == 0){
+                this.stop=true;
             }
         }
     }
     
     //Méthodes de jeu
     
-    public void nouvellePartie(){
-        if(this.ia){
-            this.plateau = new PlateauPuzzle(this.largeurPlateau,this.longueurPlateau);
-            creationPieceRandom();
-        }else{
-            boolean reinitialiser = true;
-            while(reinitialiser){
-                this.plateau = new PlateauPuzzle(this.largeurPlateau,this.longueurPlateau);
-                creationPieceRandom();
-                etatPlateau();
-                printPiece();
-                
-                affiche("\nCette configuraion vous convient-elle ? 0-Oui / 1-Non : ");
-                if(this.joueurActuel.choix(0,1)==0)
-                        reinitialiser = false;
-            }
-        }
+    public void nouvellePartie(int largeurPlateau,int longueurPlateau){
+        this.plateau = new PlateauPuzzle(largeurPlateau,longueurPlateau);
+        creationPieceRandom();
     }
 
     private void creationPieceRandom(){
@@ -193,7 +196,8 @@ public class Play {
         }
         while(!this.endPlay){
             this.etatPlateau();
-            this.printPiece();
+            if(!ia)
+                this.printPiece();
             
             int choix = choixJeu();
             
@@ -204,14 +208,19 @@ public class Play {
             else if(choix == 3)
                 choixSupprimerPiece();
             else if(choix == 4)
-                choixRotationPiece();
+                choixRotationPieceDisponible();
             else if(choix == 5)
+                choixRotationPiece();
+            else if(choix == 6)
                 sauvegarderPartie();
-            else if(choix==6)
+            else if(choix==7){
                 this.endPlay = score();
+                finDePartie();
+            }else if(choix==0)
+                this.endPlay = true;
                 
         }
-        finDePartie();
+        
     }
     
     private boolean score(){
@@ -222,9 +231,9 @@ public class Play {
     
     private void finDePartie(){
         if(!ia){
-            pseudo();
             affiche("\nVoulez-vous sauvegarder votre score ? 0-Oui / 1-Non :");
             if(this.joueurActuel.choix(0,1)==0){
+                pseudo();
                 try{
                     sauvegardeScore.write(this);
                 }
@@ -240,6 +249,7 @@ public class Play {
                 }catch(Exception e){
                     System.out.println("Impossible de sauvegarder le score");
             }
+            this.joueurActuel = new PlayJoueur();
         }
         
         System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
@@ -264,36 +274,43 @@ public class Play {
     //Méthodes de choix
     
     private int choixJeu(){
-        int nbrChoix = (this.joueurActuel instanceof PlayIA ? 1 : 2);;
+        int nbrChoix = (this.joueurActuel instanceof PlayIA ? 2 : 3);
 		
         if(!this.plateau.getPiecePlacer().isEmpty())
-            nbrChoix = (this.joueurActuel instanceof PlayIA ? 4 : 5);
+            nbrChoix = (this.joueurActuel instanceof PlayIA ? 5 : 6);
 
         if(this.plateau.getPieceAJouer().isEmpty())
-            nbrChoix = (this.joueurActuel instanceof PlayIA ? 5 : 6);
+            nbrChoix = (this.joueurActuel instanceof PlayIA ? 6 : 7);
         
         affiche("1- Placer une pièce");
-        if(nbrChoix >= 5){
+        if(nbrChoix >= 6){
             affiche("2- Déplacer une pièce");
             affiche("3- Supprimer une pièce");
             affiche("4- Rotation d'une pièce");
-            affiche("5- Sauvegarder la partie");
+            affiche("5- Rotation d'une pièce sur la plateau");
+            affiche("6- Sauvegarder la partie");
         }
-        if(nbrChoix == 6){
-            affiche("6- Score/Fin");
+        if(nbrChoix == 7){
+            affiche("7- Score/Fin");
         }
-        else if(nbrChoix == 2){
-            affiche("2- Sauvegarder la partie");
+        else if(nbrChoix == 3){
+            affiche("2- Rotation d'une pièce");
+            affiche("3- Sauvegarder la partie");
         }
         
-        int choix = this.joueurActuel.choix(1,nbrChoix);
+        affiche("\n0- Quitter sans sauvegarder");
+        int choix = this.joueurActuel.choix(0,nbrChoix);
         
-        if(this.plateau.getPiecePlacer().isEmpty() && choix == 2){
-            choix = 5;
+        if(this.plateau.getPiecePlacer().isEmpty()){
+            if(choix == 2)
+                choix = 4;
+            if(choix == 3)
+                choix = 6;
         }
-        if(this.joueurActuel instanceof PlayIA && choix == 5){
-            choix = 6;
+        if(this.joueurActuel instanceof PlayIA && choix == 6){
+            choix = 7;
         }
+        
         return choix;
         
         
@@ -324,24 +341,18 @@ public class Play {
     private void choixSupprimerPiece(){
         affiche("Quel pièce voulez vous supprimer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
         
-        ArrayList<Integer> choixCoo = this.joueurActuel.selectCoordonnees(this.largeurPlateau,this.longueurPlateau);
+        ArrayList<Integer> choixCoo = this.joueurActuel.selectPiece(this.largeurPlateau,this.longueurPlateau,this.plateau);
         
-        boolean valide = supprimerPiece(choixCoo);
-        
-        if(valide){
-            affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            affiche("[---- Piece supprimer ----]");
-            affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-        }else{
-            affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            affiche("[---- Il n'y a pas de pièce ici ----]");
-            affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-        }
+        supprimerPiece(choixCoo);
+
+        affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+        affiche("[---- Piece supprimer ----]");
+        affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     }
 
     private void choixDeplacementPiece(){
         affiche("Que pièce voulez vous déplacer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
-        ArrayList<Integer> choixCooPiece = this.joueurActuel.selectCoordonnees(this.largeurPlateau,this.longueurPlateau);
+        ArrayList<Integer> choixCooPiece = this.joueurActuel.selectPiece(this.largeurPlateau,this.longueurPlateau,this.plateau);
 
         affiche("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
         ArrayList<Integer> choixCoo = this.joueurActuel.selectCoordonnees(this.largeurPlateau,this.longueurPlateau);
@@ -366,7 +377,7 @@ public class Play {
         }*/
 
         affiche("Quelle pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
-        ArrayList<Integer> coo = this.joueurActuel.selectCoordonnees(this.largeurPlateau,this.longueurPlateau);
+        ArrayList<Integer> coo = this.joueurActuel.selectPiece(this.largeurPlateau,this.longueurPlateau,this.plateau);
 
         affiche("Quel rotation ? Rappel: Choix 0 à 3");
         int rotation = this.joueurActuel.choix(0,3);
@@ -381,6 +392,15 @@ public class Play {
             affiche("[---- Rotation non effectuer par manque de place ----]");
             affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
         }
+    }
+    
+    private void choixRotationPieceDisponible(){
+            affiche("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué le numéro de la pièce)");
+            int choixPiece = this.joueurActuel.choix(1, this.plateau.getPieceAJouer().size());
+            affiche("Quel rotation ? Rappel: Choix 0 à 3");
+            int rotation = this.joueurActuel.choix(0,3);
+            
+            rotationPieceDisponible(choixPiece-1, rotation);
     }
     
     // Méthodes sur plateau
@@ -399,6 +419,10 @@ public class Play {
     
     public boolean rotationPiece(ArrayList<Integer> coordonneesPiece, int rotation){
         return this.plateau.rotationPiece(this.plateau.getPiece(coordonneesPiece),rotation);
+    }
+    
+    public void rotationPieceDisponible(int piece, int rotation){
+        this.plateau.rotationPieceDisponible(piece,rotation);
     }
     
     //Méthode d'affichage
@@ -427,6 +451,7 @@ public class Play {
     //Méthodes de gestion des parties
     
     private void sauvegarderPartie(){
+        pseudo();
         SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
         try{
             sauvegarde.ecrire();

@@ -1,6 +1,7 @@
 package controleur;
 
 import java.util.*;
+import modele.*;
 
 public class PlayJoueur implements InterfacePlay{
     
@@ -54,6 +55,15 @@ public class PlayJoueur implements InterfacePlay{
 
         }
         return new ArrayList<Integer>(Arrays.asList((Integer)x, (Integer)y));
+    }
+    
+    public ArrayList<Integer> selectPiece(int largeurPlateau, int longueurPlateau, PlateauPuzzle plateau){
+        ArrayList<Integer> coo = selectCoordonnees(largeurPlateau,longueurPlateau);
+        while(plateau.getPiece(coo) == null){
+            System.out.println("Il n'y a pas pièce ici ! Redonnez des coordonnées :");
+            coo = selectCoordonnees(largeurPlateau,longueurPlateau);
+        }
+        return coo;
     }
     
 }

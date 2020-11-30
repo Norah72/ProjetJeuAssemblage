@@ -12,9 +12,9 @@ public class PlateauPuzzle implements Listenable{
         private int x,y;
         private ArrayList<Listener> listeners ;
 
-		private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
-		private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
-		private ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
+        private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+        private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+        private ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
 		
         
         private int minX,maxX,minY,maxY;
@@ -173,14 +173,18 @@ public class PlateauPuzzle implements Listenable{
             }
             return false;
         }
+        
+        public void rotationPieceDisponible(int numPieceRotation , Integer rotation){
+            this.pieceAJouer.get(numPieceRotation).createPiece(rotation);
+        }
 		
-		public boolean selectPiece(ArrayList coo){
-			PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
-			if(pieceSelect == null)
-				return false;
-			else
-				return true;
-		}
+        public boolean selectPiece(ArrayList coo){
+            PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
+            if(pieceSelect == null)
+                return false;
+            else
+                return true;
+        }
         
         public boolean validePlacement(PiecesPuzzle p, ArrayList coo){
             for(int i=0;i<p.getLargeurX();i++){
