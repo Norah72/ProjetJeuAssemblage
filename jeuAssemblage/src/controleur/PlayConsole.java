@@ -157,10 +157,13 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                         deplacementPieceVue();
                     else if (choix==3)
                         supprimerPieceVue();
+                    else if (choix==4)
+                        reinitialiser = false;
                     if(this.plateauConsole.getPieceAJouer().isEmpty()){
                         int rep = this.vue.ouiNon("Il n'y a plus de piece. \n Avez-vous fini?","C'est fini !");
                         if(rep==0){
-                            this.pseudo = this.vue.pseudo();
+                            if(pseudo==null)
+                                this.pseudo = this.vue.pseudo();
                             if(pseudo!=null){
                                 sauvegardeScore.write(this);
                                 afficheScore();
@@ -748,44 +751,61 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
 
             }
             if(source == vue.getListeBouton().get(1)){
-                if(vue.getListeBouton().get(1).getText()=="ANNULER"){
-                    choix=5;
-                }
-                else{
+                if(this.vue.actionEnCours()==false)
+                    {
+                    System.out.print("test");
                     vue.getListeBouton().get(1).setText("ANNULER");
                     choix=1;
                     synchronized(this){
                         notify();
                     }
                 }
-            }
-            if(source == vue.getListeBouton().get(2)){
-                if(vue.getListeBouton().get(2).getText()=="ANNULER"){
+                else if(vue.getListeBouton().get(1).getText()=="ANNULER"){
                     choix=5;
                 }
-                else{
+            }
+            if(source == vue.getListeBouton().get(2)){
+                
+                if(this.vue.actionEnCours()==false){
                     vue.getListeBouton().get(2).setText("ANNULER");
                     choix=2;
                     synchronized(this){
                         notify();
                     }
                 }
-            }
-            if(source == vue.getListeBouton().get(3)){
-                if(vue.getListeBouton().get(3).getText()=="ANNULER"){
+                else if(vue.getListeBouton().get(2).getText()=="ANNULER"){
                     choix=5;
                 }
-                else{
+            }
+            if(source == vue.getListeBouton().get(3)){
+                if(!this.vue.actionEnCours()){
                     vue.getListeBouton().get(3).setText("ANNULER");
                     choix=3;
                     synchronized(this){
                         notify();
                     }
                 }
+                else if(vue.getListeBouton().get(3).getText()=="ANNULER"){
+                    choix=5;
+                }
             }
             if(source == vue.getListeBouton().get(4)){
-                this.pseudo = this.vue.pseudo();
-                sauvegarderPartie();
+                if(this.vue.actionEnCours()==false){
+                    if(this.vue.ouiNon("Voulez-vous sauvegarder avant de quitter ?", "Au revoir !")==0){
+                        this.pseudo = this.vue.pseudo();
+                        if(this.pseudo!=null)
+                            sauvegarderPartie();
+                        
+                    }
+                    if(this.vue.ouiNon("Voulez-vous retourner au menu principale ?", "Une dernière partie ?")==0)
+                            choix=4;
+                    else{
+                        System.exit(0);
+                    }
+                    synchronized(this){
+                        notify();
+                    }
+                }
             }
             if(source == vue.getListeBouton().get(5)){
                 chargerPartie();
@@ -802,6 +822,9 @@ public class PlayConsole extends MouseAdapter implements ActionListener{
                 }
             }
             if(source == vue.getListeBouton().get(8)){
+                synchronized(this){
+                        notify();
+                }
                 this.end=true;
             }
     }

@@ -32,7 +32,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel case0 = new JPanel();
     private JLabel info = new JLabel();
     private JLabel score = new JLabel("Score : 0");
-    private JFrame explication = new JFrame();
     private JPanel choixRotation = new JPanel(new GridLayout(0,2,8,8));
     private Border bordure = BorderFactory.createLineBorder(Color.black,1);
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
@@ -123,7 +122,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         creationBouton("PLACER");
         creationBouton("DEPLACER");
         creationBouton("SUPPRIMER");
-        creationBouton("SAUVEGARDER");
+        creationBouton("SAVE/EXIT");
         creationBouton("CHARGER");
         creationBouton("EXPLICATION");
         creationBouton("RETOUR AU MENU");
@@ -132,7 +131,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private void creationBouton(String nom){
         bouton = new JButton(nom);
         listeBouton.add(bouton);
-        if(nom == "PLACER" || nom == "DEPLACER" || nom =="SUPPRIMER" || nom =="SAUVEGARDER" ){
+        if(nom == "PLACER" || nom == "DEPLACER" || nom =="SUPPRIMER" || nom =="SAVE/EXIT" ){
             boutonDeJeu.add(bouton);
         }
     }
@@ -147,21 +146,22 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
     
     public void Explication(){
+        JFrame explication = new JFrame();
         JPanel pieceDemo = new JPanel();
         explication.setSize(1000,1000);
         explication.setLocationRelativeTo(null);
         JLabel text = new JLabel("<html>Dans ce jeu l'objectif est simple ! Vous devez placer ses pièces en prenant le moins de place possible sur le plateau.<br><br>"
                 + "Pour cela, plusieurs action sont possibles :<ul>"
-                + "<li><U>Placer une pièce</U></li>Vous pouvez placer des pieces parmi celle présente dans votre liste (exemple ci-dessous) en cliquant dessus. Vous aurez alors plusieurs"
+                + "<li><U>Placer une pièce</U></li>Vous pouvez placer des pieces parmi celle présente dans votre liste (exemple ci-dessous) en cliquant dessus. Vous aurez alors plusieurs "
                 + "rotations disponible.<br>Il vous suffira alors de cliquer sur la grille de jeu pour placer votre pièces.<br><br>"
                 + "<U>!!!ATTENTION!!!<U> : Quand vous séléctionnez une case sur la grille, ce sont les coordonées 0,0 de la pièces qui s'y placeront "
-                + "(exemple: derniere pièce ci-dessous). <U>CECI EST VALABLE POUR TOUTES LES INTERACTIONS!</U><br><br>"
+                + "(exemple: case rouge de la derniere pièce ci-dessous). <U>CECI EST VALABLE POUR TOUTES LES INTERACTIONS!</U><br><br>"
                 + "<li><U>Deplacer</U></li>Il est possible de déplacer une pièce sur la grille. Pour cela rien de plus simple, il suffit d'appuyer sur le bouton DEPLACER, "
                 + "de séléctionner la pièce, de modifier la rotation si nécessaire, et de sélectionner son nouvel emplacement.<br><br>"
                 + "<li><U>Supprimer</U></li>Il est aussi possible de supprimer une pièce du plateau pour la remettre dans votre liste de pièce. Comme pour le déplacement,"
                 + "il vous suffit de cliquer sur le bouton SUPPRIMER et cliquer la pièces à enlever<br><br>"
                 + "<li><U>Sauvegarder</U></li>Et enfin vous pouvez sauvegader votre partie pour la continuer plus tard.</ul><br>"
-                + "Notre jeu est également muni d'un tableau des scores, accesible une fois la partie terminé. Comme annoncer au début, pour avoir le meilleur score"
+                + "Notre jeu est également muni d'un tableau des scores, accessible une fois la partie terminé. Comme annoncer au début, pour avoir le meilleur score "
                 + "vous devez placer vos pièces en prennant le moins de place possible sur la grille. Ce score est consultable à gauche des bouton de jeu  </html>");
         text.setHorizontalAlignment(SwingConstants.CENTER);
         text.setFont(new java.awt.Font("Arial",Font.BOLD,18));
@@ -181,14 +181,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         explication.add(nav,BorderLayout.SOUTH);*/
         explication.setVisible(true);
     }
-    
-    public void texteInformation(String texte){
-        info.setText(texte);
-        info.setForeground(Color.RED);
-        boutonDeJeu.add(info);
-        setContentPane(fenetre);
-    }
-    
+
     private JPanel parcourirDemo(PiecesPuzzle p){
         JPanel piece = new JPanel();
         piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
@@ -220,6 +213,13 @@ public class InterfaceGraphique extends JFrame implements Listener{
                 }
         }
         return piece;
+    }
+        
+    public void texteInformation(String texte){
+        info.setText(texte);
+        info.setForeground(Color.RED);
+        boutonDeJeu.add(info);
+        setContentPane(fenetre);
     }
     
     public void visualisationRotation(PiecesPuzzle p){
@@ -345,7 +345,14 @@ public class InterfaceGraphique extends JFrame implements Listener{
     public void chargerModele(PlateauPuzzle modele){
         this.modele = modele;
     }
-    
+
+    public boolean actionEnCours(){
+        for(int i =0; i<getListeBouton().size();i++){
+            if(getListeBouton().get(i).getText()=="ANNULER")
+                return true;
+        }
+        return false;
+    }
     public void setModele(){
         fenetre.remove(grille);
         fenetre.remove(choixRotation);
