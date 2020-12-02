@@ -22,12 +22,9 @@ public class ChargerPartie {
 	private int largeur, longeur, rotation, i;
 
 	
-	public ChargerPartie(Play jeu){
+	public ChargerPartie(Play jeu, String file){
 		this.jeu = jeu;
-		if(jeu.getIa())
-			this.partieFichier = new File("src/file/partie/partieIa.txt");
-		else
-			this.partieFichier = new File("src/file/partie/partie.txt");
+		this.partieFichier = new File(file);
 	}
 	
 	

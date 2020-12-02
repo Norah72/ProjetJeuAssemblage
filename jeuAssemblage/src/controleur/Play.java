@@ -32,6 +32,9 @@ public class Play {
     private ScoreFile sauvegardeScore = new ScoreFile();
     
     private boolean stop = false;
+	
+	private String fileIa = "src/file/partie/partieIa.txt";
+	private String fileJoueur = "src/file/partie/partie.txt";
    
      
     //Constructeur
@@ -106,9 +109,8 @@ public class Play {
 					playIa();
 
             }else if (choix == 2){
-				this.ia = !this.ia;
-                chargerLaPartie();
-				this.ia = !this.ia;
+				chargerLaPartie(this.fileJoueur);				
+
                 affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 affiche("[---- Content de vous revoir "+this.pseudo+" ! ----]");
                 affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
@@ -167,13 +169,13 @@ public class Play {
 		this.pseudo = "Computer";
 		
 		int scoreMin = -1;
-		sauvegarderLaPartie();
+		sauvegarderLaPartie(this.fileIa);
 		
 		PlateauPuzzle bestPlateau;
 		
 		for(int i = 0; i < 100 ; i++){
 			this.endPlay=false;
-			chargerLaPartie();
+			chargerLaPartie(this.fileIa);
 			jeu();
 			if(this.plateau.getScore() > scoreMin){
 				scoreMin = this.plateau.getScore();
@@ -261,6 +263,7 @@ public class Play {
             }else if(choix==0)
                 this.endPlay = true;
             //System.out.println(this.plateau.getPieceAJouer().size());
+			//etatPlateau();
 			afficheJeu();
         }
         
@@ -376,22 +379,26 @@ public class Play {
     }
 
     private void choixDeplacementPiece(){
+					//etatPlateau();
         affiche("Que pièce voulez vous déplacer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
         ArrayList<Integer> choixCooPiece = this.joueurActuel.selectPiece(this.largeurPlateau,this.longueurPlateau,this.plateau);
 
         affiche("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
 		ArrayList<ArrayList<Integer>> listPossibilite = new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> cooAvant = new ArrayList<Integer>();
+		//System.out.println(this.ia);
 		if(this.ia){
+
 		int c = choixCooPiece.get(1);
-		
+		//System.out.println("choixCooPiece"+choixCooPiece);
+		//System.out.println(this.plateau.getPlateau().get(new ArrayList<Integer>(Arrays.asList(choixCooPiece.get(0), choixCooPiece.get(1)))));
+
 		choixCooPiece.remove(1);
 		
 		cooAvant = new ArrayList<Integer>(Arrays.asList(choixCooPiece.get(0), choixCooPiece.get(1))); //sauvegarde des ancienne coordonnées
 		
 		
 		choixCooPiece.set(1, c);
-		
 		supprimerPiece(choixCooPiece); //supprime la pièce
 		
 		//System.out.println(" c cooAvant "+cooAvant+"c choixCooPiece"+choixCooPiece);
@@ -407,6 +414,7 @@ public class Play {
 			}	
 		ajoutPiece(this.plateau.getPieceAJouer().size(), cooAvant);
 		}
+		//etatPlateau();
 		
 		//System.out.println("fin list");
 		ArrayList<Integer> choixCoo = null;
@@ -414,7 +422,21 @@ public class Play {
 			choixCoo = listPossibilite.size() >= 1 ? (listPossibilite.get(this.joueurActuel.choix(1,listPossibilite.size())-1)) : null;
 		else
 			choixCoo = this.joueurActuel.selectCoordonnees(this.largeurPlateau,this.longueurPlateau);
-        
+		/*try{
+					Thread.sleep(40);
+					System.out.println();
+				}catch(Exception e){
+
+				}
+		if(this.plateau.getPiece(choixCooPiece) == null || choixCoo == null){
+			try{
+					Thread.sleep(100);
+					System.out.println("ATTTTTTENNNNNTTTTTTTTTIIIIIIIIIIIIOOOOOOOONNNNNNNNNNN");
+				}catch(Exception e){
+
+				}
+		}*/
+			
 		boolean valide = false;
 		if(choixCoo != null) // si aucune possibilité de déplacement
 			valide = deplacementPiece(choixCooPiece,choixCoo);
@@ -444,6 +466,7 @@ public class Play {
 		
         
         boolean valide = rotationPiece(coo,rotation);
+		//System.out.println("rotation est "+valide+" de la piece en coo "+coo);
         if(valide){
             affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             affiche("[---- Rotation effectuer ----]");
@@ -475,6 +498,7 @@ public class Play {
     public boolean ajoutPiece(int piece, ArrayList<Integer> coordonnees){
         boolean actionValide = this.plateau.addPiece(this.plateau.getPieceAJouer().get(piece-1), coordonnees);
 		afficheJeu();
+		//System.out.println("aj "+actionValide);
 		return actionValide;
     }
     
@@ -485,6 +509,7 @@ public class Play {
     }
     
     public boolean deplacementPiece(ArrayList<Integer> anciennesCoordonnees, ArrayList<Integer> nouvellesCoordonnees){
+		//System.out.println("dep "+anciennesCoordonnees);
         boolean actionValide = this.plateau.movePiece(this.plateau.getPiece(anciennesCoordonnees),nouvellesCoordonnees);
 		afficheJeu();
 		return actionValide;
@@ -551,12 +576,12 @@ public class Play {
 	
 	private void sauvegarderPartie(){
 		pseudo();
-		sauvegarderLaPartie();
+		sauvegarderLaPartie(fileJoueur);
 	}
 
 	//Méthode commune de sauvegarde
-    public void sauvegarderLaPartie(){
-        SauvegardeFichier sauvegarde = new SauvegardeFichier(this);
+    public void sauvegarderLaPartie(String file){
+        SauvegardeFichier sauvegarde = new SauvegardeFichier(this, file);
         try{
             sauvegarde.ecrire();
         }
@@ -567,12 +592,12 @@ public class Play {
 	
 	//Méthode commune de chargement de partie
 	public void chargerPartie(){
-		chargerLaPartie();
+		chargerLaPartie(fileJoueur);
 		afficheJeu();
 	}
 	
-    private void chargerLaPartie(){
-        ChargerPartie charger = new ChargerPartie(this);
+    private void chargerLaPartie(String file){
+        ChargerPartie charger = new ChargerPartie(this, file);
         try{
             charger.chargerSauvegarde();
         }

@@ -18,14 +18,12 @@ public class SauvegardeFichier {
 	private boolean affiche;
 	
 	
-	public SauvegardeFichier(Play jeu){
+	public SauvegardeFichier(Play jeu,String File){
 		this.jeu = jeu;
 
 		this.affiche = (!jeu.getIa() && !jeu.getAfficheGraph()) == true;
-		if(jeu.getIa())
-			this.partieFichier = new File("src/file/partie/partieIa.txt");
-		else
-			this.partieFichier = new File("src/file/partie/partie.txt");
+		
+		this.partieFichier = new File(File);
 	}
 	
 	public void ecrire() throws IOException{

@@ -80,19 +80,21 @@ public class PlayIA implements InterfacePlay{
     }
     
     public ArrayList<Integer> selectPiece(int largeurPlateau, int longueurPlateau, PlateauPuzzle plateau){
-		ArrayList<Integer> cooPiece = plateau.getPiecePlacer().get(choix(1,+plateau.getPiecePlacer().size())-1).getCoo();
+		int choix = choix(1,+plateau.getPiecePlacer().size())-1;
+		ArrayList<Integer> cooPiece = new ArrayList<Integer>(plateau.getPiecePlacer().get(choix).getCoo());
 		Integer cooY = cooPiece.get(1);
 		
-		//System.out.println("cooPiece av "+cooPiece);
+		//System.out.println("cooPiece av "+cooPiece+plateau.getPiecePlacer().get(choix));
 		
 		//Permet de récupérer les coordonnees de la piece, car cooPiece représente les coordonnees en haut a gauche de la pièce, sauf que cela peut être unecase false, non détecter par le plateau
 		boolean valide = false;
 		int i=0;
 		while(!valide){
 			cooPiece.set(1, cooPiece.get(1)+i);
-			valide = plateau.getPlateau().get(cooPiece) != null ? true : false;
+			valide = plateau.getPlateau().get(cooPiece) == plateau.getPiecePlacer().get(choix) ? true : false;
 			i=+1;
-			//System.out.println("cooPiece pendant "+cooPiece);
+			/*System.out.println("cooPiece pendant "+cooPiece);
+			System.out.println(plateau.getPiecePlacer().get(choix).getCoo());*/
 		}
 		
 		//System.out.println("cooPiece ap "+cooPiece);

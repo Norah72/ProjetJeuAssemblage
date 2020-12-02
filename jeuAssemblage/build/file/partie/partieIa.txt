@@ -73,10 +73,10 @@
    "rotation": 0
   },
   "11": {
-   "type": "PieceL",
+   "type": "PieceT",
    "largeur": 4,
-   "longeur": 5,
-   "rotation": 0
+   "longeur": 2,
+   "rotation": 1
   }
  },
  "piecesPlacer": {

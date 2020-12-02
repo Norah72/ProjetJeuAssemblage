@@ -120,12 +120,14 @@ public class PlateauPuzzle implements Listenable{
         }
 
         public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
+			//System.out.println("rxctvybuni,uyfdre "+p.getCoo());
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
                 update();
                 return true;
             }
+			
             add(p,p.getCoo());
             update();
             return false;
