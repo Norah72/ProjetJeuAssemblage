@@ -17,13 +17,17 @@ import controleur.*;
 public class ChargerPartie {
 
 	private Play jeu;
-	private File partieFichier = new File("src/file/partie/partie.txt"); 
+	private File partieFichier; 
 	
 	private int largeur, longeur, rotation, i;
 
 	
 	public ChargerPartie(Play jeu){
 		this.jeu = jeu;
+		if(jeu.getIa())
+			this.partieFichier = new File("src/file/partie/partieIa.txt");
+		else
+			this.partieFichier = new File("src/file/partie/partie.txt");
 	}
 	
 	

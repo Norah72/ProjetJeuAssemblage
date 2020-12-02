@@ -1,6 +1,6 @@
 {
  "initialisation": {
-  "pseudo": "aure",
+  "pseudo": "Computer",
   "largeurPlateau": 15,
   "longeurPlateau": 20,
   "explication": true

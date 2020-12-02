@@ -187,6 +187,18 @@ public class PlateauPuzzle implements Listenable{
         }
         
         public boolean validePlacement(PiecesPuzzle p, ArrayList coo){
+			if(p == null || coo == null){
+				
+				System.out.println("test valide placement");
+				System.out.println("p "+p);
+				System.out.println("co "+coo);
+				System.out.println("pla "+this);
+				try{
+					Thread.sleep(60);
+				}catch(Exception e){
+
+				}
+			}
             for(int i=0;i<p.getLargeurX();i++){
                 for(int j=0; j<p.getLongueurY();j++){
                     if(p.getGrid()[i][j]){
@@ -247,30 +259,30 @@ public class PlateauPuzzle implements Listenable{
         
 	@Override
 	public String toString(){
-            System.out.print("   ");
-            for(int z = 0; z<=this.y-1; z++){
-                System.out.print(" "+z+" ");
-            }
-            System.out.println();
+		System.out.print("   ");
+		for(int z = 0; z<=this.y-1; z++){
+			System.out.print(" "+z+" ");
+		}
+		System.out.println();
 
-            for(int i = 0; i<=this.x-1; i++){
-                if(i<10)
-                    System.out.print(i+"  ");
-		else
-                    System.out.print(i+" ");
-		for(int j = 0; j<=this.y-1; j++){
-                    if(this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
-                    	if(j<10)
-                            System.out.print(" ■ ");
+		for(int i = 0; i<=this.x-1; i++){
+			if(i<10)
+				System.out.print(i+"  ");
 			else
-                            System.out.print("  ■ ");
-                    }else{
-			if(j<10)
-                            System.out.print(" + ");
-			else
-                            System.out.print("  + ");
-                    }
-                }
+				System.out.print(i+" ");
+			for(int j = 0; j<=this.y-1; j++){
+				if(this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
+					if(j<10)
+						System.out.print(" ■ ");
+					else
+						System.out.print("  ■ ");
+				}else{
+					if(j<10)
+						System.out.print(" + ");
+					else
+						System.out.print("  + ");
+				}
+			}
 		System.out.println();
             }
             return "";

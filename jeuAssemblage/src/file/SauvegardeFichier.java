@@ -13,17 +13,24 @@ import controleur.*;
 public class SauvegardeFichier {
 	
 	private Play jeu;
-	private File partieFichier = new File("src/file/partie/partie.txt"); 
+	private File partieFichier;
 	private JsonWriter sauvegarde;
+	private boolean affiche;
 	
 	
 	public SauvegardeFichier(Play jeu){
 		this.jeu = jeu;
+
+		this.affiche = (!jeu.getIa() && !jeu.getAfficheGraph()) == true;
+		if(jeu.getIa())
+			this.partieFichier = new File("src/file/partie/partieIa.txt");
+		else
+			this.partieFichier = new File("src/file/partie/partie.txt");
 	}
 	
 	public void ecrire() throws IOException{
 		try{
-			System.out.println("Sauvegarde en cours.. ");
+			affiche("Sauvegarde en cours.. ");
 			this.sauvegarde = new JsonWriter(new FileWriter(partieFichier));
 			
 			this.sauvegarde.setIndent(" ");
@@ -70,10 +77,10 @@ public class SauvegardeFichier {
 
 			this.sauvegarde.endObject();
 			this.sauvegarde.close();
-			System.out.println("Sauvegarde terminer.. ");
+			affiche("Sauvegarde terminer.. ");
 		}
 		catch(Exception e){
-			System.out.println("Impossible de sauvegarder le fichier: "+e);
+			affiche("Impossible de sauvegarder le fichier: "+e);
 		}
 	}
 	
@@ -92,5 +99,9 @@ public class SauvegardeFichier {
 		this.sauvegarde.name("rotation").value(pieceDispo.getRotation());
 	}
 	
+	private void affiche(String texte){
+		if(this.affiche)
+			System.out.println(texte);
+	}
 	
 }
