@@ -6,37 +6,30 @@ import modele.*;
 public class PlayJoueur implements InterfacePlay{
 	
 	public int choixJeu(PlateauPuzzle plateau) {
+		int nbrChoix = -1;
 
-        int nbrChoix = 3;
-		System.out.println("1- Placer une pièce");
-		System.out.println("2- Rotation d'une pièce");
-        System.out.println("3- Sauvegarder la partie");
-		
-        if(!plateau.getPiecePlacer().isEmpty()){
-            nbrChoix = 6;
-			
-		}
-        
-		 if(plateau.getPieceAJouer().isEmpty())
-		
-        System.out.println("1- Placer une pièce");
-		
-        if(nbrChoix >= 6){
+		//Si toutes les pièces ont été jouer
+		if(plateau.getPieceAJouer().isEmpty()){
+			nbrChoix = 5;
+			System.out.println("1- Déplacer une pièce");
+			System.out.println("2- Supprimer une pièce");
+			System.out.println("3- Rotation d'une pièce sur la plateau");
+			System.out.println("4- Sauvegarder la partie");
+            System.out.println("5- Score/Fin");
+        }
+		//Si au moins 1 pièce a été placer
+		else if(!plateau.getPiecePlacer().isEmpty()){
+			nbrChoix = 6;
+			System.out.println("1- Placer une pièce");
             System.out.println("2- Déplacer une pièce");
             System.out.println("3- Supprimer une pièce");
-			if(plateau.getPieceAJouer().isEmpty()){
-				System.out.println("4- Rotation d'une pièce sur la plateau");
-				System.out.println("5- Sauvegarder la partie");
-			}
-			if(!plateau.getPieceAJouer().isEmpty())
-				System.out.println("4- Rotation d'une pièce");
-				System.out.println("5- Rotation d'une pièce sur la plateau");
-				System.out.println("6- Sauvegarder la partie");
+			System.out.println("4- Rotation d'une pièce disponible");
+			System.out.println("5- Rotation d'une pièce sur la plateau");
+			System.out.println("6- Sauvegarder la partie");
         }
-        if(nbrChoix == 7){
-            System.out.println("6- Score/Fin");
-        }
-        else if(nbrChoix == 3){
+        else{
+			nbrChoix = 3;
+			System.out.println("1- Placer une pièce");
             System.out.println("2- Rotation d'une pièce");
             System.out.println("3- Sauvegarder la partie");
         }
@@ -45,7 +38,18 @@ public class PlayJoueur implements InterfacePlay{
 
 		int choix = choix(0,nbrChoix);
 		
-        if(plateau.getPiecePlacer().isEmpty()){
+        if(plateau.getPieceAJouer().isEmpty()){
+			if(choix == 1)
+				choix = 2;
+			else if (choix == 2)
+				choix = 3;
+			else if(choix == 3)
+				choix = 5;
+			else if(choix == 4)
+				choix = 6;
+			else if(choix == 5)
+				choix = 7;
+		}else if(plateau.getPiecePlacer().isEmpty()){
             if(choix == 2)
                 choix = 4;
             if(choix == 3)
@@ -115,5 +119,31 @@ public class PlayJoueur implements InterfacePlay{
         }
         return coo;
     }
+
+	public ArrayList<ArrayList<Integer>> choixDeplacement(int largeur, int longueur, PlateauPuzzle plateau) {
+		System.out.println("Que pièce voulez vous déplacer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
+		ArrayList<Integer> piece = selectPiece(largeur,longueur,plateau);
+		
+		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
+		ArrayList<Integer> selectCoo = selectCoordonnees(largeur,longueur);
+		
+		return new ArrayList<ArrayList<Integer>>(Arrays.asList(piece,selectCoo));
+	}
+
+	public ArrayList<ArrayList<Integer>> choixAjout(int largeur, int longueur, PlateauPuzzle plateau) {
+		
+        System.out.println("Quel pièce voulez vous ajouter ? (Veuillez indiqué le numéro de la pièce)");
+        
+        int choixPiece = choix(1, plateau.getPieceAJouer().size());
+
+		System.out.println("Indiquer les coordonnées où vous voulez placer la partie haut gauche de la pièce (Exemple: 2,3)");
+
+		ArrayList<Integer> choixCoo = selectCoordonnees(largeur, longueur);
+
+		ArrayList<Integer> pieceChoix = new ArrayList<Integer>();
+		pieceChoix.add(choixPiece);
+		
+		return new ArrayList<ArrayList<Integer>>(Arrays.asList(pieceChoix,choixCoo));
+	}
     
 }

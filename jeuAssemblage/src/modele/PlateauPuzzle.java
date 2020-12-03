@@ -120,7 +120,6 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
 
         public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
-			//System.out.println("rxctvybuni,uyfdre "+p.getCoo());
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
@@ -189,18 +188,6 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
         
         public boolean validePlacement(PiecesPuzzle p, ArrayList coo){
-			if(p == null || coo == null){
-				
-				System.out.println("test valide placement");
-				System.out.println("p "+p);
-				System.out.println("co "+coo);
-				System.out.println("pla "+this);
-				try{
-					Thread.sleep(60);
-				}catch(Exception e){
-
-				}
-			}
             for(int i=0;i<p.getLargeurX();i++){
                 for(int j=0; j<p.getLongueurY();j++){
                     if(p.getGrid()[i][j]){
