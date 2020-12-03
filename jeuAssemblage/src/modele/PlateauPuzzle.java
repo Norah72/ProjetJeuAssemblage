@@ -6,7 +6,7 @@ import java.util.Arrays;
 import piecesPuzzle.pieces.*;
 import util.*;
 
-public class PlateauPuzzle implements Listenable{
+public class PlateauPuzzle implements Listenable, Cloneable{
     
         private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
         private int x,y;
@@ -294,4 +294,19 @@ public class PlateauPuzzle implements Listenable{
             this.y = newy;
             construcPlateau(this.x, this.y);
         }
+		
+	@Override
+    public Object clone() throws CloneNotSupportedException {
+		PlateauPuzzle plateauPuzzle = null;
+		try{
+			plateauPuzzle = (PlateauPuzzle) super.clone();
+			plateauPuzzle.plateau = (HashMap) this.plateau.clone();
+			plateauPuzzle.pieceAJouer = (ArrayList) this.pieceAJouer.clone();
+			plateauPuzzle.piecePlacer = (ArrayList) this.piecePlacer.clone();
+		
+		} catch (CloneNotSupportedException c) {
+			System.out.println("Erreur clonage: "+c);
+		}
+		return plateauPuzzle;
+    }
 }
