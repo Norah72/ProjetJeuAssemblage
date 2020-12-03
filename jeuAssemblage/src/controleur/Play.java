@@ -18,6 +18,7 @@ public class Play {
     private boolean affichageGraph;
     
     private PlateauPuzzle plateau;
+	private PlateauPuzzle bestPlateau;
     
     private boolean montreMessage = true;
     private boolean endPlay;
@@ -168,21 +169,23 @@ public class Play {
 		this.fourmis = true;
 		this.pseudo = "Computer";
 		
+		//System.out.println("choix ia()");
+		
 		ArrayList<PlateauPuzzle> best = new ArrayList<PlateauPuzzle>();
 		int scoreMin = -1;
+		//System.out.println("sauve");
 		sauvegarderLaPartie(this.fileIa);
-		
-		PlateauPuzzle bestPlateau = null;
+//System.out.println("sauve ok");
 		final long start = System.currentTimeMillis();
 
-		for(int i = 0; i < 500 ; i++){
+		for(int i = 0; i < 5 ; i++){
 			this.endPlay=false;
 			chargerLaPartie(this.fileIa);
 			jeu();
 			if(this.plateau.getScore() > scoreMin){
 				scoreMin = this.plateau.getScore();
 				try{
-				bestPlateau = (PlateauPuzzle) ((PlateauPuzzle) this.plateau).clone();
+				this.bestPlateau = (PlateauPuzzle) ((PlateauPuzzle) this.plateau).clone();
 				}catch(Exception e){
 					System.out.println("impossible de cloner");
 				}
@@ -197,6 +200,11 @@ public class Play {
 		System.out.println("new best ! "+scoreMin);
 		System.out.println(""+bestPlateau);
 		this.fourmis = false;
+		
+		chargerLaPartie(this.fileIa); // remet a zéro
+		jeuIa();
+		
+		
 		this.endPlay = true;
 		this.stop = true;
 	}
@@ -276,11 +284,66 @@ public class Play {
             }else if(choix==0)
                 this.endPlay = true;
             //System.out.println(this.plateau.getPieceAJouer().size());
-			//etatPlateau();
+			/*etatPlateau();*/
 			afficheJeu();
         }
         
     }
+	
+	//affiche avec un certain tempsentre les affichages ce que joue l'ordi
+	private void jeuIa(){
+		/*for(int i = 0; i < this.bestPlateau.getPiecePlacer().size(); i++){
+			try{
+					Thread.sleep(100);
+				}catch(Exception e){
+					System.out.println("nope ");
+				}
+			//Selectionner la pièce
+			int piecePositionListe = -1;
+			for(int j = 0; j < this.plateau.getPieceAJouer().size(); j++){
+					if( (this.bestPlateau.getPiecePlacer().get(i).getClass().equals(this.plateau.getPieceAJouer().get(j).getClass()))
+							&& (this.bestPlateau.getPiecePlacer().get(i).getX() == (this.plateau.getPieceAJouer().get(j).getX()) )
+							&& (this.bestPlateau.getPiecePlacer().get(i).getY() == (this.plateau.getPieceAJouer().get(j).getY()))
+							){
+						piecePositionListe = j;
+					}
+				}
+			try{
+					Thread.sleep(100);
+				}catch(Exception e){
+					System.out.println("nope ");
+				}
+			//Si la pièce a subit une rotation,on choisis de faire l'une ou l'autre des rotations pour ne pas utiliser toujours la même
+			if(this.bestPlateau.getPiecePlacer().get(i).getRotation() != 0){
+									System.out.println("De base : "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
+
+				if(this.plateau.validePlacement(this.plateau.getPieceAJouer().get(piecePositionListe), this.bestPlateau.getPiecePlacer().get(i).getCoo())){
+					if(this.joueurActuel.choix(0,1)==0){
+						System.out.println("rotation");
+						ajoutPiece(piecePositionListe, this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						rotationPiece(this.plateau.getPiecePlacer().get(this.plateau.getPiecePlacer().size()-1).getCoo(), this.bestPlateau.getPiecePlacer().get(i).getRotation());
+					}else{
+						System.out.println("rot piece dispo");
+						rotationPieceDisponible(piecePositionListe,  this.bestPlateau.getPiecePlacer().get(i).getRotation());
+						ajoutPiece(piecePositionListe, this.bestPlateau.getPiecePlacer().get(i).getCoo());
+					}
+				}else{
+					System.out.println("rot piece dispo");
+					rotationPieceDisponible(piecePositionListe,  this.bestPlateau.getPiecePlacer().get(i).getRotation());
+					ajoutPiece(piecePositionListe, this.bestPlateau.getPiecePlacer().get(i).getCoo());
+				}
+				
+				
+				try{
+					Thread.sleep(100);
+				}catch(Exception e){
+					System.out.println("nope ");
+				}
+				System.out.println(this.plateau);
+			}
+		}*/
+		//this.bestPlateau.getPiecePlacer().get
+	}
     
     private boolean score(){
         affiche("\nScore : "+this.plateau.getScore() + "pts");
@@ -349,47 +412,51 @@ public class Play {
 
 		ArrayList<ArrayList<Integer>> listPossibilite = new ArrayList<ArrayList<Integer>>();
 		if(this.ia){
-			for (int i = 0; i < this.largeurPlateau; i++){
-				for (int j = 0; j < this.longueurPlateau; j++){
-					ArrayList<Integer> coo = new ArrayList<Integer>(Arrays.asList(i, j));
+			
+			if(!this.plateau.getPiecePlacer().isEmpty()){
+				for (int i = 0; i < this.largeurPlateau; i++){
+					for (int j = 0; j < this.longueurPlateau; j++){
+						ArrayList<Integer> coo = new ArrayList<Integer>(Arrays.asList(i, j));
+
+						if(this.plateau.getPiece(coo) == null){
+							int x = i;
+							int y = j;
+							if( (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y))) != null)
+
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+2))) != null)
+
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y-1))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-2))) != null)
+									|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+2))) != null)
+									){
+
+									if(this.plateau.validePlacement(this.plateau.getPieceAJouer().get(choixPiece-1), coo))
+										listPossibilite.add(new ArrayList<Integer>(Arrays.asList(i, j)));
+									}
+								}
 					
-					if(this.plateau.getPiece(coo) == null){
-						int x = i;
-			int y = j;
-			if( (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y))) != null)
-					
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+2))) != null)
-					
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y-1))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-2))) != null)
-					|| (this.plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+2))) != null)
-					){
-						if(this.plateau.validePlacement(this.plateau.getPieceAJouer().get(choixPiece-1), coo))
-							listPossibilite.add(new ArrayList<Integer>(Arrays.asList(i, j)));
-				}
 					}
-					
-				}
-			}	
+				}	
+			}
 		}
 		
 		ArrayList<Integer> choixCoo = null;
@@ -397,11 +464,11 @@ public class Play {
 		int bestScore = -1;
 		
 		for (int i = 0; i < listPossibilite.size(); i++){
-			//System.out.println("Etat plateau : ");
-			//System.out.println(""+this.plateau);
+			/*System.out.println("Etat plateau : ");
+			System.out.println(""+this.plateau);*/
 			PlateauPuzzle copiePlateau = null;
-			//System.out.println("copie0 ");
-			//System.out.println(""+copiePlateau==null);
+			/*System.out.println("copie0 ");
+			System.out.println(""+copiePlateau==null);*/
 			try{
 				copiePlateau = null;
 				copiePlateau = (PlateauPuzzle) ((PlateauPuzzle) this.plateau).clone();
@@ -419,15 +486,15 @@ public class Play {
 				bestScore = copiePlateau.getScore();
 				choixCoo = new ArrayList<Integer>(listPossibilite.get(i));
 			}
-			//System.out.println("-------------------------------");
-			//System.out.println("");
+			/*System.out.println("-------------------------------");
+			System.out.println("");*/
 		}
 		
 		
 		if(choixCoo == null){
-			if(this.ia)
+			if(this.ia && !this.plateau.getPiecePlacer().isEmpty())
 				choixCoo = listPossibilite.size() != 0 ? listPossibilite.get(this.joueurActuel.choix(1,listPossibilite.size())-1) : null;
-			else
+			else if ((this.ia && this.plateau.getPiecePlacer().isEmpty()) || !this.ia)
 				choixCoo = this.joueurActuel.selectCoordonnees(this.largeurPlateau,this.longueurPlateau);
 		}
 
