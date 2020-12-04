@@ -15,6 +15,7 @@ public class PlayIA implements InterfacePlay{
 	}
 	
 	public EnumAction choixJeu(PlateauPuzzle plateau) {
+		listeChoixIa.clear();
 		ArrayList<EnumAction> choixListe = null;
 		
 		//Si toutes les pièces ont été jouer
@@ -37,6 +38,7 @@ public class PlayIA implements InterfacePlay{
 			for(int j = 0; j < nbrProbaChoix; j++)
 				listeChoixIa.add(choixListe.get(i));
 		}
+		
 		
 		int choix = choix(0, listeChoixIa.size()-1);
 		

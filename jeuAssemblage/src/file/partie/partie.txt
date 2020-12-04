@@ -1,69 +1,100 @@
 {
  "initialisation": {
-  "pseudo": "Bonjour",
+  "pseudo": "Computer",
   "largeurPlateau": 10,
   "longeurPlateau": 10,
   "explication": true
  },
- "piecesDisponible": {
+ "piecesDisponible": {},
+ "piecesPlacer": {
   "0": {
-   "type": "PieceH",
-   "largeur": 3,
-   "longeur": 3,
-   "rotation": 0
-  },
-  "1": {
-   "type": "PieceH",
-   "largeur": 5,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "2": {
-   "type": "PieceL",
-   "largeur": 3,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "3": {
-   "type": "PieceL",
-   "largeur": 3,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "4": {
    "type": "PieceH",
    "largeur": 4,
    "longeur": 4,
-   "rotation": 0
+   "rotation": 1,
+   "coordonnees": [
+    3,
+    5
+   ]
   },
-  "5": {
-   "type": "PieceRectangle",
+  "1": {
+   "type": "PieceL",
    "largeur": 3,
-   "longeur": 3,
-   "rotation": 0
-  },
-  "6": {
-   "type": "PieceRectangle",
-   "largeur": 2,
    "longeur": 4,
-   "rotation": 0
+   "rotation": 0,
+   "coordonnees": [
+    5,
+    4
+   ]
   },
-  "7": {
+  "2": {
    "type": "PieceH",
    "largeur": 3,
    "longeur": 3,
-   "rotation": 0
-  }
- },
- "piecesPlacer": {
-  "0": {
+   "rotation": 3,
+   "coordonnees": [
+    1,
+    2
+   ]
+  },
+  "3": {
+   "type": "PieceH",
+   "largeur": 5,
+   "longeur": 5,
+   "rotation": 1,
+   "coordonnees": [
+    4,
+    1
+   ]
+  },
+  "4": {
    "type": "PieceRectangle",
-   "largeur": 2,
+   "largeur": 3,
    "longeur": 3,
    "rotation": 0,
    "coordonnees": [
     0,
-    0
+    7
+   ]
+  },
+  "5": {
+   "type": "PieceL",
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 1,
+   "coordonnees": [
+    0,
+    1
+   ]
+  },
+  "6": {
+   "type": "PieceH",
+   "largeur": 3,
+   "longeur": 3,
+   "rotation": 3,
+   "coordonnees": [
+    0,
+    4
+   ]
+  },
+  "7": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 3,
+   "rotation": 1,
+   "coordonnees": [
+    5,
+    1
+   ]
+  },
+  "8": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 4,
+   "rotation": 0,
+   "coordonnees": [
+    8,
+    6
    ]
   }
  }

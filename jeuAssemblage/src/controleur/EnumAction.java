@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controleur;
-
-/**
- *
- * @author leovi
- */
-
 
 public enum EnumAction {
 	QUITTER("Quitter sans sauvegarder\n"), PLACER("Placer une pièce\n"), DEPLACER("Déplacer une pièce\n"), SUPPRIMER("Supprimer une pièce\n"), ROTATION_PIECEAJOUER("Rotation d'une pièce disponible\n"), ROTATION_PIECEPLACER("Rotation d'une pièce sur la plateau\n"), SAUVEGARDER("Sauvegarder la partie\n"), FIN_DE_PARTIE("Score/Fin\n");
@@ -52,6 +41,11 @@ public enum EnumAction {
         }
 		
 		return proba;
+	}
+	
+	@Override
+	public String toString(){
+		return this.action;
 	}
 }
 

@@ -185,7 +185,7 @@ public class ActionGraphique implements ActionListener{
                 this.play.setLargeur(this.vue.getLigne().getSelectedIndex()+4);
                 this.play.setLongueur(this.vue.getColonne().getSelectedIndex()+4);
                 choix=1;
-                this.play.nouvellePartie(this.play.getLargeur(),this.play.getLongueur(),false);
+                this.play.nouvellePartie(this.play.getLargeur(),this.play.getLongueur());
                 this.play.clickNotify();
             }
             else {

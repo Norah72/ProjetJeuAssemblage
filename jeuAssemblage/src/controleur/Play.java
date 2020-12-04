@@ -25,6 +25,7 @@ public class Play {
     
     private boolean montreMessage = true;
     private boolean endPlay;
+	private boolean afficheIa = true;
     
     private int largeurPlateau =5;
     private int longueurPlateau =5;
@@ -97,7 +98,7 @@ public class Play {
                 
 				reinitialiser = true;
 				while (reinitialiser){
-					nouvellePartie(this.largeurPlateau, this.longueurPlateau, this.ia);
+					nouvellePartie(this.largeurPlateau, this.longueurPlateau);
 					
 					affiche("Ce jeu vous convient-il ? 0-Oui / 1-Non : ");
 					
@@ -172,7 +173,7 @@ public class Play {
 	//###########################
 	
 	//Méthode commune pour créer une nouvelle partie
-    public void nouvellePartie(int largeurPlateau,int longueurPlateau, boolean ia){
+    public void nouvellePartie(int largeurPlateau,int longueurPlateau){
         this.plateau = new PlateauPuzzle(largeurPlateau,longueurPlateau);
         creationPieceRandom();
 		
@@ -235,7 +236,7 @@ public class Play {
                        while(compo==0){
                            compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
                            if(compo==0){
-                               nouvellePartie(largeurPlateau,longueurPlateau,false);
+                               nouvellePartie(largeurPlateau,longueurPlateau);
                            }
                        }
                         /*if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faie ?")==0){
@@ -331,40 +332,41 @@ public class Play {
 						this.endPlay = true;
 					}
 					break;
-			}
-                }
+				}
+            }
         }
-        System.exit(0);
+        //System.exit(0);
     }
 	
 	public void jeuIa(){
-		affiche("Chargement en cours...");
+		affiche("\nChargement en cours...");
 		this.joueurActuel = new PlayIA();
 		this.montreMessage = false;
 		this.fourmis = true;
 		this.pseudo = "Computer";
 
 		int scoreMin = -1;
-		
+
 		sauvegarderLaPartie(this.fileIa);
 
 		ArrayList<String> barreChargement = new ArrayList<String>();
-		barreChargement.add("|=-=-=-=-=-                                                   |\r");
-		barreChargement.add("|=-=-=-=-=-=-=-=-=-=-                                         |\r");
-		barreChargement.add("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                               |\r");
-		barreChargement.add("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                     |\r");
-		barreChargement.add("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |\r");
-		barreChargement.add("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|\r");
+		barreChargement.add("\r|=-=-=-=-=-                                                   |");
+		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-                                         |");
+		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                               |");
+		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                     |");
+		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
+		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
 		int foumis = 100;
 		int modulo = foumis/(barreChargement.size()-1);
+		final long start = System.currentTimeMillis();
 		for(int i = 0; i < foumis ; i++){
 			if(i!=0 && !this.affichageGraph){
 				if((i%modulo) == 0){
-					System.out.println(barreChargement.get(i/modulo));
+					System.out.print(barreChargement.get(i/modulo));
 				}
 			}
-			
+								
 			this.endPlay=false;
 			chargerLaPartie(this.fileIa);
 			jeu();
@@ -372,19 +374,31 @@ public class Play {
 				scoreMin = this.plateau.getScore();
 				try{
 				this.bestPlateau = (PlateauPuzzle) ((PlateauPuzzle) this.plateau).clone();
+
 				}catch(Exception e){
 					System.out.println("Impossible de cloner"+e);
 				}
 			}
 		}
+		System.out.println(barreChargement.get(barreChargement.size()-1)); 
+		final long durationInMilliseconds = System.currentTimeMillis()-start;
+		System.out.println("executeLongRunningTask() took " + durationInMilliseconds + "ms.");
 		
-		System.out.println(barreChargement.get(barreChargement.size()-1));
 		this.fourmis = false;
 		
 		chargerLaPartie(this.fileIa); // remet a zéro
 
 		if(!this.affichageGraph)
 			montreMessage = true;
+		
+		affiche("L'ordinateur va maintenant jouer sous vos yeux la partie");
+		
+		try{
+			TimeUnit.SECONDS.sleep(2);
+		}catch(Exception e){
+			affiche("Attente non effectuer");
+		}
+		
 		
 		affichageJeuIa();
 
@@ -583,16 +597,18 @@ public class Play {
 	
 	private void afficheJeu(){
 		if(this.affichageGraph && !this.fourmis){
-                    etatPlateau();
-                    printPiece();
-                    this.vueGraph.chargerModele(this.plateau);
-                    this.vueGraph.afficheGrille();
+            etatPlateau();
+            printPiece();
+            this.vueGraph.chargerModele(this.plateau);
+            this.vueGraph.afficheGrille();
 		}else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){
 			etatPlateau();
 			printPiece();
 		}else if(!this.affichageGraph && !this.fourmis && this.joueurActuel instanceof PlayIA){
-			etatPlateau();
-			printPiece();
+			if(afficheIa){
+				etatPlateau();
+				printPiece();
+			}
 			
 			//attente afin de laisser le temps de prendre connaissance du nouveau plateau
 			try{
@@ -600,7 +616,6 @@ public class Play {
 			}catch(Exception e){
 				affiche("Attente non effectuer");
 			}
-
 		}
 			
 	}
@@ -662,21 +677,23 @@ public class Play {
 				
 				if(rotation){
 					ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
-					affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece));
+					affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo());
 					supprimerPiece(cooPiece);
-
-					affiche("Rotation dans la liste des pièces - pièce numéro "+(this.plateau.getPieceAJouer().size()-1)+" - rotation "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
+					
+					afficheIa = false;
+					affiche("Rotation dans la liste des pièces - pièce numéro "+(this.plateau.getPieceAJouer().size())+" - rotation "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
 					rotationPieceDisponible((this.plateau.getPieceAJouer().size()-1), this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
+					afficheIa = true;
 				}
 				
 				if(placement){
 					if(!rotation){// si n'a pas été dans la rotation, je supprime piece
 						ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
-						affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece));
+						affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo());
 						supprimerPiece(cooPiece);
 					}
 
-					affiche("Ajoute pièce numéro "+(this.plateau.getPieceAJouer().size()-1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo());
+					affiche("Ajoute pièce numéro "+(this.plateau.getPieceAJouer().size())+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo());
 					if(ajoutPiece((this.plateau.getPieceAJouer().size()-1), this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo()))
 						placement=false;
 				}
@@ -707,25 +724,30 @@ public class Play {
 								){
 							pieceAJouer = j;
 						}
+								
+										
+						
 					}
 
 				if(pieceAJouer != -1){
 
 					//Vérification de la rotation
 					if(this.bestPlateau.getPiecePlacer().get(i).getRotation() != this.plateau.getPieceAJouer().get(pieceAJouer).getRotation()){
-						affiche("Rotation dans la liste des pièces - pièce numéro "+pieceAJouer+" - rotation "+this.bestPlateau.getPiecePlacer().get(i).getRotation());
+						afficheIa = false;
+						affiche("Rotation dans la liste des pièces - pièce numéro "+(pieceAJouer+1)+" - rotation "+this.bestPlateau.getPiecePlacer().get(i).getRotation());
 						rotationPieceDisponible(pieceAJouer,  this.bestPlateau.getPiecePlacer().get(i).getRotation());
+						afficheIa = true;
 						
-						affiche("Ajoute pièce numéro "+pieceAJouer+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
 						ajoutPiece(pieceAJouer, this.bestPlateau.getPiecePlacer().get(i).getCoo());
 					}
 					//Sinon ajout de la pièce sans rotation
 					else{
-						affiche("Ajoute pièce numéro "+pieceAJouer+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
 						ajoutPiece(pieceAJouer, this.bestPlateau.getPiecePlacer().get(i).getCoo());
 					}
 				}
-			}	
+			}
 		}
 	}
     
