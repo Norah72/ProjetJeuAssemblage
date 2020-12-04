@@ -281,6 +281,14 @@ public class PlateauPuzzle implements Listenable, Cloneable{
             this.y = newy;
             construcPlateau(this.x, this.y);
         }
+        
+        public int getX(){
+            return this.x;
+        }
+        
+        public int getY(){
+            return this.y;
+        }
 		
 	@Override
     public Object clone() throws CloneNotSupportedException {

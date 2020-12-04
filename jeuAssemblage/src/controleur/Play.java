@@ -18,7 +18,10 @@ public class Play {
     private boolean affichageGraph;
     
     private PlateauPuzzle plateau;
-	private PlateauPuzzle bestPlateau;
+    private PlateauPuzzle bestPlateau;
+    private InterfaceGraphique vueGraph;
+    private MouseClicker eventSouris;
+    private ActionGraphique actionBouton;
     
     private boolean montreMessage = true;
     private boolean endPlay;
@@ -44,8 +47,10 @@ public class Play {
         this.affichageGraph = affichageGraph;
         this.joueurActuel = new PlayJoueur();
         if(this.affichageGraph){
-			//InterfaceGraphique vueGraph = new InterfaceGraphique();
-            affiche("Méthode d'affichage graphique à implémenter");
+            this.vueGraph = new InterfaceGraphique(plateau);
+            this.eventSouris = new MouseClicker(vueGraph);
+            this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
+            this.jeu();
         }else{
             this.menu();
         }
@@ -215,33 +220,121 @@ public class Play {
 	//Méthodes de lancement du jeu
 	//#############################
     
-    private void jeu(){
-        while(!this.endPlay){
-            int choix = choixJeu();
-            
-            if(choix == 1)
-                choixAjoutPiece();
-            else if(choix == 2)
-                choixDeplacementPiece();
-            else if(choix == 3)
-                choixSupprimerPiece();
-            else if(choix == 4)
-                choixRotationPieceDisponible();
-            else if(choix == 5)
-                choixRotationPiece();
-            else if(choix == 6)
-                sauvegarderPartie();
-            else if(choix==7){
-				if(!this.ia){
-					this.endPlay = score();
-					finDePartie();
-				}else{
+        private void jeu(){
+            while(!this.endPlay){
+                if(this.affichageGraph){
+                    boolean finTour = false;
+                    try{
+                        synchronized(this) {
+                            this.vueGraph.start(this.actionBouton);
+                            for(int i=0 ; i < vueGraph.getListeBouton().size() ; i++)
+                                this.vueGraph.getListeBouton().get(i).addActionListener(actionBouton);
+                            wait();
+                        }
+                       int compo = 0;
+                       while(compo==0){
+                           compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
+                           if(compo==0){
+                               nouvellePartie(largeurPlateau,longueurPlateau,false);
+                           }
+                       }
+                        /*if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faie ?")==0){
+                            //playIa();
+                            //afficheJeu();
+                        }
+                        else{*/
+                            while(!finTour){
+                                if(this.plateau.getPieceAJouer().isEmpty()){
+                                    int rep = this.vueGraph.ouiNon("Il n'y a plus de piece. \n Avez-vous fini?","C'est fini !");
+                                    if(rep==0){
+                                        if(pseudo==null)
+                                            this.pseudo = this.vueGraph.pseudo();
+                                        if(pseudo!=null){
+                                            sauvegardeScore.write(this);
+                                            sauvegardeScore.affiche();
+                                            this.vueGraph.tableauScore(this.sauvegardeScore);
+                                            synchronized(this) {
+                                                wait();
+                                            }
+                                            if(this.actionBouton.getChoix()==1){
+                                                this.endPlay=true;
+                                            }
+                                        }
+                                        else{
+                                        rep = this.vueGraph.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
+                                        }
+                                        if(rep==1){
+                                            finTour = !finTour;
+                                        }
+                                       finTour = !finTour;
+                                    }
+                                }
+                                if(!finTour){
+                                    synchronized(this) {
+                                        wait();
+                                    }
+                                    if(this.actionBouton.getChoix()==1){
+                                        this.actionBouton.placementPieceVue();
+                                    }
+                                    else if(this.actionBouton.getChoix()==2){
+                                        this.actionBouton.deplacementPieceVue();
+                                    }
+                                    else if (this.actionBouton.getChoix()==3)
+                                        this.actionBouton.supprimerPieceVue();
+                                    else if (this.actionBouton.getChoix()==4)
+                                        finTour = true;
+                                }
+                            }
+                        //}
+                    }
+                    catch(Exception e){
+                        System.out.println("Impossible de charger la vue: "+e);
+                    }
+                    if(!this.endPlay){
+                        this.vueGraph.dispose();
+                        this.plateau = null;
+                        this.vueGraph = new InterfaceGraphique(plateau);
+                        this.eventSouris = new MouseClicker(vueGraph);
+                        this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
+                    }
+                }
+                else{
+                    EnumAction choix = choixJeu();
+                    switch(choix)
+                            {
+				case QUITTER :
 					this.endPlay = true;
-				}
-            }else if(choix==0)
-                this.endPlay = true;
+					break;
+				case PLACER :
+					choixAjoutPiece();
+					break;
+				case DEPLACER :
+					choixDeplacementPiece();
+					break;
+				case SUPPRIMER :
+					choixSupprimerPiece();
+					break;
+				case ROTATION_PIECEAJOUER :
+					choixRotationPieceDisponible();
+					break;
+				case ROTATION_PIECEPLACER :
+					choixRotationPiece();
+					break;
+				case SAUVEGARDER:
+					sauvegarderPartie();
+					break;
+				case FIN_DE_PARTIE :
+					if(!this.ia){
+						this.endPlay = score();
+						finDePartie();
+					}else{
+						this.endPlay = true;
+					}
+					break;
+			}
+                }
         }
-        
+        System.exit(0);
     }
 	
 	public void jeuIa(){
@@ -358,7 +451,7 @@ public class Play {
     //Méthodes de choix
 	//#################
 	
-    private int choixJeu(){
+    private EnumAction choixJeu(){
         return this.joueurActuel.choixJeu(this.plateau);
     }
     
@@ -490,7 +583,10 @@ public class Play {
 	
 	private void afficheJeu(){
 		if(this.affichageGraph && !this.fourmis){
-			;//mise a jour de la vue du plateau et pieces dispo
+                    etatPlateau();
+                    printPiece();
+                    this.vueGraph.chargerModele(this.plateau);
+                    this.vueGraph.afficheGrille();
 		}else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){
 			etatPlateau();
 			printPiece();
@@ -678,6 +774,12 @@ public class Play {
         while(rand < min)
             rand = new Random().nextInt(max+1);
         return rand;
+    }
+    
+    public void clickNotify(){
+        synchronized(this){
+            notify();
+        }
     }
 	
 	//méthode pour que l'orinateur joue

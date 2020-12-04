@@ -4,59 +4,34 @@ import java.util.*;
 import modele.*;
 
 public class PlayJoueur implements InterfacePlay{
-	
-	public int choixJeu(PlateauPuzzle plateau) {
-		int nbrChoix = -1;
+	private ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEPLACER, EnumAction.SAUVEGARDER, EnumAction.FIN_DE_PARTIE, EnumAction.QUITTER));
+	private ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER, EnumAction.SAUVEGARDER, EnumAction.QUITTER));
+	private ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.SAUVEGARDER, EnumAction.QUITTER));
 
+	public EnumAction choixJeu(PlateauPuzzle plateau) {
+		ArrayList<EnumAction> choixListe = null;
+		
 		//Si toutes les pièces ont été jouer
 		if(plateau.getPieceAJouer().isEmpty()){
-			nbrChoix = 5;
-			System.out.println("1- Déplacer une pièce");
-			System.out.println("2- Supprimer une pièce");
-			System.out.println("3- Rotation d'une pièce sur la plateau");
-			System.out.println("4- Sauvegarder la partie");
-            System.out.println("5- Score/Fin");
+			choixListe = plateauPlein;
         }
 		//Si au moins 1 pièce a été placer
 		else if(!plateau.getPiecePlacer().isEmpty()){
-			nbrChoix = 6;
-			System.out.println("1- Placer une pièce");
-            System.out.println("2- Déplacer une pièce");
-            System.out.println("3- Supprimer une pièce");
-			System.out.println("4- Rotation d'une pièce disponible");
-			System.out.println("5- Rotation d'une pièce sur la plateau");
-			System.out.println("6- Sauvegarder la partie");
-        }
+			choixListe = plateauAvecPiecePlacer;
+		}
+		//Si aucune pièce a été placer
         else{
-			nbrChoix = 3;
-			System.out.println("1- Placer une pièce");
-            System.out.println("2- Rotation d'une pièce");
-            System.out.println("3- Sauvegarder la partie");
+			choixListe = plateauSansPiecePlacer;
         }
         
-        System.out.println("\n0- Quitter sans sauvegarder");
+		//Affichage de la liste
+        for(int i = 0; i < choixListe.size(); i++){
+			System.out.println(i+" - "+choixListe.get(i));
+		}
 
-		int choix = choix(0,nbrChoix);
+		int choix = choix(0,choixListe.size()-1);
 		
-        if(plateau.getPieceAJouer().isEmpty()){
-			if(choix == 1)
-				choix = 2;
-			else if (choix == 2)
-				choix = 3;
-			else if(choix == 3)
-				choix = 5;
-			else if(choix == 4)
-				choix = 6;
-			else if(choix == 5)
-				choix = 7;
-		}else if(plateau.getPiecePlacer().isEmpty()){
-            if(choix == 2)
-                choix = 4;
-            if(choix == 3)
-                choix = 6;
-        }
-		
-		return choix;
+		return choixListe.get(choix);
 	}
     
     public int choix(int borneInf, int borneSup){

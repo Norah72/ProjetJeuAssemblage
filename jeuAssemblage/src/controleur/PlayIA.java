@@ -5,62 +5,42 @@ import modele.*;
 
 public class PlayIA implements InterfacePlay{
 	
-			
-	private ArrayList<Integer> chanceChoixJeu = new ArrayList<Integer>(Arrays.asList(3, 3, 2, 1, 2));
-	private ArrayList<Integer> listeChoixIa = new ArrayList<Integer>();
-	
+	private ArrayList<EnumAction> listeChoixIa = new ArrayList<EnumAction>();
+	public ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.FIN_DE_PARTIE));
+	public ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER));
+	public ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER));
+
 	public void PlayIa(){
 		
 	}
 	
-	public int choixJeu(PlateauPuzzle plateau) {
-        int nbrChoix = 2;
+	public EnumAction choixJeu(PlateauPuzzle plateau) {
+		ArrayList<EnumAction> choixListe = null;
 		
-        if(!plateau.getPiecePlacer().isEmpty())
-            nbrChoix = 5;
-
-        if(plateau.getPieceAJouer().isEmpty())
-            nbrChoix = 7;
-		
-		if( !(nbrChoix == 2 && listeChoixIa.size() == 4 ) || !(nbrChoix == 5 && listeChoixIa.size() == 11 ) ){ // évite de refaire la liste si elle existe déjà
-			listeChoixIa.clear();
-			if(nbrChoix == 2){
-				for(int i = 1; i <= this.chanceChoixJeu.get(0); i++){
-					listeChoixIa.add(1);
-				}
-				for(int i = 1; i <= this.chanceChoixJeu.get(3); i++){
-					listeChoixIa.add(4);
-				}
-			}
-			if(nbrChoix == 5){
-				for(int i = 1; i <= nbrChoix; i++){
-					for(int j = 1; j <= this.chanceChoixJeu.get(i-1); j++){
-						listeChoixIa.add(i);
-					}
-				}
-			}
-			
+		//Si toutes les pièces ont été jouer
+		if(plateau.getPieceAJouer().isEmpty()){
+			choixListe = plateauPlein;
+        }	
+		//Si au moins 1 pièce a été placer
+		else if(!plateau.getPiecePlacer().isEmpty()){
+			choixListe = plateauAvecPiecePlacer;
 		}
-		
-		int choix = -1;
-		if(!plateau.getPieceAJouer().isEmpty()){
-			choix = this.listeChoixIa.get(choix(1,this.listeChoixIa.size())-1);
-			
-		}else{
-			choix = 7;
-		}
-		
-        if(plateau.getPiecePlacer().isEmpty()){
-            if(choix == 2)
-                choix = 4;
+		//Si aucune pièce a été placer
+        else{
+			choixListe = plateauSansPiecePlacer;
         }
 		
-		if(!plateau.getPiecePlacer().isEmpty()){
-            if(choix == 3)
-                choix = 2;
-        }
+		//Mise en place d'une liste de choix en fonction du nombre de probabilité de choisir ce choix
+		int nbrProbaChoix = 0;
+		for(int i = 0; i < choixListe.size(); i++){
+			nbrProbaChoix = choixListe.get(i).getProbaAction(choixListe.get(i));
+			for(int j = 0; j < nbrProbaChoix; j++)
+				listeChoixIa.add(choixListe.get(i));
+		}
 		
-        return choix;
+		int choix = choix(0, listeChoixIa.size()-1);
+		
+        return listeChoixIa.get(choix);
 	}
     
     public int choix(int borneInf, int borneSup){
