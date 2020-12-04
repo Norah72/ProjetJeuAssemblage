@@ -1,93 +1,111 @@
 {
  "initialisation": {
   "pseudo": "Computer",
-  "largeurPlateau": 17,
-  "longeurPlateau": 16,
+  "largeurPlateau": 18,
+  "longeurPlateau": 20,
   "explication": true
  },
  "piecesDisponible": {
   "0": {
-   "type": "PieceRectangle",
-   "largeur": 1,
-   "longeur": 3,
+   "type": "PieceT",
+   "largeur": 5,
+   "longeur": 5,
    "rotation": 0
   },
   "1": {
-   "type": "PieceRectangle",
-   "largeur": 1,
-   "longeur": 1,
+   "type": "PieceL",
+   "largeur": 5,
+   "longeur": 2,
    "rotation": 0
   },
   "2": {
-   "type": "PieceH",
+   "type": "PieceT",
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "3": {
+   "type": "PieceT",
+   "largeur": 2,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "4": {
+   "type": "PieceT",
    "largeur": 3,
    "longeur": 3,
    "rotation": 0
   },
-  "3": {
-   "type": "PieceH",
-   "largeur": 5,
-   "longeur": 3,
-   "rotation": 0
-  },
-  "4": {
+  "5": {
    "type": "PieceH",
    "largeur": 4,
    "longeur": 5,
    "rotation": 0
   },
-  "5": {
-   "type": "PieceL",
-   "largeur": 5,
-   "longeur": 3,
-   "rotation": 0
-  },
   "6": {
    "type": "PieceT",
-   "largeur": 4,
+   "largeur": 2,
    "longeur": 5,
    "rotation": 0
   },
   "7": {
    "type": "PieceRectangle",
-   "largeur": 3,
-   "longeur": 2,
+   "largeur": 1,
+   "longeur": 1,
    "rotation": 0
   },
   "8": {
    "type": "PieceRectangle",
-   "largeur": 4,
+   "largeur": 2,
    "longeur": 2,
    "rotation": 0
   },
   "9": {
    "type": "PieceL",
-   "largeur": 4,
+   "largeur": 2,
    "longeur": 5,
    "rotation": 0
   },
   "10": {
-   "type": "PieceL",
-   "largeur": 3,
-   "longeur": 5,
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 2,
    "rotation": 0
   },
   "11": {
-   "type": "PieceT",
+   "type": "PieceH",
    "largeur": 5,
    "longeur": 3,
    "rotation": 0
   },
   "12": {
-   "type": "PieceL",
-   "largeur": 4,
-   "longeur": 2,
+   "type": "PieceT",
+   "largeur": 3,
+   "longeur": 4,
    "rotation": 0
   },
   "13": {
-   "type": "PieceH",
-   "largeur": 5,
+   "type": "PieceT",
+   "largeur": 2,
    "longeur": 3,
+   "rotation": 0
+  },
+  "14": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "15": {
+   "type": "PieceT",
+   "largeur": 5,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "16": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 5,
    "rotation": 0
   }
  },

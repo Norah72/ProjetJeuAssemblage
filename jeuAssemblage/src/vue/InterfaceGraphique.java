@@ -45,6 +45,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JComboBox colonne = new JComboBox();
     private JButton bouton;
     private int nblignes, nbcolonne;
+	private JProgressBar barre_progression;
     
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
@@ -338,4 +339,30 @@ public class InterfaceGraphique extends JFrame implements Listener{
         return false;
     }
 	
+	public void barreChargement(int minimum, int maximum){
+		JLabel label = new JLabel();
+		label.setText("Chargement en cours...");
+		barre_progression = new JProgressBar( );
+
+		JPanel barre = new JPanel();
+
+		barre_progression.setMinimum(minimum);
+		barre_progression.setMaximum(maximum);
+		barre.setLayout(new BoxLayout(barre, BoxLayout.X_AXIS));
+		barre.add(label, 0, 0);
+		barre.add(barre_progression, 1, 1);
+		setContentPane(barre);
+		setVisible(true);
+
+	}
+
+ 
+	public void updateBar(final int newValue)
+	{
+	  SwingUtilities.invokeLater(new Runnable( ) {
+             public void run( ) {
+               barre_progression.setValue(newValue);
+             }
+         });
+	}
 }

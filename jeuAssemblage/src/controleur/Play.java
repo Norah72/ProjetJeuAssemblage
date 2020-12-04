@@ -310,17 +310,19 @@ public class Play {
 		sauvegarderLaPartie(this.fileIa);
 
 		
-		
 		ArrayList<String> barreChargement = new ArrayList<String>();
-		barreChargement.add("\r|=-=-=-=-=-                                                   |");
-		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-                                         |");
-		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                               |");
-		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                     |");
-		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
-		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
+			barreChargement.add("\r|=-=-=-=-=-                                                   |");
+			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-                                         |");
+			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                               |");
+			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                     |");
+			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
+			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
 		int fourmis = 500;
 		int modulo = fourmis/(barreChargement.size()-1);
+		
+		if(this.affichageGraph)
+			this.vueGraph.barreChargement(0, fourmis);
 		
 		final long start = System.currentTimeMillis();
 		for(int i = 0; i < fourmis ; i++){
@@ -330,6 +332,9 @@ public class Play {
 					affiche(barreChargement.get(i/modulo), true);
 				}
 			}
+			
+			if(this.affichageGraph)
+				this.vueGraph.updateBar(i);
 			
 			this.endPlay=false;
 			chargerLaPartie(this.fileIa);
