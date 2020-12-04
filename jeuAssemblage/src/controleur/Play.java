@@ -257,17 +257,17 @@ public class Play {
                                             synchronized(this) {
                                                 wait();
                                             }
-                                            if(this.actionBouton.getChoix()==1){
+                                            if(this.actionBouton.getChoix()==9  ){
                                                 this.endPlay=true;
                                             }
                                         }
                                         else{
-                                        rep = this.vueGraph.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
+                                            rep = this.vueGraph.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
                                         }
-                                        if(rep==1){
-                                            finTour = !finTour;
-                                        }
-                                       finTour = !finTour;
+                                    if(rep==1){
+                                        finTour = !finTour;
+                                    }
+                                    finTour = !finTour;
                                     }
                                 }
                                 if(!finTour){

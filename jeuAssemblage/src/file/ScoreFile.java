@@ -2,6 +2,7 @@ package file;
 
 import controleur.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 public class ScoreFile {
 	private HashMap<String, String> listeScore = new HashMap<String, String>();
 	private File scoreFile = new File("src/file/partie/score.txt"); 
-
+        
 	public void write(Play jeu) throws IOException {
 		try{
 			if(!this.scoreFile.exists()){
@@ -50,28 +51,34 @@ public class ScoreFile {
 						affichePseudo = !affichePseudo;
 					}
                                         listeScore.put(p,s);
+                                }
                                         if(listeScore.size()>12){
+                                            System.out.println("test");
                                             int min = 9999;
                                             String key = "";
-                                            for(String i : listeScore.values()){
-                                                int tmp = Integer.parseInt(i);
+                                            for(String i : listeScore.keySet()){
+                                                int tmp = Integer.parseInt(listeScore.get(i));
                                                 if(tmp<min){
                                                     min=tmp;
-                                                    key = listeScore.get(i);
+                                                    key = i;
                                                 }
                                             }
+                                            System.out.println("test1 " + min + " " + key);
+                                            System.out.println(listeScore);
                                             listeScore.remove(key);
-                                            String line = null;
-                                            BufferedReader reader = new BufferedReader(new FileReader(scoreFile));
-                                            while ((line = reader.readLine()) != null) {
-                                                if (line.contains(Integer.toString(min))) { 
-                                                    line.replace(key, "");
-                                                }
+                                            System.out.println(listeScore);
+                                            File tmp = new File("temp.txt");
+                                            BufferedWriter newScore = new BufferedWriter (new FileWriter(tmp));
+                                            for(String i : listeScore.keySet()){
+                                                newScore.write(i+" "+listeScore.get(i)+"\n");
+                                                newScore.flush();
                                             }
+                                            newScore.close();
+                                            scoreFile.delete();
+                                            tmp.renameTo(new File("src/file/partie/score.txt"));
                                         }
 					System.out.println(" point(s)");
-				}
-			}
+                        }
 		}
 		catch(Exception e){
 			System.out.println("Impossible d'afficher le score : "+e);
