@@ -9,6 +9,7 @@ import java.util.Random;
 import modele.*;
 import vue.*;
 import file.*;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Play {
@@ -51,9 +52,9 @@ public class Play {
             this.vueGraph = new InterfaceGraphique(plateau);
             this.eventSouris = new MouseClicker(vueGraph);
             this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
-            this.jeu();
+            menuGraph();
         }else{
-            this.menu();
+            menu();
         }
     }
     private void menu(){
@@ -108,7 +109,7 @@ public class Play {
                 
                 this.endPlay=false;
 				if(!this.ia){
-					jeu();
+					jeuConsole();
 				}else{
 					affiche("L'ordinateur va jouer");
 					jeuIa();
@@ -128,7 +129,7 @@ public class Play {
 					affiche("L'ordinateur va jouer");
 					jeuIa();
 				}else{				
-					jeu();
+					jeuConsole();
 				}
 				
             }else if (choix == 3){
@@ -162,6 +163,43 @@ public class Play {
             }
         }
     }
+	
+	private void menuGraph(){
+		try{
+			synchronized(this) {
+				this.vueGraph.start(this.actionBouton);
+				for(int i=0 ; i < vueGraph.getListeBouton().size() ; i++)
+					this.vueGraph.getListeBouton().get(i).addActionListener(actionBouton);
+				wait();
+			}
+		   int compo = 0;
+		   while(compo==0){
+			   compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
+			   if(compo==0){
+				   nouvellePartie(largeurPlateau,longueurPlateau);
+			   }
+		   }
+			if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faie ?")==0){
+				this.ia = true;
+				jeuIa();
+				jeuVue();
+			}
+			else{
+				jeuVue();
+			}
+		}
+		catch(Exception e){
+			System.out.println("Impossible de charger la vue: "+e);
+		}
+		
+		if(!this.endPlay){
+			this.vueGraph.dispose();
+			this.plateau = null;
+			this.vueGraph = new InterfaceGraphique(plateau);
+			this.eventSouris = new MouseClicker(vueGraph);
+			this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
+		}
+	}
 	
 	private boolean choixIa(){
 		affiche("Voulez vous que l'ordinateur joue cette partie ? 0-Oui / 1-Non");
@@ -221,85 +259,8 @@ public class Play {
 	//Méthodes de lancement du jeu
 	//#############################
     
-        private void jeu(){
+        private void jeuConsole(){
             while(!this.endPlay){
-                if(this.affichageGraph){
-                    boolean finTour = false;
-                    try{
-                        synchronized(this) {
-                            this.vueGraph.start(this.actionBouton);
-                            for(int i=0 ; i < vueGraph.getListeBouton().size() ; i++)
-                                this.vueGraph.getListeBouton().get(i).addActionListener(actionBouton);
-                            wait();
-                        }
-                       int compo = 0;
-                       while(compo==0){
-                           compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
-                           if(compo==0){
-                               nouvellePartie(largeurPlateau,longueurPlateau);
-                           }
-                       }
-                        /*if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faie ?")==0){
-                            //playIa();
-                            //afficheJeu();
-                        }
-                        else{*/
-                            while(!finTour){
-                                if(this.plateau.getPieceAJouer().isEmpty()){
-                                    int rep = this.vueGraph.ouiNon("Il n'y a plus de piece. \n Avez-vous fini?","C'est fini !");
-                                    if(rep==0){
-                                        if(pseudo==null)
-                                            this.pseudo = this.vueGraph.pseudo();
-                                        if(pseudo!=null){
-                                            sauvegardeScore.write(this);
-                                            sauvegardeScore.affiche();
-                                            this.vueGraph.tableauScore(this.sauvegardeScore);
-                                            synchronized(this) {
-                                                wait();
-                                            }
-                                            if(this.actionBouton.getChoix()==9  ){
-                                                this.endPlay=true;
-                                            }
-                                        }
-                                        else{
-                                            rep = this.vueGraph.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
-                                        }
-                                    if(rep==1){
-                                        finTour = !finTour;
-                                    }
-                                    finTour = !finTour;
-                                    }
-                                }
-                                if(!finTour){
-                                    synchronized(this) {
-                                        wait();
-                                    }
-                                    if(this.actionBouton.getChoix()==1){
-                                        this.actionBouton.placementPieceVue();
-                                    }
-                                    else if(this.actionBouton.getChoix()==2){
-                                        this.actionBouton.deplacementPieceVue();
-                                    }
-                                    else if (this.actionBouton.getChoix()==3)
-                                        this.actionBouton.supprimerPieceVue();
-                                    else if (this.actionBouton.getChoix()==4)
-                                        finTour = true;
-                                }
-                            }
-                        //}
-                    }
-                    catch(Exception e){
-                        System.out.println("Impossible de charger la vue: "+e);
-                    }
-                    if(!this.endPlay){
-                        this.vueGraph.dispose();
-                        this.plateau = null;
-                        this.vueGraph = new InterfaceGraphique(plateau);
-                        this.eventSouris = new MouseClicker(vueGraph);
-                        this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
-                    }
-                }
-                else{
                     EnumAction choix = choixJeu();
                     switch(choix)
                             {
@@ -336,10 +297,9 @@ public class Play {
             }
         }
         //System.exit(0);
-    }
 	
 	public void jeuIa(){
-		affiche("\nChargement en cours...");
+		affiche("\nChargement en cours...", true);
 		this.joueurActuel = new PlayIA();
 		this.montreMessage = false;
 		this.fourmis = true;
@@ -349,6 +309,8 @@ public class Play {
 
 		sauvegarderLaPartie(this.fileIa);
 
+		
+		
 		ArrayList<String> barreChargement = new ArrayList<String>();
 		barreChargement.add("\r|=-=-=-=-=-                                                   |");
 		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-                                         |");
@@ -357,32 +319,36 @@ public class Play {
 		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
 		barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
-		int foumis = 100;
-		int modulo = foumis/(barreChargement.size()-1);
+		int fourmis = 500;
+		int modulo = fourmis/(barreChargement.size()-1);
+		
 		final long start = System.currentTimeMillis();
-		for(int i = 0; i < foumis ; i++){
+		for(int i = 0; i < fourmis ; i++){
+			
 			if(i!=0 && !this.affichageGraph){
 				if((i%modulo) == 0){
-					System.out.print(barreChargement.get(i/modulo));
+					affiche(barreChargement.get(i/modulo), true);
 				}
 			}
-								
+			
 			this.endPlay=false;
 			chargerLaPartie(this.fileIa);
-			jeu();
+
+			jeuConsole();
+
 			if(this.plateau.getScore() > scoreMin){
 				scoreMin = this.plateau.getScore();
 				try{
 				this.bestPlateau = (PlateauPuzzle) ((PlateauPuzzle) this.plateau).clone();
 
 				}catch(Exception e){
-					System.out.println("Impossible de cloner"+e);
+					affiche("Impossible de cloner"+e, true);
 				}
 			}
 		}
-		System.out.println(barreChargement.get(barreChargement.size()-1)); 
+		affiche(barreChargement.get(barreChargement.size()-1), true); 
 		final long durationInMilliseconds = System.currentTimeMillis()-start;
-		System.out.println("executeLongRunningTask() took " + durationInMilliseconds + "ms.");
+		affiche("Temps d'execution: " + durationInMilliseconds + "ms", true);
 		
 		this.fourmis = false;
 		
@@ -391,22 +357,69 @@ public class Play {
 		if(!this.affichageGraph)
 			montreMessage = true;
 		
-		affiche("L'ordinateur va maintenant jouer sous vos yeux la partie");
+		affiche("L'ordinateur va maintenant jouer sous vos yeux la partie", true);
 		
 		try{
 			TimeUnit.SECONDS.sleep(2);
 		}catch(Exception e){
-			affiche("Attente non effectuer");
+			affiche("Attente non effectuer", true);
 		}
 		
 		
 		affichageJeuIa();
 
-		affiche("Score obtenue : "+this.plateau.getScore());
+		affiche("Score obtenue : "+this.plateau.getScore(), true);
 
 		this.endPlay = true;
 		this.joueurActuel = new PlayJoueur();
 	}
+	
+	private void jeuVue() throws IOException, InterruptedException{
+		boolean finTour = false;
+		while(!finTour){
+			if(this.plateau.getPieceAJouer().isEmpty()){
+				int rep = this.vueGraph.ouiNon("Il n'y a plus de piece. \n Avez-vous fini?","C'est fini !");
+				if(rep==0){
+					if(pseudo==null)
+						this.pseudo = this.vueGraph.pseudo();
+					if(pseudo!=null){
+						sauvegardeScore.write(this);
+						sauvegardeScore.affiche();
+						this.vueGraph.tableauScore(this.sauvegardeScore);
+						synchronized(this) {
+							wait();
+						}
+						if(this.actionBouton.getChoix()==9  ){
+							this.endPlay=true;
+						}
+					}
+					else{
+						rep = this.vueGraph.ouiNon("Votre score ne sera pas enregistrer ! \n Etes-vous sur ?","ATTENTION");
+					}
+				if(rep==1){
+					finTour = !finTour;
+				}
+				finTour = !finTour;
+				}
+			}
+			if(!finTour){
+				synchronized(this) {
+					wait();
+				}
+				if(this.actionBouton.getChoix()==1){
+					this.actionBouton.placementPieceVue();
+				}
+				else if(this.actionBouton.getChoix()==2){
+					this.actionBouton.deplacementPieceVue();
+				}
+				else if (this.actionBouton.getChoix()==3)
+					this.actionBouton.supprimerPieceVue();
+				else if (this.actionBouton.getChoix()==4)
+					finTour = true;
+			}
+		}
+	}
+	
 	
 	//##########################
 	//Méthodes de fin de parties
@@ -597,27 +610,31 @@ public class Play {
 	
 	private void afficheJeu(){
 		if(this.affichageGraph && !this.fourmis){
-            etatPlateau();
-            printPiece();
             this.vueGraph.chargerModele(this.plateau);
             this.vueGraph.afficheGrille();
-		}else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){
-			etatPlateau();
-			printPiece();
-		}else if(!this.affichageGraph && !this.fourmis && this.joueurActuel instanceof PlayIA){
-			if(afficheIa){
-				etatPlateau();
-				printPiece();
+			if(this.ia){
+				try{
+					TimeUnit.SECONDS.sleep(2);
+				}catch(Exception e){
+					affiche("Attente non effectuer");
+				}
 			}
-			
+		}else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){
+			etatJeu();
+		}else if(!this.affichageGraph && !this.fourmis && this.joueurActuel instanceof PlayIA){
+			etatJeu();
 			//attente afin de laisser le temps de prendre connaissance du nouveau plateau
 			try{
 				TimeUnit.SECONDS.sleep(2);
 			}catch(Exception e){
 				affiche("Attente non effectuer");
 			}
-		}
-			
+		}	
+	}
+	
+	private void etatJeu(){
+		etatPlateau();
+        printPiece();
 	}
     
     private void etatPlateau(){
@@ -634,9 +651,13 @@ public class Play {
             affiche(""+this.plateau.getPieceAJouer().get(i));
         }
     }
+	
+	private void affiche(String texte){
+		affiche(texte, false);
+    }
     
-    private void affiche(String texte){
-        if(montreMessage){
+    private void affiche(String texte, boolean afficheIa){
+        if((montreMessage || afficheIa) && !this.affichageGraph){
             System.out.println(texte);
         }
     }
@@ -677,25 +698,25 @@ public class Play {
 				
 				if(rotation){
 					ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
-					affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo());
+					affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo(), true);
 					supprimerPiece(cooPiece);
 					
-					afficheIa = false;
-					affiche("Rotation dans la liste des pièces - pièce numéro "+(this.plateau.getPieceAJouer().size())+" - rotation "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
+					affiche("Rotation dans la liste des pièces - pièce numéro "+(this.plateau.getPieceAJouer().size())+" - rotation "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation(), true);
 					rotationPieceDisponible((this.plateau.getPieceAJouer().size()-1), this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
-					afficheIa = true;
 				}
 				
 				if(placement){
 					if(!rotation){// si n'a pas été dans la rotation, je supprime piece
 						ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
-						affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo());
+						affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo(), true);
 						supprimerPiece(cooPiece);
 					}
 
-					affiche("Ajoute pièce numéro "+(this.plateau.getPieceAJouer().size())+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo());
+					affiche("Ajoute pièce numéro "+(this.plateau.getPieceAJouer().size())+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo(), true);
+					afficheIa = true;
 					if(ajoutPiece((this.plateau.getPieceAJouer().size()-1), this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo()))
 						placement=false;
+					afficheIa = false;
 				}
 			}
 		}
@@ -733,18 +754,20 @@ public class Play {
 
 					//Vérification de la rotation
 					if(this.bestPlateau.getPiecePlacer().get(i).getRotation() != this.plateau.getPieceAJouer().get(pieceAJouer).getRotation()){
-						afficheIa = false;
-						affiche("Rotation dans la liste des pièces - pièce numéro "+(pieceAJouer+1)+" - rotation "+this.bestPlateau.getPiecePlacer().get(i).getRotation());
+						affiche("Rotation dans la liste des pièces - pièce numéro "+(pieceAJouer+1)+" - rotation "+this.bestPlateau.getPiecePlacer().get(i).getRotation(), true);
 						rotationPieceDisponible(pieceAJouer,  this.bestPlateau.getPiecePlacer().get(i).getRotation());
-						afficheIa = true;
 						
-						affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo(), true);
+						afficheIa = true;
 						ajoutPiece(pieceAJouer, this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						afficheIa = false;
 					}
 					//Sinon ajout de la pièce sans rotation
 					else{
-						affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo(), true);
+						afficheIa = true;
 						ajoutPiece(pieceAJouer, this.bestPlateau.getPiecePlacer().get(i).getCoo());
+						afficheIa = false;
 					}
 				}
 			}
