@@ -1,94 +1,131 @@
 {
  "initialisation": {
   "pseudo": "Computer",
-  "largeurPlateau": 15,
+  "largeurPlateau": 20,
   "longeurPlateau": 20,
   "explication": true
  },
  "piecesDisponible": {
   "0": {
-   "type": "PieceRectangle",
+   "type": "PieceT",
    "largeur": 2,
-   "longeur": 4,
+   "longeur": 5,
    "rotation": 0
   },
   "1": {
-   "type": "PieceH",
-   "largeur": 5,
+   "type": "PieceL",
+   "largeur": 4,
    "longeur": 5,
    "rotation": 0
   },
   "2": {
    "type": "PieceH",
-   "largeur": 4,
+   "largeur": 5,
    "longeur": 3,
    "rotation": 0
   },
   "3": {
-   "type": "PieceT",
-   "largeur": 4,
+   "type": "PieceH",
+   "largeur": 3,
    "longeur": 5,
    "rotation": 0
   },
   "4": {
    "type": "PieceL",
-   "largeur": 5,
-   "longeur": 3,
+   "largeur": 3,
+   "longeur": 4,
    "rotation": 0
   },
   "5": {
-   "type": "PieceRectangle",
-   "largeur": 2,
-   "longeur": 3,
+   "type": "PieceL",
+   "largeur": 4,
+   "longeur": 2,
    "rotation": 0
   },
   "6": {
    "type": "PieceT",
-   "largeur": 5,
+   "largeur": 4,
    "longeur": 5,
    "rotation": 0
   },
   "7": {
+   "type": "PieceRectangle",
+   "largeur": 1,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "8": {
    "type": "PieceL",
+   "largeur": 4,
+   "longeur": 2,
+   "rotation": 0
+  },
+  "9": {
+   "type": "PieceH",
    "largeur": 5,
    "longeur": 5,
    "rotation": 0
   },
-  "8": {
-   "type": "PieceT",
-   "largeur": 4,
-   "longeur": 3,
-   "rotation": 0
-  },
-  "9": {
-   "type": "PieceRectangle",
-   "largeur": 1,
-   "longeur": 3,
-   "rotation": 0
-  },
   "10": {
-   "type": "PieceL",
+   "type": "PieceRectangle",
    "largeur": 4,
-   "longeur": 2,
+   "longeur": 4,
    "rotation": 0
   },
   "11": {
+   "type": "PieceRectangle",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "12": {
+   "type": "PieceL",
+   "largeur": 4,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "13": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "14": {
+   "type": "PieceRectangle",
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "15": {
+   "type": "PieceH",
+   "largeur": 3,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "16": {
+   "type": "PieceL",
+   "largeur": 3,
+   "longeur": 2,
+   "rotation": 0
+  },
+  "17": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "18": {
+   "type": "PieceT",
+   "largeur": 5,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "19": {
    "type": "PieceT",
    "largeur": 4,
-   "longeur": 2,
-   "rotation": 1
+   "longeur": 5,
+   "rotation": 0
   }
  },
- "piecesPlacer": {
-  "0": {
-   "type": "PieceT",
-   "largeur": 4,
-   "longeur": 2,
-   "rotation": 1,
-   "coordonnees": [
-    0,
-    5
-   ]
-  }
- }
+ "piecesPlacer": {}
 }

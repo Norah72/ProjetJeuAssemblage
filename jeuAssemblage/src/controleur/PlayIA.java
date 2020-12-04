@@ -8,7 +8,6 @@ public class PlayIA implements InterfacePlay{
 			
 	private ArrayList<Integer> chanceChoixJeu = new ArrayList<Integer>(Arrays.asList(3, 3, 2, 1, 2));
 	private ArrayList<Integer> listeChoixIa = new ArrayList<Integer>();
-	private ArrayList<String> test = new ArrayList<String>(Arrays.asList("Placer", "déplacer", "supprimer","rotation sans placer", "rotation piece", "erreur choix 6 ","fin"));
 	
 	public void PlayIa(){
 		
@@ -46,7 +45,7 @@ public class PlayIA implements InterfacePlay{
 		int choix = -1;
 		if(!plateau.getPieceAJouer().isEmpty()){
 			choix = this.listeChoixIa.get(choix(1,this.listeChoixIa.size())-1);
-			//System.out.println(this.listeChoixIa.size()+ " + "+ choix);
+			
 		}else{
 			choix = 7;
 		}
@@ -60,23 +59,16 @@ public class PlayIA implements InterfacePlay{
             if(choix == 3)
                 choix = 2;
         }
-
-		//System.out.println(""+this.test.get(choix-1));
 		
         return choix;
 	}
     
     public int choix(int borneInf, int borneSup){
-        //System.out.println("Inf : "+ borneInf+ "  |  Sup : "+borneSup);
-        int choix = ((new Random()).nextInt(borneSup-borneInf + 1))+borneInf;
-        //System.out.println("Chhooiixx : "+choix); // chhooiix ?? D'accord =l
-        return choix;
+        return ((new Random()).nextInt(borneSup-borneInf + 1))+borneInf;
     }
     
     public ArrayList<Integer> selectCoordonnees(int largeurPlateau, int longueurPlateau){
-        ArrayList coo = new ArrayList(Arrays.asList(((new Random()).nextInt(largeurPlateau))+1, ((new Random()).nextInt(longueurPlateau))+1));
-		//System.out.println(largeurPlateau+" largeurPlateau "+longueurPlateau+"largeurPlateau - coo :"+coo.get(0)+","+coo.get(1));
-		return coo;
+        return new ArrayList(Arrays.asList(((new Random()).nextInt(largeurPlateau))+1, ((new Random()).nextInt(longueurPlateau))+1));
     }
     
     public ArrayList<Integer> selectPiece(int largeurPlateau, int longueurPlateau, PlateauPuzzle plateau){
@@ -267,7 +259,7 @@ public class PlayIA implements InterfacePlay{
 				choixCoo = selectCoordonnees(largeur,longueur);
 		}
 		ArrayList<Integer> pieceChoix = new ArrayList<Integer>();
-		pieceChoix.add(choixPiece);
+		pieceChoix.add(choixPiece-1);
 
 		return new ArrayList<ArrayList<Integer>>(Arrays.asList(pieceChoix,choixCoo));
 	}

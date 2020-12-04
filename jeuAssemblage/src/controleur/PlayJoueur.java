@@ -141,7 +141,7 @@ public class PlayJoueur implements InterfacePlay{
 		ArrayList<Integer> choixCoo = selectCoordonnees(largeur, longueur);
 
 		ArrayList<Integer> pieceChoix = new ArrayList<Integer>();
-		pieceChoix.add(choixPiece);
+		pieceChoix.add(choixPiece-1);
 		
 		return new ArrayList<ArrayList<Integer>>(Arrays.asList(pieceChoix,choixCoo));
 	}
