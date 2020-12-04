@@ -97,7 +97,7 @@ public class Play {
                 
 				reinitialiser = true;
 				while (reinitialiser){
-					nouvellePartie(this.largeurPlateau, this.longueurPlateau, this.ia);
+					nouvellePartie(this.largeurPlateau, this.longueurPlateau);
 					
 					affiche("Ce jeu vous convient-il ? 0-Oui / 1-Non : ");
 					
@@ -172,7 +172,7 @@ public class Play {
 	//###########################
 	
 	//Méthode commune pour créer une nouvelle partie
-    public void nouvellePartie(int largeurPlateau,int longueurPlateau, boolean ia){
+    public void nouvellePartie(int largeurPlateau,int longueurPlateau){
         this.plateau = new PlateauPuzzle(largeurPlateau,longueurPlateau);
         creationPieceRandom();
 		
@@ -235,7 +235,7 @@ public class Play {
                        while(compo==0){
                            compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
                            if(compo==0){
-                               nouvellePartie(largeurPlateau,longueurPlateau,false);
+                               nouvellePartie(largeurPlateau,longueurPlateau);
                            }
                        }
                         /*if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faie ?")==0){
@@ -256,17 +256,17 @@ public class Play {
                                             synchronized(this) {
                                                 wait();
                                             }
-                                            if(this.actionBouton.getChoix()==1){
+                                            if(this.actionBouton.getChoix()==9  ){
                                                 this.endPlay=true;
                                             }
                                         }
                                         else{
-                                        rep = this.vueGraph.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
+                                            rep = this.vueGraph.ouiNon("Votre score ne sera pas enregisrter ! \n Etes-vous sur ?","ATTENTION");
                                         }
-                                        if(rep==1){
-                                            finTour = !finTour;
-                                        }
-                                       finTour = !finTour;
+                                    if(rep==1){
+                                        finTour = !finTour;
+                                    }
+                                    finTour = !finTour;
                                     }
                                 }
                                 if(!finTour){
@@ -583,8 +583,6 @@ public class Play {
 	
 	private void afficheJeu(){
 		if(this.affichageGraph && !this.fourmis){
-                    etatPlateau();
-                    printPiece();
                     this.vueGraph.chargerModele(this.plateau);
                     this.vueGraph.afficheGrille();
 		}else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){

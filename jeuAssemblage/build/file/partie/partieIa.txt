@@ -8,44 +8,38 @@
  "piecesDisponible": {
   "0": {
    "type": "PieceL",
-   "largeur": 2,
-   "longeur": 4,
+   "largeur": 3,
+   "longeur": 2,
    "rotation": 0
   },
   "1": {
-   "type": "PieceT",
-   "largeur": 2,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "2": {
-   "type": "PieceRectangle",
-   "largeur": 3,
+   "type": "PieceH",
+   "largeur": 4,
    "longeur": 3,
    "rotation": 0
   },
-  "3": {
-   "type": "PieceH",
+  "2": {
+   "type": "PieceL",
    "largeur": 4,
    "longeur": 4,
+   "rotation": 0
+  },
+  "3": {
+   "type": "PieceRectangle",
+   "largeur": 1,
+   "longeur": 3,
    "rotation": 0
   },
   "4": {
    "type": "PieceRectangle",
    "largeur": 3,
-   "longeur": 2,
+   "longeur": 3,
    "rotation": 0
   },
   "5": {
-   "type": "PieceT",
-   "largeur": 4,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "6": {
-   "type": "PieceL",
-   "largeur": 4,
-   "longeur": 2,
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 1,
    "rotation": 0
   }
  },

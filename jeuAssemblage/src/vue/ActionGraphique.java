@@ -42,14 +42,9 @@ public class ActionGraphique implements ActionListener{
         }
         if(choix!=5){
             removePieceListener(this.vue.getListePieceForClick());
-            System.out.println("test");
             this.vue.visualisationRotation(this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionné()));
-            System.out.println("test1");
             this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
-            System.out.println("test2");
             addCaseListener(this.vue.getListeCaseForClick());
-            System.out.println("test3");
-            System.out.println(eventSouris.verif());
             while(!eventSouris.verif()){
                 if(choix==5){
                     break;
@@ -90,6 +85,7 @@ public class ActionGraphique implements ActionListener{
                 pieceSelectionne = this.eventSouris.getCaseSelectionné();
         }
         if(choix!=5){
+            int err = this.play.getPlateau().getPiece(pieceSelectionne).getRotation();
             this.vue.visualisationRotation(this.play.getPlateau().getPiece(pieceSelectionne));
             this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
             while(!this.eventSouris.verif()){
@@ -108,14 +104,16 @@ public class ActionGraphique implements ActionListener{
                 }
                 this.play.getPlateau().getPiece(pieceSelectionne).createPiece(test);
                 boolean res = this.play.deplacementPiece(pieceSelectionne, deplacementSelectionne);
-                if(!res)
+                if(!res){
+                    this.play.getPlateau().getPiece(pieceSelectionne).createPiece(err);                                         //a corriger
+                    this.play.deplacementPiece(pieceSelectionne,this.play.getPlateau().getPiece(pieceSelectionne).getCoo() );
                     JOptionPane.showMessageDialog(this.vue,"Deplacement impossible par manque de place");
+                }
                 removeCaseListener(this.vue.getListeCaseForClick());
             }
         }
         this.vue.getListeBouton().get(2).setText("DEPLACER");
         if(choix==5){
-            System.out.println(this.play.getPlateau());
             this.vue.afficheGrille();
         }
     }
@@ -185,7 +183,7 @@ public class ActionGraphique implements ActionListener{
                 this.play.setLargeur(this.vue.getLigne().getSelectedIndex()+4);
                 this.play.setLongueur(this.vue.getColonne().getSelectedIndex()+4);
                 choix=1;
-                this.play.nouvellePartie(this.play.getLargeur(),this.play.getLongueur(),false);
+                this.play.nouvellePartie(this.play.getLargeur(),this.play.getLongueur());
                 this.play.clickNotify();
             }
             else {
@@ -229,7 +227,7 @@ public class ActionGraphique implements ActionListener{
         }
         if(source == this.vue.getListeBouton().get(8)){
             this.play.clickNotify();
-            choix=1;
+            choix=9;
         }
     }     
 }
