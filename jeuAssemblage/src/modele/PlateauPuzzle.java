@@ -105,6 +105,18 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
         
         private void add(PiecesPuzzle p,ArrayList coo){
+			
+			int posY = 0;
+			
+			int xx = 0;
+			int yy = 0;
+			
+
+			while(!(p.getGrid()[xx][yy+posY])){
+				coo.set(1, (int) coo.get(1)-1);
+				posY += 1;
+			}
+				
             for(int i=0;i<p.getLargeurX();i++){
                 for(int j=0; j<p.getLongueurY();j++){
                     if(p.getGrid()[i][j]){
@@ -129,6 +141,8 @@ public class PlateauPuzzle implements Listenable, Cloneable{
 			
             add(p,p.getCoo());
             update();
+			
+			System.out.println(this.plateau);
             return false;
         }
         
@@ -156,6 +170,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
             removePiece(p);
             boolean out;
             int rotationOrigine = p.getRotation();
+			
             p.createPiece(rotation);
             if(!validePlacement(p,p.getCoo())){
                 p.createPiece(rotationOrigine);
