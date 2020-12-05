@@ -318,7 +318,7 @@ public class Play {
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
-		int fourmis = 100;
+		int fourmis = 175;
 		int modulo = fourmis/(barreChargement.size()-1);
 		
 		if(this.affichageGraph)
