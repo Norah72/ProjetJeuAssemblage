@@ -57,7 +57,7 @@ public class PlayIA implements InterfacePlay{
 		int choix = choix(1,+plateau.getPiecePlacer().size())-1;
 		ArrayList<Integer> cooPiece = new ArrayList<Integer>(plateau.getPiecePlacer().get(choix).getCoo());
 
-		//Permet de récupérer les coordonnees de la piece, car cooPiece représente les coordonnees en haut a gauche de la pièce, sauf que cela peut être unecase false, non détecter par le plateau
+		//Permet de récupérer les coordonnees de la piece, car cooPiece représente les coordonnees en haut a gauche de la pièce, sauf que cela peut être une case false, non détecter par le plateau
 		boolean valide = false;
 		int i=0;
 		while(!valide){
@@ -71,138 +71,167 @@ public class PlayIA implements InterfacePlay{
 
 	public ArrayList<ArrayList<Integer>> choixDeplacement(int largeur, int longueur, PlateauPuzzle plateau) {
         ArrayList<Integer> choixCooPiece = selectPiece(largeur,longueur,plateau);
-
-		ArrayList<ArrayList<Integer>> listPossibilite = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Integer> cooAvant = new ArrayList<Integer>(plateau.getPiece(choixCooPiece).getCoo());
-
-		plateau.removePiece(plateau.getPiece(choixCooPiece)); //supprime la pièce afin de faire une liste de possibilités
+		
+		ArrayList<Integer> choixCoo = null;
+		int bestScore = -1;
 		
 		for (int i = 0; i < largeur; i++){
 			for (int j = 0; j < longueur; j++){
 				ArrayList<Integer> coo = new ArrayList<Integer>(Arrays.asList(i, j));
+			
+				ArrayList<Integer> coocopie = new ArrayList<Integer>(Arrays.asList(i, j));
+				int posY = 0;
+			
+				int xx = 0;
+				int yy = 0;
+
+
+				while(!(plateau.getPiece(choixCooPiece).getGrid()[xx][yy+posY])){
+					coocopie.set(1, (int) coocopie.get(1)-1);
+					posY += 1;
+				}
 
 				//si la case est vide
-				if(plateau.getPiece(coo) == null){
+				if(plateau.getPiece(coocopie) == null){
 					int x = i;
 					int y = j;
 					
 					//s'il y a au moins une pièce a deux case à la ronde
 					if( (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y))) != null)
 
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-2))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-2))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+2))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+2))) != null)
 
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+1))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+1))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+2))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+1))) != null)
+						/*|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+2))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+2))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
-							
+							*/
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-1))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-1))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y-1))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-2))) != null)
+						//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y-1))) != null)
+						/*|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-2))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-2))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-2))) != null)
-						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+2))) != null)
+						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+2))) != null)*/
 						){
 							//Si on peut placer la pièce
-							if(plateau.validePlacement(plateau.getPieceAJouer().get(plateau.getPieceAJouer().size()-1), coo) && (coo != cooAvant))
-								listPossibilite.add(new ArrayList<Integer>(Arrays.asList(i, j)));
+							if(coocopie != choixCooPiece){
+								ArrayList<Integer> choixCooPieceCopie = new ArrayList<Integer>(Arrays.asList(choixCooPiece.get(0), choixCooPiece.get(1)));
+								PlateauPuzzle copiePlateau = null; //création d'une copie du plateau a chaque boucle
+								
+								try{
+									copiePlateau = null;
+									copiePlateau = (PlateauPuzzle) ((PlateauPuzzle) plateau).clone();
+
+								}catch(Exception e){
+									System.out.println("Impossible de créer une copie du plateau : "+e);
+								}
+
+								if(copiePlateau.movePiece(copiePlateau.getPiece(choixCooPieceCopie), coo)){
+									//System.out.println("i"+i+"j"+"j");
+									if(copiePlateau.getScore() > bestScore){
+										bestScore = copiePlateau.getScore();
+										choixCoo = new ArrayList<Integer>(coocopie);
+										//System.out.println("cooooo");
+									}
+								}
+							}
 					}
 				}
-					
+						
 			}
 		}
-		
-		//Remet la pièce supprimer
-		plateau.addPiece(plateau.getPieceAJouer().get(plateau.getPieceAJouer().size()-1), cooAvant);
-		
-		
-		ArrayList<Integer> choixCoo = null;
-		int bestScore = -1;
-	
-		//choix de la meilleur possibilité
-		for (int i = 0; i < listPossibilite.size(); i++){
-			PlateauPuzzle copiePlateau = null; //création d'une copie du plateau a chaque boucle
-			try{
-				copiePlateau = null;
-				copiePlateau = (PlateauPuzzle) ((PlateauPuzzle) plateau).clone();
-				
-			}catch(Exception e){
-				System.out.println("Impossible de créer une copie du plateau : "+e);
-			}
-			
-			copiePlateau.movePiece(copiePlateau.getPiece(choixCooPiece), listPossibilite.get(i));
-				
-			if(copiePlateau.getScore() > bestScore){
-				bestScore = copiePlateau.getScore();
-				choixCoo = new ArrayList<Integer>(listPossibilite.get(i));
-			}
-		}
-		if(choixCoo == null)
-			choixCoo = listPossibilite.size() >= 1 ? (listPossibilite.get(choix(1,listPossibilite.size())-1)) : null;
 		
 		return new ArrayList<ArrayList<Integer>>(Arrays.asList(choixCooPiece,choixCoo));
 	}
 
 	public ArrayList<ArrayList<Integer>> choixAjout(int largeur, int longueur, PlateauPuzzle plateau) {
+			//System.out.println("aj");
+		ArrayList<Integer> choixCoo = null;
+		int bestScore = -1;
 	
         int choixPiece = choix(1, plateau.getPieceAJouer().size());
-
-		ArrayList<ArrayList<Integer>> listPossibilite = new ArrayList<ArrayList<Integer>>();
 		
-		//Si une pièce et déjà posé, pas besoin de dresser un tableau de possibilités
+		//Si aucune pièce n'est déjà posé, pas besoin de dresser un tableau de possibilités
 		if(!plateau.getPiecePlacer().isEmpty()){
 			for (int i = 0; i < largeur; i++){
 				for (int j = 0; j < longueur; j++){
 					ArrayList<Integer> coo = new ArrayList<Integer>(Arrays.asList(i, j));
+					
+					PlateauPuzzle copiePlateau = null;
+					
+					try{
+						copiePlateau = null;
+						copiePlateau = (PlateauPuzzle) ((PlateauPuzzle) plateau).clone();
 
-					//Si la case est vide
-					if(plateau.getPiece(coo) == null){
+					}catch(Exception e){
+						System.out.println("Impossible de créer une copie du plateau : "+e);
+					}
+
+					ArrayList<Integer> coocopie = new ArrayList<Integer>(Arrays.asList(i, j));
+					int posY = 0;
+
+					int xx = 0;
+					int yy = 0;
+
+
+					while(!(plateau.getPieceAJouer().get(choixPiece-1).getGrid()[xx][yy+posY])){
+						coocopie.set(1, (int) coocopie.get(1)-1);
+						posY += 1;
+					}
+
+					//si la case est vide
+					if(plateau.getPiece(coocopie) == null){
 						int x = i;
 						int y = j;
 						//s'il y a au moins une pièce a deux case à la ronde
 						if( (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y))) != null)
 
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-2))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y-2))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+2))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x,y+2))) != null)
 
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+1))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+1))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+1))) != null)
+							/*|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+1))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y+2))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y+2))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y+2))) != null)
-								
+								*/
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-1))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-1))) != null)
 							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y-1))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-2))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-2))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-2))) != null)
-							|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+2))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y-1))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y-2))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+2,y-2))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y-2))) != null)
+							//|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-2,y+2))) != null)
 							){
 								//Si on peut la placer
-								if(plateau.validePlacement(plateau.getPieceAJouer().get(choixPiece-1), coo))
-									listPossibilite.add(new ArrayList<Integer>(Arrays.asList(i, j)));
+								if(copiePlateau.addPiece(copiePlateau.getPieceAJouer().get(choixPiece-1), coo)){
+								
+									if(copiePlateau.getScore() > bestScore){
+										bestScore = copiePlateau.getScore();
+										choixCoo = new ArrayList<Integer>(coo);
+									}
+								}
 							}
 					}
 					
@@ -210,33 +239,11 @@ public class PlayIA implements InterfacePlay{
 			}	
 		}
 		
-		ArrayList<Integer> choixCoo = null;
-		int bestScore = -1;
-	
-		//choix de la meilleur possibilité
-		for (int i = 0; i < listPossibilite.size(); i++){
-			PlateauPuzzle copiePlateau = null;
-			
-			try{
-				copiePlateau = null;
-				copiePlateau = (PlateauPuzzle) ((PlateauPuzzle) plateau).clone();
-
-			}catch(Exception e){
-				System.out.println("Impossible de créer une copie du plateau : "+e);
-			}
-			
-			copiePlateau.addPiece(copiePlateau.getPieceAJouer().get(choixPiece-1), listPossibilite.get(i));
-				
-			if(copiePlateau.getScore() > bestScore){
-				bestScore = copiePlateau.getScore();
-				choixCoo = new ArrayList<Integer>(listPossibilite.get(i));
-			}
-		}
 		
 		
 		if(choixCoo == null){
 			if(!plateau.getPiecePlacer().isEmpty())
-				choixCoo = listPossibilite.size() != 0 ? listPossibilite.get(choix(1,listPossibilite.size())-1) : selectCoordonnees(largeur,longueur);
+				choixCoo = selectCoordonnees(largeur,longueur);
 			else
 				choixCoo = selectCoordonnees(largeur,longueur);
 		}

@@ -97,15 +97,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
         
         public boolean addPiece(PiecesPuzzle p , ArrayList coo){
-            if (validePlacement(p,coo)){
-                add(p,coo);
-				return true;
-            }
-			return false;
-        }
-        
-        private void add(PiecesPuzzle p,ArrayList coo){
-			
+						
 			int posY = 0;
 			
 			int xx = 0;
@@ -116,6 +108,15 @@ public class PlateauPuzzle implements Listenable, Cloneable{
 				coo.set(1, (int) coo.get(1)-1);
 				posY += 1;
 			}
+			
+            if (validePlacement(p,coo)){
+                add(p,coo);
+				return true;
+            }
+			return false;
+        }
+        
+        private void add(PiecesPuzzle p,ArrayList coo){
 				
             for(int i=0;i<p.getLargeurX();i++){
                 for(int j=0; j<p.getLongueurY();j++){
@@ -132,6 +133,19 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
 
         public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
+			
+						
+			int posY = 0;
+			
+			int xx = 0;
+			int yy = 0;
+			
+
+			while(!(p.getGrid()[xx][yy+posY])){
+				coo.set(1, (int) coo.get(1)-1);
+				posY += 1;
+			}
+			
             removePiece(p);
             if(validePlacement(p,coo)){
                 add(p,coo);
@@ -141,8 +155,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
 			
             add(p,p.getCoo());
             update();
-			
-			System.out.println(this.plateau);
+
             return false;
         }
         

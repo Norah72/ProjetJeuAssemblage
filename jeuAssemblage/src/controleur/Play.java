@@ -318,7 +318,7 @@ public class Play {
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
-		int fourmis = 500;
+		int fourmis = 100;
 		int modulo = fourmis/(barreChargement.size()-1);
 		
 		if(this.affichageGraph)
@@ -326,7 +326,7 @@ public class Play {
 		
 		final long start = System.currentTimeMillis();
 		for(int i = 0; i < fourmis ; i++){
-			
+			System.out.println(i);
 			if(i!=0 && !this.affichageGraph){
 				if((i%modulo) == 0){
 					affiche(barreChargement.get(i/modulo), true);
@@ -629,12 +629,18 @@ public class Play {
 		}else if(!this.affichageGraph && !this.fourmis && this.joueurActuel instanceof PlayIA){
 			etatJeu();
 			//attente afin de laisser le temps de prendre connaissance du nouveau plateau
-			try{
+			/*try{
 				TimeUnit.SECONDS.sleep(2);
 			}catch(Exception e){
 				affiche("Attente non effectuer");
+			}*/
+		}	else if(this.fourmis){
+			try{
+				TimeUnit.MICROSECONDS.sleep(200);
+			}catch(Exception e){
+				affiche("Attente non effectuer");
 			}
-		}	
+		}
 	}
 	
 	private void etatJeu(){

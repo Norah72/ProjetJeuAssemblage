@@ -58,7 +58,7 @@
    "type": "PieceL",
    "largeur": 2,
    "longeur": 2,
-   "rotation": 0
+   "rotation": 3
   },
   "9": {
    "type": "PieceT",
