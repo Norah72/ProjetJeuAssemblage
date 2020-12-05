@@ -362,7 +362,7 @@ public class Play {
 		if(!this.affichageGraph)
 			montreMessage = true;
 		
-		affiche("L'ordinateur va maintenant jouer sous vos yeux la partie", true);
+		affiche("L'ordinateur va maintenant jouer la partie  sous vos yeux", true);
 		
 		try{
 			TimeUnit.SECONDS.sleep(2);
@@ -370,13 +370,14 @@ public class Play {
 			affiche("Attente non effectuer", true);
 		}
 		
-		
 		affichageJeuIa();
 
 		affiche("Score obtenue : "+this.plateau.getScore(), true);
 
 		this.endPlay = true;
 		this.joueurActuel = new PlayJoueur();
+		
+		supprimerPartie(this.fileIa);
 	}
 	
 	private void jeuVue() throws IOException, InterruptedException{
@@ -813,7 +814,7 @@ public class Play {
 	}
     
 	//###############################
-    //Méthodes de gestion des parties
+    //Méthodes de gestion des fichiers
 	//###############################
 	
 	private void sauvegarderPartie(){
@@ -842,6 +843,16 @@ public class Play {
         ChargerPartie charger = new ChargerPartie(this, file);
         try{
             charger.chargerSauvegarde();
+        }
+        catch(Exception e){
+            affiche("Impossible de charger le fichier");
+        }
+    }
+	
+	private void supprimerPartie(String file){
+        DeleteFile delete = new DeleteFile(file);
+        try{
+            delete.supprimerFile();
         }
         catch(Exception e){
             affiche("Impossible de charger le fichier");
