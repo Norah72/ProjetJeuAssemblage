@@ -398,6 +398,9 @@ public class Play {
 						if(this.actionBouton.getChoix()==9  ){
 							this.endPlay=true;
 						}
+						else{
+							this.endPlay = false;
+						}
 					}
 					else{
 						rep = this.vueGraph.ouiNon("Votre score ne sera pas enregistrer ! \n Etes-vous sur ?","ATTENTION");

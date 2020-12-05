@@ -208,6 +208,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
 		
         public boolean selectPiece(ArrayList coo){
+			
             PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
             if(pieceSelect == null)
                 return false;

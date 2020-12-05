@@ -6,7 +6,7 @@ public enum EnumAction {
 	private String action ;  
 
 	private EnumAction(String action) {  
-		this.action = action;  
+		this.action = action;
 	}
 	
 	//Probabilité d'apparaitre dans les choix de l'ia
@@ -47,5 +47,6 @@ public enum EnumAction {
 	public String toString(){
 		return this.action;
 	}
+	
 }
 

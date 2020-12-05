@@ -40,6 +40,7 @@ import java.util.ArrayList;
         public void mouseClicked(MouseEvent e){
             for(int i=0; i<this.vue.getListePieceForClick().size(); i++){
                 if(e.getSource() == this.vue.getListePieceForClick().get(i)){
+					System.out.println("i"+i);
                     pieceSelectionné = i;
                     verification = true;
                 }  
@@ -52,5 +53,14 @@ import java.util.ArrayList;
             }
         }
         
+		
+		public void setSelection(){
+			this.verification = false;
+		}
+		
+		public boolean getValide(){
+			return this.verification;
+		}
+		
     }
 
