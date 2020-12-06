@@ -38,6 +38,7 @@ public class ActionGraphique implements ActionListener{
                 break;
             }
             System.out.print("");
+                    /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
         }
         if(choix!=5){
             removePieceListener(this.vue.getListePieceForClick());
@@ -49,7 +50,8 @@ public class ActionGraphique implements ActionListener{
                     break;
                 }
                 System.out.print("");
-         }
+                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
+            }
             if(choix!=5){
                 removeCaseListener(this.vue.getListeCaseForClick());
                 int test=0;
@@ -81,6 +83,7 @@ public class ActionGraphique implements ActionListener{
         while(!ok){
 			
 			while(!this.eventSouris.verif()){
+				System.out.println("");
 				
 				if(choix==5){
 					break;
@@ -105,11 +108,9 @@ public class ActionGraphique implements ActionListener{
 			while(play.getPlateau().getPlateau().get(pieceSelectionne) == null){
 					pieceSelectionne.set(1, pieceSelectionne.get(1)+1);
 				}
-			
             int err = (int) this.play.getPlateau().getPiece(pieceSelectionne).getRotation();
             this.vue.visualisationRotation(this.play.getPlateau().getPiece(pieceSelectionne));
             this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
-			
             while(!this.eventSouris.verif()){
                 if(choix==5){
                     break;
@@ -117,7 +118,6 @@ public class ActionGraphique implements ActionListener{
                 System.out.print("");
                 deplacementSelectionne = this.eventSouris.getCaseSelectionné();
             }
-			
             if(choix!=5){
                 int rotationSelect=0;
                 for(int i=0; i<4; i++){
@@ -125,10 +125,10 @@ public class ActionGraphique implements ActionListener{
                         rotationSelect=i;
                     }    
                 }
+				
 
 				this.play.supprimerPiece(pieceSelectionne);
 				this.play.rotationPieceDisponible((this.play.getPlateau().getPieceAJouer().size()-1), rotationSelect);
-
 
                 boolean res = this.play.ajoutPiece((this.play.getPlateau().getPieceAJouer().size()-1), deplacementSelectionne);
                 if(!res){
@@ -147,7 +147,6 @@ public class ActionGraphique implements ActionListener{
 		this.eventSouris.setSelection();
     }
 
-	
     public void supprimerPieceVue(){
         this.vue.texteInformation("Sélectionnez une pièce");
         addCaseListener(this.vue.getListeCaseForClick());

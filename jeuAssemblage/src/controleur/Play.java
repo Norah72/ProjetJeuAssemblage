@@ -57,6 +57,7 @@ public class Play {
             menu();
         }
     }
+	
     private void menu(){
         while(!this.stop){
 				
@@ -541,10 +542,10 @@ public class Play {
     }
     
     private void choixRotationPiece(){
-        /*if(!this.ia && explicationRot){
+        if(!this.ia && explicationRot){
             explicationRotation();
         }
-		*/
+		
         affiche("Quelle pièce voulez vous effectuer une rotation ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
         ArrayList<Integer> coo = this.joueurActuel.selectPiece(this.largeurPlateau,this.longueurPlateau,this.plateau);
 
@@ -582,6 +583,7 @@ public class Play {
 	//#################
     // Méthodes commune
     //#################
+	
     public boolean ajoutPiece(int piece, ArrayList<Integer> coordonnees){
         boolean actionValide = this.plateau.addPiece(this.plateau.getPieceAJouer().get(piece), coordonnees);
 		afficheJeu();
@@ -619,6 +621,30 @@ public class Play {
 	//###################
     //Méthode d'affichage
 	//###################
+	
+	private void explicationRotation(){
+		affiche("Voulez vous des explication sur la rotation ? 0-Oui / 1-Non");
+		int choix = -2;
+		while(choix == -2)
+			choix = this.joueurActuel.choix(0,1);
+		
+		if(choix == 0){
+            affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+			affiche("Les rotations se font dans le sens horaires.");
+			affiche("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
+			for(int i = 0 ; i < 4; i++){
+				affiche("--"+i+"--");
+				affiche(""+this.plateau.createNewPiece(this.plateau.getPieceString().get(1), 4, 3, i));
+			}
+            
+			affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+		}
+		affiche("Voulez vous avoir des explications la prochaine fois ? 0-Oui / 1-Non");
+		
+		if(this.joueurActuel.choix(0,1) == 1)
+			explicationRot = false;
+		
+	}
 	
 	private void afficheJeu(){
 		if(this.affichageGraph && !this.fourmis){
