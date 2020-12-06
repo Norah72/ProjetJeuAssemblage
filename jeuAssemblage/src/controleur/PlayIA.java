@@ -3,18 +3,22 @@ package controleur;
 import java.util.*;
 import modele.*;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class PlayIA implements InterfacePlay{
 	
-	private ArrayList<EnumAction> listeChoixIa = new ArrayList<EnumAction>();
-	private ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.FIN_DE_PARTIE));
-	private ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER));
-	private ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER));
+	private final ArrayList<EnumAction> listeChoixIa = new ArrayList<EnumAction>();
+	private final ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.FIN_DE_PARTIE));
+	private final ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER));
+	private final ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER));
 
-	public void PlayIa(){
+    public void PlayIa(){
 		
 	}
 	
-	public EnumAction choixJeu(PlateauPuzzle plateau) {
+    public EnumAction choixJeu(PlateauPuzzle plateau) {
 		listeChoixIa.clear();
 		ArrayList<EnumAction> choixListe = null;
 		
@@ -47,7 +51,7 @@ public class PlayIA implements InterfacePlay{
     public int choix(int borneInf, int borneSup){
         return ((new Random()).nextInt(borneSup-borneInf + 1))+borneInf;
     }
-    
+
     public ArrayList<Integer> selectCoordonnees(int largeurPlateau, int longueurPlateau){
         return new ArrayList(Arrays.asList(((new Random()).nextInt(largeurPlateau))+1, ((new Random()).nextInt(longueurPlateau))+1));
     }
@@ -56,7 +60,8 @@ public class PlayIA implements InterfacePlay{
 		int choix = choix(1,+plateau.getPiecePlacer().size())-1;
 		ArrayList<Integer> cooPiece = new ArrayList<Integer>(plateau.getPiecePlacer().get(choix).getCoo());
 		
-		//Permet de récupérer les coordonnees de la piece, car cooPiece représente les coordonnees en haut a gauche de la pièce, sauf que cela peut être une case false, non détecter par le plateau
+		//Permet de récupérer les coordonnees de la piece, car cooPiece représente les coordonnees en haut a gauche de la pièce, 
+                //sauf que cela peut être une case false, non détecter par le plateau
 		boolean valide = false;
 		int i=0;
 		while(!valide){
@@ -68,7 +73,7 @@ public class PlayIA implements InterfacePlay{
         return cooPiece;
     }
 
-	public ArrayList<ArrayList<Integer>> choixDeplacement(int largeur, int longueur, PlateauPuzzle plateau) {
+    public ArrayList<ArrayList<Integer>> choixDeplacement(int largeur, int longueur, PlateauPuzzle plateau) {
 		
 		PlateauPuzzle copiePlateau = null; //création d'une copie du plateau a chaque boucle
 
@@ -148,10 +153,10 @@ public class PlayIA implements InterfacePlay{
 		return new ArrayList<ArrayList<Integer>>(Arrays.asList(choixCooPiece,choixCoo));
 	}
 
-	public ArrayList<ArrayList<Integer>> choixAjout(int largeur, int longueur, PlateauPuzzle plateau) {
-		ArrayList<Integer> choixCoo = null;
-		int bestScore = -1;
-	
+    public ArrayList<ArrayList<Integer>> choixAjout(int largeur, int longueur, PlateauPuzzle plateau) {
+        ArrayList<Integer> choixCoo = null;
+        int bestScore = -1;
+
         int choixPiece = choix(1, plateau.getPieceAJouer().size());
 		
 		//Si aucune pièce n'est déjà posé, pas besoin de dresser un tableau de possibilités

@@ -2,15 +2,54 @@ package piecesPuzzle.pieces;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public abstract class AbstractPiece implements PiecesPuzzle{
-	protected int x,y;
-	protected int largeurXActuel, longueurYActuel;
-	protected boolean[][] grid;
-	protected int rotationActuel;
+
+    /**
+     *
+     */
+    protected int x,
+
+    /**
+     *
+     */
+    y;
+
+    /**
+     *
+     */
+    protected int largeurXActuel,
+
+    /**
+     *
+     */
+    longueurYActuel;
+
+    /**
+     *
+     */
+    protected boolean[][] grid;
+
+    /**
+     *
+     */
+    protected int rotationActuel;
+
+    /**
+     *
+     */
     protected ArrayList<Integer> coordonnees;
 
-	
-	public AbstractPiece(int x, int y, int rotation){
+    /**
+     *
+     * @param i
+     * @param i1
+     * @param i2
+     */
+    public AbstractPiece(int x, int y, int rotation){
 		this.x = x;
 		this.y = y;
 		this.rotationActuel = rotation;
@@ -41,34 +80,67 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		pieceGrid();
 	}
 	
-	public boolean[][] getGrid() {
+    /**
+     *
+     * @return
+     */
+    public boolean[][] getGrid() {
 		return this.grid;
 	}
 
-	public int getLargeurX() {
+    /**
+     *
+     * @return
+     */
+    public int getLargeurX() {
 		return this.largeurXActuel;
 	}
 
-	public int getLongueurY() {
+    /**
+     *
+     * @return
+     */
+    public int getLongueurY() {
 		return this.longueurYActuel;
 	}
 	
-	public ArrayList<Integer> getCoo(){
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Integer> getCoo(){
 		return this.coordonnees;
 	}
-	public int getRotation(){
+
+    /**
+     *
+     * @return
+     */
+    public int getRotation(){
 		return this.rotationActuel;
 	}
 
-	public void updateCoordonnees(ArrayList<Integer> coo){
+    /**
+     *
+     * @param coo
+     */
+    public void updateCoordonnees(ArrayList<Integer> coo){
 		this.coordonnees = coo;
 	}
 	
-	public int getX(){
+    /**
+     *
+     * @return
+     */
+    public int getX(){
 		return this.x;
 	}
 	
-	public int getY(){
+    /**
+     *
+     * @return
+     */
+    public int getY(){
 		return this.y;
 	}
 	

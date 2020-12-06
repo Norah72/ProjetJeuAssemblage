@@ -9,6 +9,10 @@ import java.util.Random;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class Play {
     //Attibuts
     
@@ -32,14 +36,18 @@ public class Play {
     private boolean explicationRot = true;
     
     private String pseudo = null;
-    private ScoreFile sauvegardeScore = new ScoreFile();
+    private final ScoreFile sauvegardeScore = new ScoreFile();
     
     private boolean stop = false;
 	
     private final String fileIa = "src/file/partie/partieIa.txt";
     private final String fileJoueur = "src/file/partie/partie.txt";
    
-    //Constructeur
+
+    /**
+     * Constructeur
+     * @param affichageGraph
+     */
     
     public Play(boolean affichageGraph){
         this.affichageGraph = affichageGraph;
@@ -53,7 +61,9 @@ public class Play {
             menu();
         }
     }
-	
+    /**
+     * affichage du menu
+     */
     private void menu(){
         while(!this.stop){
 				
@@ -62,7 +72,7 @@ public class Play {
             affiche("2- Charger la dernière partie");
             affiche("3- Règle de jeu");
             affiche("4- Score de jeu");
-            affiche("\n0- Quitter");
+            affiche("\n0- Quitter");                        //On analyse le choix du joueur et on lance different prog en fonction de ce qu'il veut
             affiche("----------------");
             
             affiche("Que voulez vous faire ?");
@@ -177,6 +187,12 @@ public class Play {
 					this.vueGraph.getListeBouton().get(i).addActionListener(actionBouton);
 				wait();
 			}
+                   if(this.actionBouton.getChoix()==1){
+                       nouvellePartie(largeurPlateau,longueurPlateau);
+                   }
+                   else if(this.actionBouton.getChoix()==6){
+                       chargerPartie();
+                   } 
 		   int compo = 0;
 		   while(compo==0){
 			   compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
@@ -217,6 +233,12 @@ public class Play {
 	//###########################
 	
 	//Méthode commune pour créer une nouvelle partie
+
+    /**
+     *
+     * @param largeurPlateau
+     * @param longueurPlateau
+     */
     public void nouvellePartie(int largeurPlateau,int longueurPlateau){
         this.plateau = new PlateauPuzzle(largeurPlateau,longueurPlateau);
         creationPieceRandom();
@@ -302,7 +324,10 @@ public class Play {
             }
         }
 	
-	public void jeuIa(){
+    /**
+     *
+     */
+    public void jeuIa(){
 		affiche("\nChargement en cours...", true);
 		this.joueurActuel = new PlayIA();
 		this.montreMessage = false;
@@ -581,6 +606,13 @@ public class Play {
     //#################
     // Méthodes commune
     //#################
+
+    /**
+     *
+     * @param piece
+     * @param coordonnees
+     * @return
+     */
 	
     public boolean ajoutPiece(int piece, ArrayList<Integer> coordonnees){
         boolean actionValide = this.plateau.addPiece(this.plateau.getPieceAJouer().get(piece), coordonnees);
@@ -589,6 +621,11 @@ public class Play {
         return actionValide;
     }
     
+    /**
+     *
+     * @param coordonneesPiece
+     * @return
+     */
     public boolean supprimerPiece(ArrayList<Integer> coordonneesPiece){
         boolean actionValide = this.plateau.removePiece(this.plateau.getPiece(coordonneesPiece));
         afficheJeu();
@@ -596,6 +633,12 @@ public class Play {
         return actionValide;
     }
     
+    /**
+     *
+     * @param anciennesCoordonnees
+     * @param nouvellesCoordonnees
+     * @return
+     */
     public boolean deplacementPiece(ArrayList<Integer> anciennesCoordonnees, ArrayList<Integer> nouvellesCoordonnees){
         boolean actionValide = this.plateau.movePiece(this.plateau.getPiece(anciennesCoordonnees),nouvellesCoordonnees);
         afficheJeu();
@@ -603,6 +646,12 @@ public class Play {
         return actionValide;
     }
     
+    /**
+     *
+     * @param coordonneesPiece
+     * @param rotation
+     * @return
+     */
     public boolean rotationPiece(ArrayList<Integer> coordonneesPiece, int rotation){
         boolean actionValide = this.plateau.rotationPiece(this.plateau.getPiece(coordonneesPiece),rotation);
         afficheJeu();
@@ -610,6 +659,11 @@ public class Play {
         return actionValide;
     }
     
+    /**
+     *
+     * @param piece
+     * @param rotation
+     */
     public void rotationPieceDisponible(int piece, int rotation){
         this.plateau.rotationPieceDisponible(piece,rotation);
 
@@ -846,6 +900,11 @@ public class Play {
 	}
 
 	//Méthode commune de sauvegarde
+
+    /**
+     *
+     * @param file
+     */
     public void sauvegarderLaPartie(String file){
         SauvegardeFichier sauvegarde = new SauvegardeFichier(this, file);
         try{
@@ -857,6 +916,10 @@ public class Play {
     }
 	
 	//Méthode commune de chargement de partie
+
+    /**
+     *
+     */
 	public void chargerPartie(){
             chargerLaPartie(fileJoueur);
             afficheJeu();
@@ -893,6 +956,9 @@ public class Play {
         return rand;
     }
     
+    /**
+     *
+     */
     public void clickNotify(){
         synchronized(this){
             notify();
@@ -914,51 +980,100 @@ public class Play {
     //################
     //Getter et Setter
     //################
+
+    /**
+     *
+     * @return
+     */
     
     public int getLargeur(){
         return this.largeurPlateau;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getLongueur(){
         return this.longueurPlateau;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getPseudo(){
         return this.pseudo;
     }
     
+    /**
+     *
+     * @return
+     */
     public PlateauPuzzle getPlateau(){
         return this.plateau;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean getExplicationRot (){
         return this.explicationRot;
     }
 	
+    /**
+     *
+     * @return
+     */
     public boolean getIa(){
         return this.ia;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean getAfficheGraph(){
         return this.affichageGraph;
     }
 	
+    /**
+     *
+     * @param largeur
+     */
     public void setLargeur(int largeur){
         this.largeurPlateau = largeur;
     }
     
+    /**
+     *
+     * @param longueur
+     */
     public void setLongueur(int longueur){
         this.longueurPlateau = longueur;
     }
     
+    /**
+     *
+     * @param pseudo
+     */
     public void setPseudo(String pseudo){
         this.pseudo = pseudo;
     }
     
+    /**
+     *
+     * @param plateau
+     */
     public void setPlateau(PlateauPuzzle plateau){
         this.plateau = plateau;
     }
     
+    /**
+     *
+     * @param explication
+     */
     public void setExplicationRot(boolean explication){
         this.explicationRot = explication;
     }

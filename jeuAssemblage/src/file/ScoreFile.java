@@ -9,16 +9,25 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class ScoreFile implements Comparator<String>{
 	private HashMap<String, String> listeScore = new HashMap<String, String>();
-	private File scoreFile = new File("src/file/partie/score.txt"); 
+	private final File scoreFile = new File("src/file/partie/score.txt"); 
         private TreeMap<String,String> listeScoreTri = new TreeMap<String,String>(this);
         private String verifPseudo;
         private int verifScore;
-	public void write(Play jeu) throws IOException {
+
+    /**
+     *
+     * @param jeu
+     * @throws IOException
+     */
+    public void write(Play jeu) throws IOException {
 		try{
 			if(!this.scoreFile.exists()){
 				this.scoreFile.createNewFile();
@@ -34,7 +43,10 @@ public class ScoreFile implements Comparator<String>{
 		}
 	}
 	
-	public void affiche(){
+    /**
+     *
+     */
+    public void affiche(){
 		boolean affichePseudo = true;
                 boolean present = false;
                 String p = null;
@@ -105,7 +117,12 @@ public class ScoreFile implements Comparator<String>{
 		}
 		
 	}
-        public TreeMap<String, String> getListeScore(){
+
+    /**
+     *
+     * @return
+     */
+    public TreeMap<String, String> getListeScore(){
             return listeScoreTri;
         }
    

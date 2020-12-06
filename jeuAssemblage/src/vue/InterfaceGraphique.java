@@ -27,10 +27,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class InterfaceGraphique extends JFrame implements Listener{
-    private JPanel fenetre = new JPanel();
-    private JPanel boutonDeJeu = new JPanel();
-    private JPanel grille = new JPanel();
+    private JPanel fenetre = new JPanel();                          
+    private JPanel boutonDeJeu = new JPanel();                      //sous - fenetre contenant les boutons PLACER - DEPLACER... 
+    private JPanel grille = new JPanel();                           //sous - fenetre contenant les case de la grille
     private JPanel listePiece = new JPanel();
     private JLabel info = new JLabel();
     private JLabel score = new JLabel("Score : 0");
@@ -47,6 +51,10 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private int nblignes, nbcolonne;
     private JProgressBar barre_progression;
     
+    /**
+     * Constructeur
+     * @param modele
+     */
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
         setTitle("Tetris : Puzzle Edition.exe");
@@ -55,9 +63,12 @@ public class InterfaceGraphique extends JFrame implements Listener{
 	setVisible(false);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-    
+    /**
+     * Création fenetre
+     * @return fenetre
+     */
     private JPanel buildContentPane(){
-        fenetre.removeAll();
+        fenetre.removeAll();  
         if(modele==null){
             listeCreationBouton();
             boutonDeJeu.add(score);
@@ -78,7 +89,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
             score.setText("Score : " + Integer.toString(this.modele.getScore()));
             boutonDeJeu.remove(info);
             grille.removeAll();
-            listeCase0ForClick.clear();
+            listeCase0ForClick.clear();         //on nettoie toute les sous-fenetre principal
             listePieceForClick.clear();	
             nblignes = this.modele.getX();
             nbcolonne = this.modele.getY();
@@ -92,9 +103,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
                     listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),newCase);
                     PiecesPuzzle p0= (PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)));
                     if(p0 != null){
-                        colorization(p0,newCase);
+                        colorization(p0,newCase);                   //on parcourt le tableau et colorie la pièce en fonction de sa forme
                     }
-                    /*this.modele.addListener(newCase);*/
                     grille.add(newCase);
                 }
             }
@@ -107,15 +117,27 @@ public class InterfaceGraphique extends JFrame implements Listener{
             }
         return fenetre;
     } 
+
+    /**
+     *  Affichage de la vue
+     * @param action
+     */
     public void start(ActionGraphique action){
         setContentPane(buildContentPane());
         getAction(action);
         setVisible(true);
     }
+    /**
+     * Attribue un listener au bouton ligne et colonne
+     * @param action 
+     */
     private void getAction(ActionGraphique action ){
         getLigne().addActionListener(action);
         getColonne().addActionListener(action);
     }
+    /**
+     * crétaion des Bouton du jeu
+     */
     private void listeCreationBouton(){
         creationBouton("VALIDER");
         creationBouton("PLACER");
@@ -127,13 +149,20 @@ public class InterfaceGraphique extends JFrame implements Listener{
         creationBouton("RETOUR AU MENU");
         creationBouton("QUITTER");
     }
+    /**
+     * Creation d'un bouton
+     * @param nom 
+     */
     private void creationBouton(String nom){
         bouton = new JButton(nom);
-        listeBouton.add(bouton);
-        if(nom == "PLACER" || nom == "DEPLACER" || nom =="SUPPRIMER" || nom =="SAVE/EXIT" ){
+        listeBouton.add(bouton);                                                                //Onl'ajoute dans l'ArrayListe de bouton
+        if(nom == "PLACER" || nom == "DEPLACER" || nom =="SUPPRIMER" || nom =="SAVE/EXIT" ){    //Seul ces boutons sont visible pendant une partie
             boutonDeJeu.add(bouton);
         }
     }
+    /**
+     * affiche la liste des pieces à jouer
+     */
     private void affichePieceAJouer(){
         for(int i = 0 ; i < modele.getPieceAJouer().size(); i++){
             PiecesPuzzle p1 = (PiecesPuzzle)modele.getPieceAJouer().get(i);
@@ -143,6 +172,9 @@ public class InterfaceGraphique extends JFrame implements Listener{
         }
     }
     
+    /**
+     * fenetre expliquant le fonctionnement du jeu
+     */
     public void Explication(){
         JFrame explication = new JFrame();
         JPanel pieceDemo = new JPanel();
@@ -175,7 +207,12 @@ public class InterfaceGraphique extends JFrame implements Listener{
         explication.add(affichage,BorderLayout.SOUTH);
         explication.setVisible(true);
     }
-
+    
+    /**
+     * piece special pour illsutrer le fonctionement du jeux (visible dans Explication)
+     * @param p
+     * @return 
+     */
     private JPanel parcourirDemo(PiecesPuzzle p){
         JPanel piece = new JPanel();
         piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
@@ -195,7 +232,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
         }
         return piece;
     }
-
+    /**
+     * Parcours une piece pour afficher sa forme
+     * @param p
+     * @return 
+     */
     private JPanel parcourir(PiecesPuzzle p){
         JPanel piece = new JPanel();
         piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
@@ -211,6 +252,10 @@ public class InterfaceGraphique extends JFrame implements Listener{
         return piece;
     }
         
+    /**
+     * test explicative lorsqu'on clique sur un bouton
+     * @param texte
+     */
     public void texteInformation(String texte){
         info.setText(texte);
         info.setForeground(Color.RED);
@@ -218,10 +263,14 @@ public class InterfaceGraphique extends JFrame implements Listener{
         setContentPane(fenetre);
     }
     
+    /**
+     * Permet de sélectionner la rotation que l'on souhaite
+     * @param p
+     */
     public void visualisationRotation(PiecesPuzzle p){
         listeRotation = new ArrayList<JRadioButton>();
         choixRotation.removeAll();
-        ButtonGroup group = new ButtonGroup();
+        ButtonGroup group = new ButtonGroup(); //permet de sélectionner qu"une seule rotation
         Border border = BorderFactory.createTitledBorder("Rotation");
         choixRotation.setBorder(border);
         JRadioButton rota0 = new JRadioButton("");
@@ -234,11 +283,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
         listeRotation.add(rota3);
         for(int i=0; i<4; i++){
             if(i==p.getRotation()){
-                getListeRotation().get(i).setSelected(true);
+                getListeRotation().get(i).setSelected(true); //On verifie dans quel rotation la pièce se trouve pour la mettre en True par défaut
             }    
         }
         for(int i=0;i<listeRotation.size();i++){
-            JPanel affichage = new JPanel();
+            JPanel affichage = new JPanel();                //Une fenetre suplémentaire pour resserrer les cases de la pièces et avoir un affichage propre
             choixRotation.add(listeRotation.get(i));
             group.add(listeRotation.get(i));
             p.createPiece(i);
@@ -247,7 +296,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
         }
         fenetre.add(choixRotation,BorderLayout.EAST);
     }
-    
+    /**
+     * colorie la pièce en fonction de sa forme
+     * @param p
+     * @param newCase 
+     */
     private void colorization(PiecesPuzzle p, JPanel newCase){
         if(p instanceof PieceT)
             newCase.setBackground(Color.BLUE);
@@ -260,44 +313,95 @@ public class InterfaceGraphique extends JFrame implements Listener{
         newCase.setBorder(bordure);
     }
     
+    /**
+     *
+     * @param obs
+     */
     @Override
-	public void update(Object obs) {
+	public void update(Object obs) {    //Observer non implementé
             fenetre.repaint();
         }
      
+    /**
+     * Met à jour de la grille
+     */
     public void afficheGrille(){
         this.modele.addListener(this);
         setContentPane(buildContentPane());
     }
+
+    /**
+     * Recuperation du bouton Ligne
+     * @return
+     */
     public JComboBox getLigne() {
 	return ligne;
     }
+
+    /**
+     * Recuperation du bouton Colonne
+     * @return
+     */
     public JComboBox getColonne() {
 	return colonne;
     }
+
+    /**
+     * Recuperation des bouton de jeu
+     * @return
+     */
     public ArrayList<JButton> getListeBouton(){
         return listeBouton;
     }
+
+    /**
+     * Recuperation de la liste des rotations de la pièce
+     * @return
+     */
     public ArrayList<JRadioButton> getListeRotation(){
-        return new ArrayList((ArrayList<JRadioButton>)listeRotation.clone());
+        return new ArrayList((ArrayList<JRadioButton>)listeRotation.clone()); //le clone permet d'avoir la derniere versions de la liste
     }
+
+    /**
+     * Recuperation de la liste des cases de la grille
+     * @return
+     */
     public HashMap<ArrayList<Integer>,JPanel> getListeCaseForClick(){
         return listeCase0ForClick;
     }
+
+    /**
+     * Recuperation de la liste des cases des pièce à placer
+     * @return
+     */
     public ArrayList<JPanel> getListePieceForClick(){
         return listePieceForClick;
     }
 
-    
+    /**
+     * fenetre de choix ouiNon (0 = oui ; 1 = non)
+     * @param texte
+     * @param titre
+     * @return
+     */
     public int ouiNon(String texte, String titre){
         int reponse = JOptionPane.showConfirmDialog(this, texte,titre, JOptionPane.YES_NO_OPTION);
         return reponse;
     }
+
+    /**
+     *  retroune ke pseudo du joueur
+     * @return
+     */
     public String pseudo(){
         String reponse = JOptionPane.showInputDialog(this, "Rentrez un pseudo","Sauvegarder", JOptionPane.OK_OPTION);
         return reponse;
     }
     
+    /**
+     * Retourne le tableau des scores
+     * @param tab
+     */
     public void tableauScore(ScoreFile tab){
         fenetre.removeAll();
         JLabel titre = new JLabel("Tableau des scores");
@@ -308,7 +412,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         ArrayList<String> t = new ArrayList();
         for(String i : tab.getListeScore().values()){
             t.add(i);
-        }
+        }                                                   //On fait une liste html dans laquelle on rajaoute chaque pseudo / score
         int i = 0;
         for(String j : tab.getListeScore().keySet()){
             tableauScore.setText(tableauScore.getText()+"<li>"+ j +" - "+ t.get(i)+"</li><br>");
@@ -325,10 +429,18 @@ public class InterfaceGraphique extends JFrame implements Listener{
         setContentPane(fenetre);
     }
     
+    /**
+     * Mise à jour du modèle
+     * @param modele
+     */
     public void chargerModele(PlateauPuzzle modele){
         this.modele = modele;
     }
 
+    /**
+     * Verification si un une autre action est en cours
+     * @return
+     */
     public boolean actionEnCours(){
         for(int i =0; i<getListeBouton().size();i++){
             if(getListeBouton().get(i).getText()=="ANNULER")
@@ -337,7 +449,12 @@ public class InterfaceGraphique extends JFrame implements Listener{
         return false;
     }
 	
-	public void barreChargement(int minimum, int maximum){
+    /**
+     *  Barre de Chargement quand l'ia joue
+     * @param minimum
+     * @param maximum
+     */
+    public void barreChargement(int minimum, int maximum){
 		JLabel label = new JLabel();
 		label.setText("Chargement en cours...");
 		barre_progression = new JProgressBar( );
@@ -354,7 +471,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
 	}
 
-	public void updateBar(final int newValue)
+    /**
+     * mise à jour de la barre de chargement
+     * @param newValue
+     */
+    public void updateBar(final int newValue)
 	{
 	  SwingUtilities.invokeLater(new Runnable( ) {
              public void run( ) {

@@ -9,7 +9,10 @@ import java.io.IOException;
 import piecesPuzzle.pieces.*;
 import controleur.*;
 
-
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class SauvegardeFichier {
 	
 	private final Play jeu;
@@ -17,8 +20,12 @@ public class SauvegardeFichier {
 	private JsonWriter sauvegarde;
 	private final boolean affiche;
 	
-	
-	public SauvegardeFichier(Play jeu,String File){
+    /**
+     *
+     * @param jeu
+     * @param File
+     */
+    public SauvegardeFichier(Play jeu,String File){
 		this.jeu = jeu;
 
 		this.affiche = (!jeu.getIa() && !jeu.getAfficheGraph()) == true;
@@ -26,7 +33,11 @@ public class SauvegardeFichier {
 		this.partieFichier = new File(File);
 	}
 	
-	public void ecrire() throws IOException{
+    /**
+     *
+     * @throws IOException
+     */
+    public void ecrire() throws IOException{
 		try{
 			affiche("Sauvegarde en cours.. ");
 			this.sauvegarde = new JsonWriter(new FileWriter(partieFichier));

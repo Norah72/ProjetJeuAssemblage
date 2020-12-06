@@ -13,6 +13,10 @@ import java.util.Arrays;
 import modele.PlateauPuzzle;
 import controleur.*;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class ChargerPartie {
 
 	private final Play jeu;
@@ -20,12 +24,21 @@ public class ChargerPartie {
 	
 	private int largeur, longeur, rotation, i;
 
-	public ChargerPartie(Play jeu, String file){
+    /**
+     *
+     * @param jeu
+     * @param file
+     */
+    public ChargerPartie(Play jeu, String file){
 		this.jeu = jeu;
 		this.partieFichier = new File(file);
 	}
 	
-	public void chargerSauvegarde() throws IOException{
+    /**
+     *
+     * @throws IOException
+     */
+    public void chargerSauvegarde() throws IOException{
 		try{
 		JsonParser parseCharger = new JsonParser();
 		JsonObject chargerPartie = (JsonObject) parseCharger.parse(new FileReader(partieFichier));

@@ -6,6 +6,10 @@ import java.util.Arrays;
 import piecesPuzzle.pieces.*;
 import util.*;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class PlateauPuzzle implements Listenable, Cloneable{
     
     private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
@@ -20,6 +24,11 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     private int minX,maxX,minY,maxY;
     private int surfacePieces ;    
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public PlateauPuzzle(int x, int y){
         this.plateau = new HashMap<ArrayList<Integer>, PiecesPuzzle >();
         this.x=x;
@@ -68,6 +77,10 @@ public class PlateauPuzzle implements Listenable, Cloneable{
 
     }
 
+    /**
+     *
+     * @return
+     */
     public int getScore(){
         int surfaceTotal = (this.maxX - this.minX + 1)*(this.maxY - this.minY +1);
         double score =  this.surfacePieces/ (double)surfaceTotal * 100;
@@ -75,14 +88,35 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         return (int) score;
     }
 
+    /**
+     *
+     * @param piece
+     * @param largeur
+     * @param longueur
+     */
     public void newPiece(String piece, int largeur, int longueur){
             this.newPiece(piece, largeur, longueur, 0);	
     }
 
+    /**
+     *
+     * @param piece
+     * @param largeur
+     * @param longueur
+     * @param rotation
+     */
     public void newPiece(String piece, int largeur, int longueur, int rotation){
             this.pieceAJouer.add(createNewPiece(piece, largeur, longueur, rotation));	
     }
 
+    /**
+     *
+     * @param piece
+     * @param largeur
+     * @param longueur
+     * @param rotation
+     * @return
+     */
     public PiecesPuzzle createNewPiece(String piece, int largeur, int longueur, int rotation){
             if(piece.equals(pieceString.get(0))){
                     return new PieceH(largeur,longueur, rotation);
@@ -96,6 +130,12 @@ public class PlateauPuzzle implements Listenable, Cloneable{
             return null;
     }
 
+    /**
+     *
+     * @param p
+     * @param coo
+     * @return
+     */
     public boolean addPiece(PiecesPuzzle p , ArrayList coo){
 
         int posY = 0;
@@ -130,6 +170,12 @@ public class PlateauPuzzle implements Listenable, Cloneable{
                     this.piecePlacer.add(p);
     }
 
+    /**
+     *
+     * @param p
+     * @param coo
+     * @return
+     */
     public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
 
         int posY = 0;
@@ -154,6 +200,11 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         return false;
     }
 
+    /**
+     *
+     * @param p
+     * @return
+     */
     public boolean removePiece( PiecesPuzzle p){
         boolean valide = false;
         for (HashMap.Entry< ArrayList<Integer> , PiecesPuzzle > entry : this.plateau.entrySet()) {
@@ -173,6 +224,12 @@ public class PlateauPuzzle implements Listenable, Cloneable{
 
     }
 
+    /**
+     *
+     * @param p
+     * @param rotation
+     * @return
+     */
     public boolean rotationPiece(PiecesPuzzle p , Integer rotation){
         removePiece(p);
         boolean out;
@@ -190,20 +247,41 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         return out;
     }
 
+    /**
+     *
+     * @param coo
+     * @return
+     */
     public boolean libre(ArrayList coo){
         return this.plateau.get(coo) == null && this.plateau.containsKey(coo);
     }
 
+    /**
+     *
+     * @param numPieceRotation
+     * @param rotation
+     */
     public void rotationPieceDisponible(int numPieceRotation , Integer rotation){
         this.pieceAJouer.get(numPieceRotation).createPiece(rotation);
     }
 
+    /**
+     *
+     * @param coo
+     * @return
+     */
     public boolean selectPiece(ArrayList coo){
 
         PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
         return pieceSelect != null;
     }
 
+    /**
+     *
+     * @param p
+     * @param coo
+     * @return
+     */
     public boolean validePlacement(PiecesPuzzle p, ArrayList coo){
         for(int i=0;i<p.getLargeurX();i++){
             for(int j=0; j<p.getLongueurY();j++){
@@ -217,34 +295,66 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap getPlateau(){
         return this.plateau;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<PiecesPuzzle> getPieceAJouer() {
             return pieceAJouer;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<PiecesPuzzle> getPiecePlacer() {
             return piecePlacer;
     }		
 
+    /**
+     *
+     * @param coo
+     * @return
+     */
     public PiecesPuzzle getPiece(ArrayList coo){
             return this.plateau.get(coo);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getPieceString() {
             return pieceString;
     }
 
+    /**
+     *
+     * @param pieceAJouer
+     */
     public void setPieceAJouer(ArrayList<PiecesPuzzle> pieceAJouer) {
             this.pieceAJouer = pieceAJouer;
     }
 
+    /**
+     *
+     * @param piecePlacer
+     */
     public void setPiecePlacer(ArrayList<PiecesPuzzle> piecePlacer) {
             this.piecePlacer = piecePlacer;
     }
 
+    /**
+     *
+     */
     @Override
     public void fireChangement(){
         for ( Listener listener : this.listeners){
@@ -252,11 +362,19 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         } 
     }
 
+    /**
+     *
+     * @param listener
+     */
     @Override
     public void addListener(Listener listener){
         this.listeners.add(listener);
     }
 
+    /**
+     *
+     * @param listener
+     */
     @Override
     public void removeListener(Listener listener){
         this.listeners.remove(listener);
@@ -292,16 +410,30 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
         return "";
     }
+
+    /**
+     *
+     * @param newx
+     * @param newy
+     */
     public void setXY(int newx,int newy){
         this.x = newx;
         this.y = newy;
         construcPlateau(this.x, this.y);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getX(){
         return this.x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY(){
         return this.y;
     }

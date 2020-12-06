@@ -1,14 +1,27 @@
 package piecesPuzzle.pieces;
 
-import java.util.ArrayList;
-
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class PieceRectangle extends AbstractPiece{
 	
-	public PieceRectangle(int x, int y){
+    /**
+     *
+     * @param x
+     * @param y
+     */
+    public PieceRectangle(int x, int y){
 		super(x,y,0);
 	}
 	
-	public PieceRectangle(int x, int y, int rotation){
+    /**
+     *
+     * @param x
+     * @param y
+     * @param rotation
+     */
+    public PieceRectangle(int x, int y, int rotation){
 		super(x,y,rotation);
 	}
 	
