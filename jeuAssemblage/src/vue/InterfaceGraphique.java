@@ -1,12 +1,12 @@
 package vue;
-import controleur.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+
 import modele.*;
 import util.*;
 import file.*;
 import piecesPuzzle.pieces.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,21 +35,20 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JLabel info = new JLabel();
     private JLabel score = new JLabel("Score : 0");
     private JPanel choixRotation = new JPanel(new GridLayout(0,1));
-    private Border bordure = BorderFactory.createLineBorder(Color.black,1);
+    private final Border bordure = BorderFactory.createLineBorder(Color.black,1);
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
     private HashMap<ArrayList<Integer>, JPanel > listeCase0ForClick = new HashMap<ArrayList<Integer>, JPanel>();
     private ArrayList<JPanel> listePieceForClick = new ArrayList<JPanel>();
     private ArrayList<JRadioButton> listeRotation;
     private PlateauPuzzle modele;
-    private JComboBox ligne = new JComboBox();
-    private JComboBox colonne = new JComboBox();
+    private final JComboBox ligne = new JComboBox();
+    private final JComboBox colonne = new JComboBox();
     private JButton bouton;
     private int nblignes, nbcolonne;
-	private JProgressBar barre_progression;
+    private JProgressBar barre_progression;
     
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
-        //modele.addListener(this);
         setTitle("Tetris : Puzzle Edition.exe");
         setSize(850,850);
         setLocationRelativeTo(null);
@@ -88,15 +87,15 @@ public class InterfaceGraphique extends JFrame implements Listener{
             grille.setBackground(Color.BLACK);
             for(int i = 0 ; i < nblignes; i++) {
                 for (int j = 0; j < nbcolonne; j++) {
-                    JPanel case0 = new JPanel();
-                    case0.setBorder(bordure);
-                    listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),case0);
+                    JPanel newCase = new JPanel();
+                    newCase.setBorder(bordure);
+                    listeCase0ForClick.put(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)),newCase);
                     PiecesPuzzle p0= (PiecesPuzzle)this.modele.getPlateau().get(new ArrayList<Integer>(Arrays.asList((Integer)i,(Integer)j)));
                     if(p0 != null){
-                        colorization(p0,case0);
+                        colorization(p0,newCase);
                     }
-                    /*this.modele.addListener(case0);*/
-                    grille.add(case0);
+                    /*this.modele.addListener(newCase);*/
+                    grille.add(newCase);
                 }
             }
             grille.setBorder(bordure);
@@ -136,10 +135,9 @@ public class InterfaceGraphique extends JFrame implements Listener{
         }
     }
     private void affichePieceAJouer(){
-        JPanel piece = new JPanel();
         for(int i = 0 ; i < modele.getPieceAJouer().size(); i++){
             PiecesPuzzle p1 = (PiecesPuzzle)modele.getPieceAJouer().get(i);
-            piece = parcourir(p1);
+            JPanel piece = parcourir(p1);
             listePiece.add(piece);
             listePieceForClick.add(piece);
         }
@@ -150,11 +148,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
         JPanel pieceDemo = new JPanel();
         explication.setSize(1000,1000);
         explication.setLocationRelativeTo(null);
-        JLabel text = new JLabel("<html>Dans ce jeu l'objectif est simple ! Vous devez placer ses pièces en prenant le moins de place possible sur le plateau.<br><br>"
+        JLabel text = new JLabel("<html>Dans ce jeu l'objectif est simple ! Vous devez placer vos pièces en prenant le moins de place possible sur le plateau.<br><br>"
                 + "Pour cela, plusieurs action sont possibles :<ul>"
                 + "<li><U>Placer une pièce</U></li>Vous pouvez placer des pieces parmi celle présente dans votre liste (exemple ci-dessous) en cliquant dessus. Vous aurez alors plusieurs "
                 + "rotations disponible.<br>Il vous suffira alors de cliquer sur la grille de jeu pour placer votre pièces.<br><br>"
-                + "<U>!!!ATTENTION!!!<U> : Quand vous séléctionnez une case sur la grille, ce sont les coordonées 0,0 de la pièces qui s'y placeront "
+                + "<U>!!!ATTENTION!!!<U> : Quand vous séléctionnez une case sur la grille, ce sont les coordonées de la premiere case en couleur de la pièces qui s'y placeront "
                 + "(exemple: case rouge de la derniere pièce ci-dessous). <U>CECI EST VALABLE POUR TOUTES LES INTERACTIONS!</U><br><br>"
                 + "<li><U>Deplacer</U></li>Il est possible de déplacer une pièce sur la grille. Pour cela rien de plus simple, il suffit d'appuyer sur le bouton DEPLACER, "
                 + "de séléctionner la pièce, de modifier la rotation si nécessaire, et de sélectionner son nouvel emplacement.<br><br>"
@@ -181,16 +179,18 @@ public class InterfaceGraphique extends JFrame implements Listener{
     private JPanel parcourirDemo(PiecesPuzzle p){
         JPanel piece = new JPanel();
         piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
+        boolean cible = true;
         for(int j = 0 ; j < p.getLargeurX(); j++) {
                 for (int k = 0; k < p.getLongueurY(); k++) {
-                    JPanel case0 = new JPanel();
-                    if (j==0 && k==0){
-                        case0.setBackground(Color.RED);
+                    JPanel newCase = new JPanel();
+                    if (p.getGrid()[j][k]==true && cible){
+                        newCase.setBackground(Color.RED);
+                        cible=false;
                     }
-                    if (p.getGrid()[j][k]==true){
-                        colorization(p,case0);
+                    else if (p.getGrid()[j][k]==true){
+                        colorization(p,newCase);
                     }
-                    piece.add(case0);
+                    piece.add(newCase);
                 }
         }
         return piece;
@@ -201,11 +201,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
         piece.setLayout(new GridLayout(p.getLargeurX(),p.getLongueurY(),2,2));
         for(int j = 0 ; j < p.getLargeurX(); j++) {
                 for (int k = 0; k < p.getLongueurY(); k++) {
-                    JPanel case0 = new JPanel();
+                    JPanel newCase = new JPanel();
                     if (p.getGrid()[j][k]==true){
-                        colorization(p,case0);
+                        colorization(p,newCase);
                     }
-                    piece.add(case0);
+                    piece.add(newCase);
                 }
         }
         return piece;
@@ -248,16 +248,16 @@ public class InterfaceGraphique extends JFrame implements Listener{
         fenetre.add(choixRotation,BorderLayout.EAST);
     }
     
-    private void colorization(PiecesPuzzle p, JPanel case0){
+    private void colorization(PiecesPuzzle p, JPanel newCase){
         if(p instanceof PieceT)
-            case0.setBackground(Color.BLUE);
+            newCase.setBackground(Color.BLUE);
         else if(p instanceof PieceL)
-            case0.setBackground(Color.GREEN);
+            newCase.setBackground(Color.GREEN);
         else if(p instanceof PieceH)
-            case0.setBackground(Color.CYAN);
+            newCase.setBackground(Color.CYAN);
         else if(p instanceof PieceRectangle)
-            case0.setBackground(Color.ORANGE);
-        case0.setBorder(bordure);
+            newCase.setBackground(Color.ORANGE);
+        newCase.setBorder(bordure);
     }
     
     @Override
@@ -290,13 +290,11 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
     
     public int ouiNon(String texte, String titre){
-        JOptionPane p = new JOptionPane();
-        int reponse = p.showConfirmDialog(this, texte,titre, JOptionPane.YES_NO_OPTION);
+        int reponse = JOptionPane.showConfirmDialog(this, texte,titre, JOptionPane.YES_NO_OPTION);
         return reponse;
     }
     public String pseudo(){
-        JOptionPane p = new JOptionPane();
-        String reponse = p.showInputDialog(this, "Rentrez un pseudo","Sauvegarder", JOptionPane.OK_OPTION);
+        String reponse = JOptionPane.showInputDialog(this, "Rentrez un pseudo","Sauvegarder", JOptionPane.OK_OPTION);
         return reponse;
     }
     
@@ -306,20 +304,20 @@ public class InterfaceGraphique extends JFrame implements Listener{
         titre.setHorizontalAlignment(SwingConstants.CENTER);
         titre.setFont(new java.awt.Font("Arial",Font.BOLD,20));
         fenetre.add(titre,BorderLayout.NORTH);
-        JLabel score = new JLabel("<html><ul>");
+        JLabel tableauScore = new JLabel("<html><ol>");
         ArrayList<String> t = new ArrayList();
         for(String i : tab.getListeScore().values()){
             t.add(i);
         }
         int i = 0;
         for(String j : tab.getListeScore().keySet()){
-            score.setText(score.getText()+"<li>"+ j +" - "+ t.get(i)+"</li><br>");
+            tableauScore.setText(tableauScore.getText()+"<li>"+ j +" - "+ t.get(i)+"</li><br>");
             i++;
         }
-        score.setText(score.getText()+"</ul><html>");
-        score.setHorizontalAlignment(SwingConstants.CENTER);
-        score.setFont(new java.awt.Font("Arial",Font.BOLD,20));
-        fenetre.add(score,BorderLayout.CENTER);
+        tableauScore.setText(tableauScore.getText()+"</ol><html>");
+        tableauScore.setHorizontalAlignment(SwingConstants.CENTER);
+        tableauScore.setFont(new java.awt.Font("Arial",Font.BOLD,20));
+        fenetre.add(tableauScore,BorderLayout.CENTER);
         boutonDeJeu.removeAll();
         boutonDeJeu.add(listeBouton.get(7));
         boutonDeJeu.add(listeBouton.get(8));
@@ -356,7 +354,6 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
 	}
 
- 
 	public void updateBar(final int newValue)
 	{
 	  SwingUtilities.invokeLater(new Runnable( ) {

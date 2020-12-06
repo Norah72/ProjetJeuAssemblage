@@ -1,13 +1,11 @@
 package file;
 
-import controleur.Play;
 import java.io.File;
 
 public class DeleteFile {
 	
-	private File partieFichier; 
+	private final File partieFichier; 
 
-	
 	public DeleteFile(String file){
 		this.partieFichier = new File(file);
 	}

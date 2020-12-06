@@ -12,10 +12,10 @@ import controleur.*;
 
 public class SauvegardeFichier {
 	
-	private Play jeu;
-	private File partieFichier;
+	private final Play jeu;
+	private final File partieFichier;
 	private JsonWriter sauvegarde;
-	private boolean affiche;
+	private final boolean affiche;
 	
 	
 	public SauvegardeFichier(Play jeu,String File){
@@ -77,7 +77,7 @@ public class SauvegardeFichier {
 			this.sauvegarde.close();
 			affiche("Sauvegarde terminer.. ");
 		}
-		catch(Exception e){
+		catch(IOException e){
 			affiche("Impossible de sauvegarder le fichier: "+e);
 		}
 	}

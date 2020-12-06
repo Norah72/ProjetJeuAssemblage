@@ -17,7 +17,7 @@ import java.util.ArrayList;
         private boolean verification = false;
         private int pieceSelectionné;
         private ArrayList<Integer> caseSelectionné = new ArrayList();
-        private InterfaceGraphique vue;
+        private final InterfaceGraphique vue;
         
         public MouseClicker(InterfaceGraphique vue){
             this.vue=vue;
@@ -40,7 +40,6 @@ import java.util.ArrayList;
         public void mouseClicked(MouseEvent e){
             for(int i=0; i<this.vue.getListePieceForClick().size(); i++){
                 if(e.getSource() == this.vue.getListePieceForClick().get(i)){
-					System.out.println("i"+i);
                     pieceSelectionné = i;
                     verification = true;
                 }  
@@ -52,15 +51,10 @@ import java.util.ArrayList;
                 }
             }
         }
-        
-		
-		public void setSelection(){
-			this.verification = false;
-		}
-		
-		public boolean getValide(){
-			return this.verification;
-		}
+
+        public boolean getValide(){
+                return this.verification;
+        }
 		
     }
 

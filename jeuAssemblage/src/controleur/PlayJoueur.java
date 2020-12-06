@@ -79,7 +79,6 @@ public class PlayJoueur implements InterfacePlay{
             }
             catch (Exception e) {
                 System.out.println("Vous devez saisir sous le format 2,3 !");
-                continue;
             }
 
         }
