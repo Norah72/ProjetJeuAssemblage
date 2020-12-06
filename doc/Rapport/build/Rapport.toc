@@ -1,0 +1,35 @@
+\global \c@tocdepth 2\relax 
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {french}{}
+\defcounter {refsection}{0}\relax 
+\thispagestyle {empty}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Pr\IeC {\'e}sentation du projet}{1}{chapter.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Pr\IeC {\'e}sentation de l'application}{1}{section.1.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Architecture du projet}{2}{chapter.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Arborescence du projet}{2}{section.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Aspects techniques}{3}{chapter.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Librairie piecesPuzzle}{3}{section.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {B}Mod\IeC {\`e}le : Le plateau}{3}{section.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {C}Controleur}{4}{section.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {i}Play}{5}{subsection.3.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Joueur Ia}{5}{figure.caption.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{joueur Graphique}{6}{figure.caption.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {ii}Vue}{6}{subsection.3.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {iii}File}{6}{subsection.3.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Conclusion}{7}{chapter.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Ressources utiles et sources utilis\IeC {\'e}s}{8}{chapter.5}
