@@ -6,9 +6,9 @@ import modele.*;
 public class PlayIA implements InterfacePlay{
 	
 	private ArrayList<EnumAction> listeChoixIa = new ArrayList<EnumAction>();
-	public ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.FIN_DE_PARTIE));
-	public ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER));
-	public ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER));
+	private ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.FIN_DE_PARTIE));
+	private ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER));
+	private ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER));
 
 	public void PlayIa(){
 		
@@ -38,7 +38,6 @@ public class PlayIA implements InterfacePlay{
 			for(int j = 0; j < nbrProbaChoix; j++)
 				listeChoixIa.add(choixListe.get(i));
 		}
-		
 		
 		int choix = choix(0, listeChoixIa.size()-1);
 		
@@ -167,7 +166,7 @@ public class PlayIA implements InterfacePlay{
 						copiePlateau = null;
 						copiePlateau = (PlateauPuzzle) ((PlateauPuzzle) plateau).clone();
 
-					}catch(Exception e){
+					}catch(CloneNotSupportedException e){
 						System.out.println("Impossible de créer une copie du plateau : "+e);
 					}
 
@@ -233,8 +232,6 @@ public class PlayIA implements InterfacePlay{
 			}	
 		}
 		
-		
-		
 		if(choixCoo == null){
 			if(!plateau.getPiecePlacer().isEmpty())
 				choixCoo = selectCoordonnees(largeur,longueur);
@@ -246,7 +243,5 @@ public class PlayIA implements InterfacePlay{
 
 		return new ArrayList<ArrayList<Integer>>(Arrays.asList(pieceChoix,choixCoo));
 	}
-
-
     
 }

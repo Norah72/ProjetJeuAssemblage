@@ -1,7 +1,6 @@
 package file;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -16,17 +15,15 @@ import controleur.*;
 
 public class ChargerPartie {
 
-	private Play jeu;
-	private File partieFichier; 
+	private final Play jeu;
+	private final File partieFichier; 
 	
 	private int largeur, longeur, rotation, i;
 
-	
 	public ChargerPartie(Play jeu, String file){
 		this.jeu = jeu;
 		this.partieFichier = new File(file);
 	}
-	
 	
 	public void chargerSauvegarde() throws IOException{
 		try{
@@ -34,7 +31,6 @@ public class ChargerPartie {
 		JsonObject chargerPartie = (JsonObject) parseCharger.parse(new FileReader(partieFichier));
 		
 		JsonObject initialisation = chargerPartie.get("initialisation").getAsJsonObject();
-		
 		
 		this.jeu.setPseudo(initialisation.get("pseudo").getAsString());
 
@@ -46,7 +42,6 @@ public class ChargerPartie {
 		
 		this.jeu.setExplicationRot(initialisation.get("explication").getAsBoolean());
 		
-		
 		JsonObject piecesDisponible = chargerPartie.get("piecesDisponible").getAsJsonObject();
 		i = 0;
 		while(piecesDisponible.has(""+i)){
@@ -54,7 +49,6 @@ public class ChargerPartie {
 			ajoutPieceList(pieces);
 			i++;
 		}
-		
 		
 		JsonObject piecesPlacer = chargerPartie.get("piecesPlacer").getAsJsonObject();
 		i=0;
@@ -74,7 +68,6 @@ public class ChargerPartie {
 			System.out.println("Impossible de charger la partie: "+e);
 		}
 	}
-	
 	
 	private void ajoutPieceList(JsonObject piece){
 		largeur = piece.get("largeur").getAsInt();

@@ -18,12 +18,11 @@ import javax.swing.JPanel;
  */
 public class ActionGraphique implements ActionListener{
     
-    private Play play;
-    private InterfaceGraphique vue;
+    private final Play play;
+    private final InterfaceGraphique vue;
     private int choix = 0;
-    private MouseClicker eventSouris;
-    private Object wait = null;
-    
+    private final MouseClicker eventSouris;
+
     public ActionGraphique(Play play, InterfaceGraphique vue, MouseClicker eventSouris){
         this.play = play;
         this.vue = vue;
@@ -38,7 +37,6 @@ public class ActionGraphique implements ActionListener{
                 break;
             }
             System.out.print("");
-                    /*voila voila voila... on attend... que MONSIEUR daigne appuyé... car sinon ca va etre long... TRES LONG!!!! DEPECHE PTN!!                                                                                                                                                              coucou tu m'as vu mi homo <3 */
         }
         if(choix!=5){
             removePieceListener(this.vue.getListePieceForClick());
@@ -50,17 +48,16 @@ public class ActionGraphique implements ActionListener{
                     break;
                 }
                 System.out.print("");
-                        /*et encore.... ca devient relou la par contre... ECOUTE SI T'ES NUL TU POSES AU PIF ET TU FAIS PAS CHIER!!                                                                                                                                                                             je suis toujours là mi homo ;) */
             }
             if(choix!=5){
                 removeCaseListener(this.vue.getListeCaseForClick());
-                int test=0;
+                int rotation=0;
                 for(int i=0; i<4; i++){
                     if(this.vue.getListeRotation().get(i).isSelected()){
-                        test=i;
+                        rotation=i;
                     }    
                 }
-                this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionné()).createPiece(test);
+                this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionné()).createPiece(rotation);
                 boolean res = this.play.ajoutPiece(eventSouris.getPieceSelectionné(), eventSouris.getCaseSelectionné());
                 if(!res)
                     JOptionPane.showMessageDialog(this.vue,"PLacement impossible par manque de place");
@@ -69,45 +66,38 @@ public class ActionGraphique implements ActionListener{
         vue.getListeBouton().get(1).setText("PLACER");
         if(choix==5)
             this.vue.afficheGrille();
-		
-		this.eventSouris.setSelection();
     }
     
     
     public void deplacementPieceVue(){
-		boolean ok = false;
+	boolean ok = false;
         this.vue.texteInformation("Sélectionnez une pièce");
         addCaseListener(this.vue.getListeCaseForClick());
         ArrayList<Integer> pieceSelectionne = new ArrayList();
         ArrayList<Integer> deplacementSelectionne = new ArrayList();
         while(!ok){
-			
-			while(!this.eventSouris.verif()){
-				System.out.println("");
-				
-				if(choix==5){
-					break;
-				}
-
-				if(this.eventSouris.getValide()){
-					if(this.play.getPlateau().selectPiece(this.eventSouris.getCaseSelectionné())){
-						pieceSelectionne = this.play.getPlateau().getPiece(this.eventSouris.getCaseSelectionné()).getCoo();
-						ok = true;
-					}else{
-						this.vue.texteInformation("Il n'y a pas de pièce ici");
-					}
-				}
-				
-			}
-			if(choix==5){
-					break;
-				}
+            while(!this.eventSouris.verif()){
+                    System.out.print("");
+                    if(choix==5){
+                            break;
+                    }
+                    if(this.eventSouris.getValide()){
+                            if(this.play.getPlateau().selectPiece(this.eventSouris.getCaseSelectionné())){
+                                    pieceSelectionne = this.play.getPlateau().getPiece(this.eventSouris.getCaseSelectionné()).getCoo();
+                                    ok = true;
+                            }else{
+                                    this.vue.texteInformation("Il n'y a pas de pièce ici");
+                            }
+                    }
+            }
+            if(choix==5){
+                break;
+            }
         }
         if(ok && choix!=5){
-			
-			while(play.getPlateau().getPlateau().get(pieceSelectionne) == null){
-					pieceSelectionne.set(1, pieceSelectionne.get(1)+1);
-				}
+            while(play.getPlateau().getPlateau().get(pieceSelectionne) == null){
+		pieceSelectionne.set(1, pieceSelectionne.get(1)+1);
+            }
             int err = (int) this.play.getPlateau().getPiece(pieceSelectionne).getRotation();
             this.vue.visualisationRotation(this.play.getPlateau().getPiece(pieceSelectionne));
             this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
@@ -119,17 +109,14 @@ public class ActionGraphique implements ActionListener{
                 deplacementSelectionne = this.eventSouris.getCaseSelectionné();
             }
             if(choix!=5){
-                int rotationSelect=0;
+                int rotation=0;
                 for(int i=0; i<4; i++){
                     if(this.vue.getListeRotation().get(i).isSelected()){
-                        rotationSelect=i;
+                        rotation=i;
                     }    
                 }
-				
-
-				this.play.supprimerPiece(pieceSelectionne);
-				this.play.rotationPieceDisponible((this.play.getPlateau().getPieceAJouer().size()-1), rotationSelect);
-
+                this.play.supprimerPiece(pieceSelectionne);
+                this.play.rotationPieceDisponible((this.play.getPlateau().getPieceAJouer().size()-1), rotation);
                 boolean res = this.play.ajoutPiece((this.play.getPlateau().getPieceAJouer().size()-1), deplacementSelectionne);
                 if(!res){
                     this.play.rotationPieceDisponible((this.play.getPlateau().getPieceAJouer().size()-1), err);
@@ -139,12 +126,10 @@ public class ActionGraphique implements ActionListener{
                 removeCaseListener(this.vue.getListeCaseForClick());
             }
         }
-		
-		this.vue.getListeBouton().get(2).setText("DEPLACER");
+	this.vue.getListeBouton().get(2).setText("DEPLACER");
         if(choix==5){
             this.vue.afficheGrille();
         }
-		this.eventSouris.setSelection();
     }
 
     public void supprimerPieceVue(){
@@ -166,7 +151,6 @@ public class ActionGraphique implements ActionListener{
         if(choix==5)
             this.vue.afficheGrille();
 		
-		this.eventSouris.setSelection();
     }
     
     private void removeCaseListener(HashMap<ArrayList<Integer>,JPanel> liste){

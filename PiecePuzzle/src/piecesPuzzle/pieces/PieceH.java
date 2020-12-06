@@ -29,16 +29,10 @@ public class PieceH extends AbstractPiece{
                 
 		for(int i = 0 ; i < largeurXActuel ; i++) {
 			for(int j = 0 ; j < longueurYActuel ; j++) {
-				if(((this.rotationActuel == 0) && (j==0 || j==longueurYActuel-1 ||(i+1 > yDiv && i-1 < yDiv)))
-						|| ((this.rotationActuel == 1) &&  (i==0 || i==largeurXActuel-1 ||(j+1 > yDiv-mod && j-1 < yDiv-mod)))
-						|| ((this.rotationActuel == 2) && (j==0 || j==longueurYActuel-1 ||(i+1 > yDiv-mod && i-1 < yDiv-mod)))
-						|| ((this.rotationActuel == 3) && (i==0 || i==largeurXActuel-1 ||(j+1 > yDiv && j-1 < yDiv)))
-						){
-				
-					grid[i][j] = true;
-				}else{
-					grid[i][j] = false;
-				}
+                            grid[i][j] = ((this.rotationActuel == 0) && (j==0 || j==longueurYActuel-1 ||(i+1 > yDiv && i-1 < yDiv)))
+                                    || ((this.rotationActuel == 1) &&  (i==0 || i==largeurXActuel-1 ||(j+1 > yDiv-mod && j-1 < yDiv-mod)))
+                                    || ((this.rotationActuel == 2) && (j==0 || j==longueurYActuel-1 ||(i+1 > yDiv-mod && i-1 < yDiv-mod)))
+                                    || ((this.rotationActuel == 3) && (i==0 || i==largeurXActuel-1 ||(j+1 > yDiv && j-1 < yDiv)));
 			}
 		}
 	}

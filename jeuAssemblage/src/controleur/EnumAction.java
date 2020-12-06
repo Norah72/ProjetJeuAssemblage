@@ -3,7 +3,7 @@ package controleur;
 public enum EnumAction {
 	QUITTER("Quitter sans sauvegarder\n"), PLACER("Placer une pièce\n"), DEPLACER("Déplacer une pièce\n"), SUPPRIMER("Supprimer une pièce\n"), ROTATION_PIECEAJOUER("Rotation d'une pièce disponible\n"), ROTATION_PIECEPLACER("Rotation d'une pièce sur la plateau\n"), SAUVEGARDER("Sauvegarder la partie\n"), FIN_DE_PARTIE("Score/Fin\n");
 
-	private String action ;  
+	private final String action ;  
 
 	private EnumAction(String action) {  
 		this.action = action;
