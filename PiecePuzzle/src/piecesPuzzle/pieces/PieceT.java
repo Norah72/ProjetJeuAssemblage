@@ -39,4 +39,10 @@ public class PieceT extends AbstractPiece{
 		}
 
 	}		
+
+	//Couleur cyan
+	@Override
+	public String getColor() {
+		return  "\u001B[36m";
+	}
 }

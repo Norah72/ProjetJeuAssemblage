@@ -8,7 +8,6 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 	protected boolean[][] grid;
 	protected int rotationActuel;
     protected ArrayList<Integer> coordonnees;
-
 	
 	public AbstractPiece(int x, int y, int rotation){
 		this.x = x;
@@ -40,6 +39,8 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		}
 		pieceGrid();
 	}
+	
+	public abstract String getColor();
 	
 	public boolean[][] getGrid() {
 		return this.grid;
@@ -77,12 +78,12 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		for(int i = 0 ; i < this.largeurXActuel; i++) {
 			for(int j= 0 ; j < this.longueurYActuel; j++) {
 				if(grid[i][j] == true){
-					System.out.print("■ ");
+					System.out.print(getColor()+"■ "+getColor());
 				} else {
-					System.out.print("  ");
+					System.out.print(getColor()+"  "+getColor());
 				}
 			}
-			System.out.println();
+			System.out.println(getColor()+""+getColor());
 		}
 		return "";
 	}

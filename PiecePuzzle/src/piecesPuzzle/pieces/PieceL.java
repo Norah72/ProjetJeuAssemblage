@@ -9,7 +9,8 @@ public class PieceL extends AbstractPiece{
 	public PieceL(int x, int y, int rotation){
 		super(x,y,rotation);
 	}
-		
+	
+	@Override
 	public void pieceGrid(){
 		grid = new boolean[largeurXActuel][longueurYActuel];
 		for(int i = 0 ; i < largeurXActuel ; i++) {
@@ -22,4 +23,12 @@ public class PieceL extends AbstractPiece{
 			}
 		}
 	}
+
+	//Couleur vert
+	@Override
+	public String getColor() {
+		return "\u001B[32m";
+	}
+	
+	
 }

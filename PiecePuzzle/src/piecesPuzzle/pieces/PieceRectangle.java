@@ -12,6 +12,7 @@ public class PieceRectangle extends AbstractPiece{
 		super(x,y,rotation);
 	}
 	
+	@Override
 	public void pieceGrid(){
 		grid = new boolean[largeurXActuel][longueurYActuel];
 		for(int i = 0 ; i < largeurXActuel ; i++) {
@@ -19,5 +20,11 @@ public class PieceRectangle extends AbstractPiece{
 				grid[i][j]=true;
 			}
 		}
+	}
+
+	//Couleur violet
+	@Override
+	public String getColor() {
+		return "\u001B[35m";
 	}
 }

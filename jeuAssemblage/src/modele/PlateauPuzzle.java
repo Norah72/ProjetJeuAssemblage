@@ -285,20 +285,20 @@ public class PlateauPuzzle implements Listenable, Cloneable{
 
 		for(int i = 0; i<=this.x-1; i++){
 			if(i<10)
-				System.out.print(i+"  ");
+				System.out.print(i+"  "+"\u001B[0m");
 			else
-				System.out.print(i+" ");
+				System.out.print(i+" "+"\u001B[0m");
 			for(int j = 0; j<=this.y-1; j++){
 				if(this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j))) != null){
 					if(j<10)
-						System.out.print(" ■ ");
+						System.out.print(((AbstractPiece)this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j)))).getColor()+" ■ "+((AbstractPiece)this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j)))).getColor());
 					else
-						System.out.print("  ■ ");
+						System.out.print(((AbstractPiece)this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j)))).getColor()+"  ■ "+((AbstractPiece)this.plateau.get(new ArrayList<Integer>(Arrays.asList(i,j)))).getColor());
 				}else{
 					if(j<10)
-						System.out.print(" + ");
+						System.out.print("\u001B[0m"+" + "+"\u001B[0m");
 					else
-						System.out.print("  + ");
+						System.out.print("\u001B[0m"+"  + "+"\u001B[0m");
 				}
 			}
 		System.out.println();

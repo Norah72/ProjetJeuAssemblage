@@ -10,7 +10,7 @@ public class PieceH extends AbstractPiece{
 		super(x,y,rotation);
 	}
 
-		
+	@Override
 	public void pieceGrid(){
 		grid = new boolean[largeurXActuel][longueurYActuel];
 		double yDiv = largeurXActuel/2;
@@ -41,5 +41,11 @@ public class PieceH extends AbstractPiece{
 				}
 			}
 		}
+	}
+	
+	//Couleur bleu
+	@Override
+	public String getColor(){
+		return "\u001B[34m";
 	}
 }
