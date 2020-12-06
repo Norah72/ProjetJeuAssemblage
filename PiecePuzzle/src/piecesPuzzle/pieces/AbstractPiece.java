@@ -45,9 +45,9 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 
     /**
      * Constucteur
-     * @param i
-     * @param i1
-     * @param i2
+     * @param x coorosonées x de la pièce
+     * @param y coorosonées y de la pièce
+     * @param rotation rotation de la pièce
      */
     public AbstractPiece(int x, int y, int rotation){
 		this.x = x;

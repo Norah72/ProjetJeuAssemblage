@@ -17,7 +17,7 @@ public class Play {
     //Attibuts
     
     private InterfacePlay joueurActuel;
-    private boolean affichageGraph;
+    private final boolean affichageGraph;
     
     private PlateauPuzzle plateau;
     private PlateauPuzzle bestPlateau;
@@ -417,6 +417,7 @@ public class Play {
 		this.joueurActuel = new PlayJoueur();
 		
 		supprimerPartie(this.fileIa); //Supression de la sauvegarde temporaire
+                this.ia = false;
 	}
 	/**
          * Gère les actions du joueur en fonction de son choix 

@@ -15,7 +15,7 @@ public interface PiecesPuzzle {
 
     /**
 	 * Choix de la rotation dans le sens horaire
-	 * @param rotationNum 
+	 * @param rotationNum rotation de la pièce
     */
     public void createPiece(int rotationNum);
 
@@ -51,7 +51,7 @@ public interface PiecesPuzzle {
 
     /**
      * Met a jour les coordonées dans la pièce
-     * @param coo
+     * @param coo nouvelle coordonées
      */
     public void updateCoordonnees(ArrayList<Integer> coo);
 
