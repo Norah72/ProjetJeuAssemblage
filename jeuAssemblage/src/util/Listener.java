@@ -1,8 +1,15 @@
 package util;
 
-
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public interface Listener {
         
-    public void update(Object écoutable); 
+    /**
+     *
+     * @param ecoutable
+     */
+    public void update(Object ecoutable); 
     
 }

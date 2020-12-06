@@ -1,8 +1,17 @@
 import controleur.*;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class Main {
                 
-	public static void main(String[] args){
+    /**
+     * Main
+     * 
+     * @param args
+     */
+    public static void main(String[] args){
                
             PlayMenu.menu();
             

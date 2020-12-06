@@ -10,6 +10,7 @@
 <property name="main-class" value="${basedir}\build\Main"/>
 <property name="javac.version" value="1.8"/>
 <property name="javac.encoding" value="UTF-8"/>
+<property name="javac.docencoding" value="UTF-8"/>
 <!--  ==================== Compile options ===========================  -->
 <property name="compile.debug" value="true"/>
 <property name="compile.deprecation" value="false"/>
@@ -57,13 +58,13 @@
 <!--  ==================== Javadoc Target ==================================  -->
  <target name="javadoc" depends="compile" description="Create Javadoc API documentation">
 <mkdir dir="${dist.home}\docs\api"/>
-<!--<javadoc sourcepath="${src.home}" destdir="${dist.home}/docs/api" packagenames="*">
+<javadoc sourcepath="${src.home}" destdir="${dist.home}/docs/api" packagenames="*">
 <classpath>
 <fileset dir="${lib.home}">
 <include name="**\*.jar"/>
 </fileset>
 </classpath>
-</javadoc>-->
+</javadoc>
 </target>
 <!--  ==================== Run Target ==================================  -->
 

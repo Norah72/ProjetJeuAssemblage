@@ -2,8 +2,16 @@ package controleur;
 
 import java.util.*;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class PlayMenu {
     
+    /**
+     * Constructeur
+     * 
+     */
     public static void menu(){
         //Affichage console du choix
         System.out.println("--------------------------------------------");

@@ -1,15 +1,43 @@
 package controleur;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public enum EnumAction {
-	QUITTER("Quitter sans sauvegarder\n"), PLACER("Placer une pièce\n"), DEPLACER("Déplacer une pièce\n"), SUPPRIMER("Supprimer une pièce\n"), ROTATION_PIECEAJOUER("Rotation d'une pièce disponible\n"), ROTATION_PIECEPLACER("Rotation d'une pièce sur la plateau\n"), SAUVEGARDER("Sauvegarder la partie\n"), FIN_DE_PARTIE("Score/Fin\n");
 
-	private final String action ;  
+    QUITTER("Quitter sans sauvegarder\n"),
 
-	private EnumAction(String action) {  
-		this.action = action;
-	}
+    PLACER("Placer une pièce\n"),
+
+    DEPLACER("Déplacer une pièce\n"),
+
+    SUPPRIMER("Supprimer une pièce\n"),
+
+    ROTATION_PIECEAJOUER("Rotation d'une pièce disponible\n"),
+
+    ROTATION_PIECEPLACER("Rotation d'une pièce sur la plateau\n"),
+
+    SAUVEGARDER("Sauvegarder la partie\n"),
+
+    FIN_DE_PARTIE("Score/Fin\n");
+
+    private final String action ;  //texte dans le menu console
+    /**
+     * Constructeur
+     * @param action 
+     */
+    private EnumAction(String action) {  
+            this.action = action;
+    }
 	
-	//Probabilité d'apparaitre dans les choix de l'ia
+    
+
+    /**
+     *
+     * @param action Action du joueur
+     * @return Probabilité des choix de l'ia
+     */
 	public int getProbaAction(EnumAction action){
 		int proba = 0;
         switch(action)

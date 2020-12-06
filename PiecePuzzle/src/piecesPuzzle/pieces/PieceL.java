@@ -1,12 +1,27 @@
 package piecesPuzzle.pieces;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class PieceL extends AbstractPiece{
 	
-	public PieceL(int x, int y){
+    /**
+     * Constructeur (rotation 0 par défaut)
+     * @param x
+     * @param y
+     */
+    public PieceL(int x, int y){
 		super(x,y,0);
 	}
 	
-	public PieceL(int x, int y, int rotation){
+    /**
+     * Constructeur
+     * @param x
+     * @param y
+     * @param rotation
+     */
+    public PieceL(int x, int y, int rotation){
 		super(x,y,rotation);
 	}
 	

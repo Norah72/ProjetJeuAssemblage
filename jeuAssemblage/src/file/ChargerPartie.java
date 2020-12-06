@@ -13,6 +13,10 @@ import java.util.Arrays;
 import modele.PlateauPuzzle;
 import controleur.*;
 
+/**
+ *
+ * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
+ */
 public class ChargerPartie {
 
 	private final Play jeu;
@@ -20,17 +24,26 @@ public class ChargerPartie {
 	
 	private int largeur, longeur, rotation, i;
 
-	public ChargerPartie(Play jeu, String file){
+    /**
+     * Constructeur
+     * @param jeu Constructeur
+     * @param file nom du fichier
+     */
+    public ChargerPartie(Play jeu, String file){
 		this.jeu = jeu;
 		this.partieFichier = new File(file);
 	}
 	
-	public void chargerSauvegarde() throws IOException{
+    /**
+     * lit la sauvegarde pour préparer le plateau
+     * @throws IOException
+     */
+    public void chargerSauvegarde() throws IOException{
 		try{
 		JsonParser parseCharger = new JsonParser();
 		JsonObject chargerPartie = (JsonObject) parseCharger.parse(new FileReader(partieFichier));
 		
-		JsonObject initialisation = chargerPartie.get("initialisation").getAsJsonObject();
+		JsonObject initialisation = chargerPartie.get("initialisation").getAsJsonObject();  //lit chaque catégorie et regarde la valeur associé pour configurez le plateau
 		
 		this.jeu.setPseudo(initialisation.get("pseudo").getAsString());
 
@@ -68,7 +81,10 @@ public class ChargerPartie {
 			System.out.println("Impossible de charger la partie: "+e);
 		}
 	}
-	
+	/**
+         * Retourne la pièce en fonction des informations dans le fichier txt
+         * @param piece 
+         */
 	private void ajoutPieceList(JsonObject piece){
 		largeur = piece.get("largeur").getAsInt();
 		longeur = piece.get("longeur").getAsInt();

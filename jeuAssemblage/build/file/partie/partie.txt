@@ -1,89 +1,66 @@
 {
  "initialisation": {
-  "pseudo": "Test",
-  "largeurPlateau": 19,
-  "longeurPlateau": 19,
+  "pseudo": "Charger",
+  "largeurPlateau": 9,
+  "longeurPlateau": 8,
   "explication": true
  },
  "piecesDisponible": {
   "0": {
-   "type": "PieceT",
-   "largeur": 4,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "1": {
-   "type": "PieceT",
-   "largeur": 5,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "2": {
-   "type": "PieceRectangle",
-   "largeur": 2,
-   "longeur": 2,
-   "rotation": 0
-  },
-  "3": {
-   "type": "PieceL",
-   "largeur": 5,
-   "longeur": 2,
-   "rotation": 0
-  },
-  "4": {
-   "type": "PieceL",
-   "largeur": 5,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "5": {
-   "type": "PieceT",
-   "largeur": 5,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "6": {
-   "type": "PieceH",
-   "largeur": 4,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "7": {
-   "type": "PieceH",
-   "largeur": 5,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "8": {
-   "type": "PieceL",
-   "largeur": 2,
-   "longeur": 2,
-   "rotation": 3
-  },
-  "9": {
-   "type": "PieceT",
-   "largeur": 3,
-   "longeur": 5,
-   "rotation": 0
-  },
-  "10": {
-   "type": "PieceL",
-   "largeur": 2,
-   "longeur": 2,
-   "rotation": 0
-  },
-  "11": {
    "type": "PieceRectangle",
    "largeur": 1,
    "longeur": 1,
    "rotation": 0
   },
-  "12": {
+  "1": {
    "type": "PieceH",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 0
+  },
+  "2": {
+   "type": "PieceT",
    "largeur": 3,
    "longeur": 4,
    "rotation": 0
+  },
+  "3": {
+   "type": "PieceL",
+   "largeur": 3,
+   "longeur": 3,
+   "rotation": 0
   }
  },
- "piecesPlacer": {}
+ "piecesPlacer": {
+  "0": {
+   "type": "PieceH",
+   "largeur": 3,
+   "longeur": 4,
+   "rotation": 0,
+   "coordonnees": [
+    6,
+    0
+   ]
+  },
+  "1": {
+   "type": "PieceRectangle",
+   "largeur": 1,
+   "longeur": 2,
+   "rotation": 0,
+   "coordonnees": [
+    8,
+    1
+   ]
+  },
+  "2": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 0,
+   "coordonnees": [
+    5,
+    4
+   ]
+  }
+ }
 }
