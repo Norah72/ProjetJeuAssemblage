@@ -46,7 +46,7 @@ public class Play {
 
     /**
      * Constructeur
-     * @param affichageGraph
+     * @param affichageGraph présence InterfaceGraphique ou non 
      */
     
     public Play(boolean affichageGraph){
@@ -176,7 +176,9 @@ public class Play {
             }
         }
     }
-	
+	/**
+         * menu Principal de la vue
+         */
 	private void menuGraph(){
             while(!this.endPlay){
                 this.pseudo=null;
@@ -187,20 +189,21 @@ public class Play {
 					this.vueGraph.getListeBouton().get(i).addActionListener(actionBouton);
 				wait();
 			}
-                   if(this.actionBouton.getChoix()==1){
+                   int compo = 0;
+                   if(this.actionBouton.getChoix()==1){                 //On modifie l'affichage en fonction du bouton activé
                        nouvellePartie(largeurPlateau,longueurPlateau);
                    }
                    else if(this.actionBouton.getChoix()==6){
                        chargerPartie();
-                   } 
-		   int compo = 0;
+                       compo=1;
+                   }   
 		   while(compo==0){
-			   compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faie ?");
+			   compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faire ?");
 			   if(compo==0){
 				   nouvellePartie(largeurPlateau,longueurPlateau);
 			   }
 		   }
-			if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faie ?")==0){
+			if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faire ?")==0){
 				this.ia = true;
 				jeuIa();
 				jeuVue();
@@ -215,14 +218,17 @@ public class Play {
 		
 		if(!this.endPlay){
 			this.vueGraph.dispose();
-			this.plateau = null;
+			this.plateau = null;                                //On remet tout à 0 pour la pochaine partie
 			this.vueGraph = new InterfaceGraphique(plateau);
 			this.eventSouris = new MouseClicker(vueGraph);
 			this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
 		}
             }
 	}
-	
+	/**
+         * Demande à l'utilisateur si il veut que l'ia joue
+         * @return 
+         */
 	private boolean choixIa(){
 		affiche("Voulez vous que l'ordinateur joue cette partie ? 0-Oui / 1-Non");
         return (joueurActuel.choix(0,1)) == 0;
@@ -231,27 +237,27 @@ public class Play {
 	//###########################
     //Méthodes de création partie
 	//###########################
-	
-	//Méthode commune pour créer une nouvelle partie
 
     /**
-     *
-     * @param largeurPlateau
-     * @param longueurPlateau
+     * Creation d'une nouvelle partie
+     * @param largeurPlateau largeur du Plateau
+     * @param longueurPlateau longueur du Plateau
      */
     public void nouvellePartie(int largeurPlateau,int longueurPlateau){
         this.plateau = new PlateauPuzzle(largeurPlateau,longueurPlateau);
         creationPieceRandom();
-		
-		afficheJeu();
+	afficheJeu();
     }
-
+    
+    /**
+     * Creation des pièces à jouer en fonction de la taille de la grille
+     */
     private void creationPieceRandom(){
         int largeur = 0;
         int longueur = 0;
         int max = (this.largeurPlateau + this.longueurPlateau) /4 ;
         if(max  < 3 )
-            max = 3;
+            max = 3;                //On gère le nombre de pièce en fonction de la taille de la grille
         else if (max > 5)
             max = 5;
         
@@ -265,7 +271,7 @@ public class Play {
 
             String piece = pieceString.get(new Random().nextInt(pieceString.size()));
             
-            if(piece.equals("PieceH")){
+            if(piece.equals("PieceH")){              //On gère la taille de la pièce en fonction de la taille de la grille
                 largeur = rdmMin(3,max);
                 longueur = rdmMin(3,max);
             }else if(piece.equals("PieceL")){
@@ -286,46 +292,51 @@ public class Play {
 	//Méthodes de lancement du jeu
 	//#############################
     
-        private void jeuConsole(){
-            while(!this.endPlay){
-                    EnumAction choix = choixJeu();
-                    switch(choix)
-                            {
-				case QUITTER :
-					this.endPlay = true;
-					break;
-				case PLACER :
-					choixAjoutPiece();
-					break;
-				case DEPLACER :
-					choixDeplacementPiece();
-					break;
-				case SUPPRIMER :
-					choixSupprimerPiece();
-					break;
-				case ROTATION_PIECEAJOUER :
-					choixRotationPieceDisponible();
-					break;
-				case ROTATION_PIECEPLACER :
-					choixRotationPiece();
-					break;
-				case SAUVEGARDER:
-					sauvegarderPartie();
-					break;
-				case FIN_DE_PARTIE :
-					if(!this.ia){
-						this.endPlay = score();
-						finDePartie();
-					}else{
-						this.endPlay = true;
-					}
-					break;
-			}
+    /**
+     * Gère les actions en fonction du choix des joueurs
+     * 
+     */
+    private void jeuConsole(){
+        while(!this.endPlay){
+                EnumAction choix = choixJeu();
+                switch(choix)
+                        {
+                            case QUITTER :
+                                    this.endPlay = true;
+                                    break;
+                            case PLACER :
+                                    choixAjoutPiece();
+                                    break;
+                            case DEPLACER :
+                                    choixDeplacementPiece();
+                                    break;
+                            case SUPPRIMER :
+                                    choixSupprimerPiece();
+                                    break;
+                            case ROTATION_PIECEAJOUER :
+                                    choixRotationPieceDisponible();
+                                    break;
+                            case ROTATION_PIECEPLACER :
+                                    choixRotationPiece();
+                                    break;
+                            case SAUVEGARDER:
+                                    sauvegarderPartie();
+                                    break;
+                            case FIN_DE_PARTIE :
+                                    if(!this.ia){
+                                            this.endPlay = score();
+                                            finDePartie();
+                                    }else{
+                                            this.endPlay = true;
+                                    }
+                                    break;
+                    }
             }
         }
 	
     /**
-     *
+     * Géneration du meilleur score selon l'ia
+     * 
      */
     public void jeuIa(){
 		affiche("\nChargement en cours...", true);
@@ -346,16 +357,16 @@ public class Play {
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
-		int fourmis = 175;
-		int modulo = fourmis/(barreChargement.size()-1);
+		int nbfourmis = 175;                                  //nombre de partie jouer par l'ia de maniere aléatoire
+		int modulo = nbfourmis/(barreChargement.size()-1);
 		
-		if(this.affichageGraph)
-			this.vueGraph.barreChargement(0, fourmis);
+		if(this.affichageGraph) 
+			this.vueGraph.barreChargement(0, nbfourmis);
 		
 		final long start = System.currentTimeMillis();
-		for(int i = 0; i < fourmis ; i++){
+		for(int i = 0; i < nbfourmis ; i++){
 
-			if(i!=0 && !this.affichageGraph){
+			if(i!=0 && !this.affichageGraph){ //Barre de chargement en attendant la fin des fourmis
 				if((i%modulo) == 0){
 					affiche(barreChargement.get(i/modulo), true);
 				}
@@ -365,7 +376,7 @@ public class Play {
 				this.vueGraph.updateBar(i);
 			
 			this.endPlay=false;
-			chargerLaPartie(this.fileIa);
+			chargerLaPartie(this.fileIa); //On charge la meilleur partie de l'ia (grace à une sauvegarde temporaire
 
 			jeuConsole();
 
@@ -393,7 +404,7 @@ public class Play {
 		affiche("L'ordinateur va maintenant jouer la partie  sous vos yeux", true);
 		
 		try{
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(2); // Un décalage de 2 sec entre chaque action pour laissez le temps au joueur de comprendre
 		}catch(Exception e){
 			affiche("Attente non effectuer", true);
 		}
@@ -405,43 +416,47 @@ public class Play {
 		this.endPlay = true;
 		this.joueurActuel = new PlayJoueur();
 		
-		supprimerPartie(this.fileIa);
+		supprimerPartie(this.fileIa); //Supression de la sauvegarde temporaire
 	}
-	
+	/**
+         * Gère les actions du joueur en fonction de son choix 
+         * @throws IOException
+         * @throws InterruptedException 
+         */
 	private void jeuVue() throws IOException, InterruptedException{
 		boolean finTour = false;
 		while(!finTour){
 			if(this.plateau.getPieceAJouer().isEmpty()){
 				int rep = this.vueGraph.ouiNon("Il n'y a plus de piece. \n Avez-vous fini?","C'est fini !");
 				if(rep==0){
-					if(pseudo==null)
-						this.pseudo = this.vueGraph.pseudo();
-					if(pseudo!=null){
-						sauvegardeScore.write(this);
-						sauvegardeScore.affiche();
-						this.vueGraph.tableauScore(this.sauvegardeScore);
-						synchronized(this) {
-							wait();
-						}
-						if(this.actionBouton.getChoix()==9  ){
-							this.endPlay=true;
-						}
-						else{
-							this.endPlay = false;
-						}
-					}
-					else{
-						rep = this.vueGraph.ouiNon("Votre score ne sera pas enregistrer ! \n Etes-vous sur ?","ATTENTION");
-					}
-				if(rep==1){
-					finTour = !finTour;
-				}
+                                    if(pseudo==null)
+                                            this.pseudo = this.vueGraph.pseudo();
+                                    if(pseudo!=null){
+                                            sauvegardeScore.write(this);
+                                            sauvegardeScore.affiche();
+                                            this.vueGraph.tableauScore(this.sauvegardeScore);
+                                            synchronized(this) {
+                                                    wait(); //Affichage des scores jusqu'au prochain bouton activé
+                                            }
+                                            if(this.actionBouton.getChoix()==9  ){
+                                                    this.endPlay=true;
+                                            }
+                                            else{
+                                                    this.endPlay = false;
+                                            }
+                                    }
+                                    else{
+                                            rep = this.vueGraph.ouiNon("Votre score ne sera pas enregistrer ! \n Etes-vous sur ?","ATTENTION");
+                                    }
+                                    if(rep==1){
+                                            finTour = !finTour; //Si score non enregistrer retour au menu principale
+                                    }
 				finTour = !finTour;
 				}
 			}
 			if(!finTour){
 				synchronized(this) {
-					wait();
+					wait();         //Attend que le joueur clique sur un bouton
 				}
 				if(this.actionBouton.getChoix()==1){
 					this.actionBouton.placementPieceVue();
@@ -461,12 +476,18 @@ public class Play {
 	//Méthodes de fin de parties
 	//##########################
     
+    /**
+     * Affichage du score
+     * @return 
+     */
     private boolean score(){
         affiche("\nScore : "+this.plateau.getScore() + "pts");
         affiche("Voulez vous arretez la partie ? 0-Oui / 1-Non : ");
         return (this.joueurActuel.choix(0,1)==0);
     }
-    
+    /**
+     * Affichage de fin de partie
+     */
     private void finDePartie(){
         if(!this.ia){
             affiche("\nVoulez-vous sauvegarder votre score ? 0-Oui / 1-Non :");
@@ -494,7 +515,9 @@ public class Play {
         affiche("[--------- A bientôt ! ---------]");
         affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     }
-    
+    /**
+     * Sélection du pseudo
+     */
     private void pseudo(){
         if(pseudo != null){
             affiche("Votre pseudo est "+pseudo+". Voulez-vous le changer ? 0-Oui / 1-Non :");
@@ -511,11 +534,17 @@ public class Play {
     //#################
     //Méthodes de choix
     //#################
-	
+    
+    /**
+     *
+     * @return choix du joueur
+     */
     private EnumAction choixJeu(){
         return this.joueurActuel.choixJeu(this.plateau);
     }
-    
+    /**
+     * Ajout de la pièce en console
+     */
     private void choixAjoutPiece(){
 		ArrayList<ArrayList<Integer>> choix = this.joueurActuel.choixAjout(this.largeurPlateau, this.longueurPlateau, this.plateau);
 
@@ -533,7 +562,9 @@ public class Play {
 			affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 		}
     }
-
+    /**
+     * Suppression de la piece dans la console
+     */
     private void choixSupprimerPiece(){
         affiche("Quel pièce voulez vous supprimer ? (Veuillez indiqué une de ses coordonnées en format 2,3)");
         
@@ -545,7 +576,10 @@ public class Play {
         affiche("[---- Piece supprimer ----]");
         affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     }
-
+    
+    /**
+     * deplacement de la piece dans la console
+     */
     private void choixDeplacementPiece(){
 		ArrayList<ArrayList<Integer>> choix = this.joueurActuel.choixDeplacement(this.largeurPlateau, this.longueurPlateau, this.plateau);
 		
@@ -564,7 +598,9 @@ public class Play {
             affiche("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
         }
     }
-    
+    /**
+     * Rotation de la piece dans la console
+     */
     private void choixRotationPiece(){
         if(!this.ia && explicationRot){
             explicationRotation();
@@ -589,6 +625,9 @@ public class Play {
         }
     }
     
+    /**
+     * Affichage des rotations de la piece possible 
+     */
     private void choixRotationPieceDisponible(){
             affiche("Que pièce voulez vous effectuer une rotation ? (Veuillez indiqué le numéro de la pièce)");
             int choixPiece = this.joueurActuel.choix(1, this.plateau.getPieceAJouer().size());
@@ -608,10 +647,9 @@ public class Play {
     //#################
 
     /**
-     *
-     * @param piece
-     * @param coordonnees
-     * @return
+     * @param piece pièce sélectionné
+     * @param coordonnees coordonées de placement de la pièce
+     * @return la piece peut etre placer ou non
      */
 	
     public boolean ajoutPiece(int piece, ArrayList<Integer> coordonnees){
@@ -622,9 +660,8 @@ public class Play {
     }
     
     /**
-     *
-     * @param coordonneesPiece
-     * @return
+     * @param coordonneesPiece coordonnees de la pièce
+     * @return la piece peut etre supprimer ou non
      */
     public boolean supprimerPiece(ArrayList<Integer> coordonneesPiece){
         boolean actionValide = this.plateau.removePiece(this.plateau.getPiece(coordonneesPiece));
@@ -634,10 +671,9 @@ public class Play {
     }
     
     /**
-     *
-     * @param anciennesCoordonnees
-     * @param nouvellesCoordonnees
-     * @return
+     * @param anciennesCoordonnees anciennes coordonnees de la pièce
+     * @param nouvellesCoordonnees nouvelle coordonnees de la pièce
+     * @return la piece peut etre déplacer ou non
      */
     public boolean deplacementPiece(ArrayList<Integer> anciennesCoordonnees, ArrayList<Integer> nouvellesCoordonnees){
         boolean actionValide = this.plateau.movePiece(this.plateau.getPiece(anciennesCoordonnees),nouvellesCoordonnees);
@@ -647,10 +683,9 @@ public class Play {
     }
     
     /**
-     *
-     * @param coordonneesPiece
-     * @param rotation
-     * @return
+     * @param coordonneesPiece coordonnees de la piece
+     * @param rotation rotation de la pièce
+     * @return la piece peut etre tourner ou non
      */
     public boolean rotationPiece(ArrayList<Integer> coordonneesPiece, int rotation){
         boolean actionValide = this.plateau.rotationPiece(this.plateau.getPiece(coordonneesPiece),rotation);
@@ -661,8 +696,8 @@ public class Play {
     
     /**
      *
-     * @param piece
-     * @param rotation
+     * @param piece rotation actuel de la pièce
+     * @param rotation futur rotation de la pièce
      */
     public void rotationPieceDisponible(int piece, int rotation){
         this.plateau.rotationPieceDisponible(piece,rotation);
@@ -674,68 +709,78 @@ public class Play {
     //Méthode d'affichage
     //###################
 	
-	private void explicationRotation(){
-		affiche("Voulez vous des explication sur la rotation ? 0-Oui / 1-Non");
-		int choix = -2;
-		while(choix == -2)
-			choix = this.joueurActuel.choix(0,1);
-		
-		if(choix == 0){
-                    affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-                    affiche("Les rotations se font dans le sens horaires.");
-                    affiche("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
-                    for(int i = 0 ; i < 4; i++){
-                            affiche("--"+i+"--");
-                            affiche(""+this.plateau.createNewPiece(this.plateau.getPieceString().get(1), 4, 3, i));
-                    }
+    /**
+     * Affiche l'explication de la rotation dans la console
+     */
+    private void explicationRotation(){
+            affiche("Voulez vous des explication sur la rotation ? 0-Oui / 1-Non");
+            int choix = -2;
+            while(choix == -2)
+                    choix = this.joueurActuel.choix(0,1);
 
-                    affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-		}
-		affiche("Voulez vous avoir des explications la prochaine fois ? 0-Oui / 1-Non");
-		
-		if(this.joueurActuel.choix(0,1) == 1)
-                    explicationRot = false;
-		
-	}
-	
-	private void afficheJeu(){
-            if(this.affichageGraph && !this.fourmis){
-                this.vueGraph.chargerModele(this.plateau);
-                this.vueGraph.afficheGrille();
-                    if(this.ia){
-                            try{
-                                    TimeUnit.SECONDS.sleep(2);
-                            }catch(InterruptedException e){
-                                    affiche("Attente non effectuer");
-                            }
-                    }
-            }else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){
-                            etatJeu();
-            }else if(!this.affichageGraph && !this.fourmis && this.joueurActuel instanceof PlayIA){
-                if(this.afficheIa)
-                        etatJeu();
-
-                //attente afin de laisser le temps de prendre connaissance du nouveau plateau
-                try{
-                        TimeUnit.SECONDS.sleep(2);
-                }catch(InterruptedException e){
-                        affiche("Attente non effectuer");
+            if(choix == 0){
+                affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+                affiche("Les rotations se font dans le sens horaires.");
+                affiche("Il y a donc quatre prossibilité: du choix 0 au choix 3, comme suite:");
+                for(int i = 0 ; i < 4; i++){
+                        affiche("--"+i+"--");
+                        affiche(""+this.plateau.createNewPiece(this.plateau.getPieceString().get(1), 4, 3, i));
                 }
+
+                affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
             }
+            affiche("Voulez vous avoir des explications la prochaine fois ? 0-Oui / 1-Non");
+
+            if(this.joueurActuel.choix(0,1) == 1)
+                explicationRot = false;
 	}
-	
-	private void etatJeu(){
-            etatPlateau();
-            printPiece();
-	}
-    
+    /**
+     * Mise à jour de la grille et de la vue apres l'action du joueur
+     */
+    private void afficheJeu(){
+        if(this.affichageGraph && !this.fourmis){
+            this.vueGraph.chargerModele(this.plateau);
+            this.vueGraph.afficheGrille();
+                if(this.ia){
+                        try{
+                                TimeUnit.SECONDS.sleep(2);
+                        }catch(InterruptedException e){
+                                affiche("Attente non effectuer");
+                        }
+                }
+        }else if(this.joueurActuel instanceof PlayJoueur && !this.affichageGraph){
+                        etatJeu();
+        }else if(!this.affichageGraph && !this.fourmis && this.joueurActuel instanceof PlayIA){
+            if(this.afficheIa)
+                    etatJeu();
+
+            //attente afin de laisser le temps de prendre connaissance du nouveau plateau
+            try{
+                    TimeUnit.SECONDS.sleep(2);
+            }catch(InterruptedException e){
+                    affiche("Attente non effectuer");
+            }
+        }
+    }
+    /**
+     * Affiche le plateau et les pièces à jouer
+     */
+    private void etatJeu(){
+        etatPlateau();
+        printPiece();
+    }
+    /**
+     * Affiche le plateau
+     */
     private void etatPlateau(){
         affiche("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         affiche("Voici le plateau:");
         affiche(""+this.plateau);
         
     }
-    
+    /**
+     * Affiche les pièce à jouer
+     */
     private void printPiece(){
         affiche("Voici vos pièce: ");
         for(int i = 0 ; i <= this.plateau.getPieceAJouer().size()-1; i++){
@@ -743,167 +788,176 @@ public class Play {
             affiche(""+this.plateau.getPieceAJouer().get(i));
         }
     }
-	
+    /**
+     * affiche par défaut le string 
+     * @param texte 
+     */
     private void affiche(String texte){
 	affiche(texte, false);
     }
-    
+    /**
+     * affichage differents pour l'ia 
+     * @param texte
+     * @param afficheIa 
+     */
     private void affiche(String texte, boolean afficheIa){
         if((montreMessage || afficheIa) && !this.affichageGraph){
             System.out.println(texte);
         }
     }
-	
-	//Affichage du meilleur plateau trouver par les fourmis
-	private void affichageJeuIa(){
+    /**
+     * Affichage du meilleur plateau trouver par les fourmis
+     */
+    private void affichageJeuIa(){
 
-            //Déplacement des pièces déjà sur le plateau si c'est une partie charger et donc déjà commencée
-            for(int i = 0; i < this.plateau.getPiecePlacer().size(); i++){
+        //Déplacement des pièces déjà sur le plateau si c'est une partie charger et donc déjà commencée
+        for(int i = 0; i < this.plateau.getPiecePlacer().size(); i++){
 
-                    //Recherche d'une pièce déjà placer
-                    int pieceAJouer = -1;
-                    for(int j = 0; j < this.bestPlateau.getPiecePlacer().size(); j++){
-                            if( (this.plateau.getPiecePlacer().get(i).getClass().equals(this.bestPlateau.getPiecePlacer().get(j).getClass()) )
-                                            && (this.plateau.getPiecePlacer().get(i).getX() == (this.bestPlateau.getPiecePlacer().get(j).getX()) )
-                                            && (this.plateau.getPiecePlacer().get(i).getY() == (this.bestPlateau.getPiecePlacer().get(j).getY()) )
-                                            ){
-                                    pieceAJouer = j;
-                            }
-                    }
+                //Recherche d'une pièce déjà placer
+                int pieceAJouer = -1;
+                for(int j = 0; j < this.bestPlateau.getPiecePlacer().size(); j++){
+                        if( (this.plateau.getPiecePlacer().get(i).getClass().equals(this.bestPlateau.getPiecePlacer().get(j).getClass()) )
+                                        && (this.plateau.getPiecePlacer().get(i).getX() == (this.bestPlateau.getPiecePlacer().get(j).getX()) )
+                                        && (this.plateau.getPiecePlacer().get(i).getY() == (this.bestPlateau.getPiecePlacer().get(j).getY()) )
+                                        ){
+                                pieceAJouer = j;
+                        }
+                }
 
 
-                    if(pieceAJouer != -1){
-                            boolean rotation = false;
-                            boolean placement = false;
+                if(pieceAJouer != -1){
+                        boolean rotation = false;
+                        boolean placement = false;
 
-                            //Si la pièce a une rotation différente
-                            if(this.plateau.getPiecePlacer().get(i).getRotation() != this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation()){
-                                    rotation = true;
-                            }
+                        //Si la pièce a une rotation différente
+                        if(this.plateau.getPiecePlacer().get(i).getRotation() != this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation()){
+                                rotation = true;
+                        }
 
-                            //Si la pièce a été déplacé
-                            if(this.plateau.getPiecePlacer().get(i).getCoo() != this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo()){
-                                    placement = true;
-                            }
+                        //Si la pièce a été déplacé
+                        if(this.plateau.getPiecePlacer().get(i).getCoo() != this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo()){
+                                placement = true;
+                        }
 
-                            //Application des méthodes avec suppression de la pièce pour éviter de changer ses coordoonées si rotation
+                        //Application des méthodes avec suppression de la pièce pour éviter de changer ses coordoonées si rotation
 
-                            if(rotation){
-                                    ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
-                                    affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo(), true);
-                                    supprimerPiece(cooPiece);
+                        if(rotation){
+                                ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
+                                affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo(), true);
+                                supprimerPiece(cooPiece);
 
-                                    affiche("Rotation dans la liste des pièces - pièce numéro "+(this.plateau.getPieceAJouer().size())+" - rotation "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation(), true);
-                                    rotationPieceDisponible((this.plateau.getPieceAJouer().size()-1), this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
-                            }
+                                affiche("Rotation dans la liste des pièces - pièce numéro "+(this.plateau.getPieceAJouer().size())+" - rotation "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation(), true);
+                                rotationPieceDisponible((this.plateau.getPieceAJouer().size()-1), this.bestPlateau.getPiecePlacer().get(pieceAJouer).getRotation());
+                        }
 
-                            if(placement){
-                                    if(!rotation){// si n'a pas été dans la rotation, je supprime piece
-                                            ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
-                                            affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo(), true);
-                                            supprimerPiece(cooPiece);
-                                    }
+                        if(placement){
+                                if(!rotation){// si n'a pas été dans la rotation, je supprime piece
+                                        ArrayList<Integer> cooPiece = selectPiece(this.plateau.getPiecePlacer().get(i).getCoo(), i);
+                                        affiche("Supprime pièce aux coordonnées "+this.plateau.getPiece(cooPiece).getCoo(), true);
+                                        supprimerPiece(cooPiece);
+                                }
 
-                                    affiche("Ajoute pièce numéro "+(this.plateau.getPieceAJouer().size())+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo(), true);
+                                affiche("Ajoute pièce numéro "+(this.plateau.getPieceAJouer().size())+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo(), true);
 
-                                    ArrayList<Integer> coo = new ArrayList<Integer>(this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo());
-                                    int posY = 0;
-                                    int xx = 0;
-                                    int yy = 0;
-                                    while(!((this.plateau.getPieceAJouer().get(this.plateau.getPieceAJouer().size()-1)).getGrid()[xx][yy+posY])){
-                                            coo.set(1, (int) coo.get(1)+1);
-                                            posY += 1;
-                                    }
-                                    afficheIa = true;
-                                    if(ajoutPiece((this.plateau.getPieceAJouer().size()-1), coo))
-                                            placement=false;
-                                    afficheIa = false;
-                            }
-                    }
-            }
-			
-            //Placement des pièces disponibles
-            for(int i = 0; i < this.bestPlateau.getPiecePlacer().size(); i++){
+                                ArrayList<Integer> coo = new ArrayList<Integer>(this.bestPlateau.getPiecePlacer().get(pieceAJouer).getCoo());
+                                int posY = 0;
+                                int xx = 0;
+                                int yy = 0;
+                                while(!((this.plateau.getPieceAJouer().get(this.plateau.getPieceAJouer().size()-1)).getGrid()[xx][yy+posY])){
+                                        coo.set(1, (int) coo.get(1)+1);
+                                        posY += 1;
+                                }
+                                afficheIa = true;
+                                if(ajoutPiece((this.plateau.getPieceAJouer().size()-1), coo))
+                                        placement=false;
+                                afficheIa = false;
+                        }
+                }
+        }
 
-                    boolean pieceDejaPlacer = false;
+        //Placement des pièces disponibles
+        for(int i = 0; i < this.bestPlateau.getPiecePlacer().size(); i++){
 
-                    //Vérification si la pièce a déjà été placer ou non
-                    for(int j = 0; j < this.plateau.getPiecePlacer().size(); j++){
-                            if( (this.bestPlateau.getPiecePlacer().get(i).getCoo()).equals(this.plateau.getPiecePlacer().get(j).getCoo()) ){
-                                    pieceDejaPlacer = true;
-                            }
-                    }
+                boolean pieceDejaPlacer = false;
 
-                    if(!pieceDejaPlacer){
+                //Vérification si la pièce a déjà été placer ou non
+                for(int j = 0; j < this.plateau.getPiecePlacer().size(); j++){
+                        if( (this.bestPlateau.getPiecePlacer().get(i).getCoo()).equals(this.plateau.getPiecePlacer().get(j).getCoo()) ){
+                                pieceDejaPlacer = true;
+                        }
+                }
 
-                            //Selectionner la pièce a jouer
-                            int pieceAJouer = -1;
-                            for(int j = 0; j < this.plateau.getPieceAJouer().size(); j++){
-                                            if( (this.bestPlateau.getPiecePlacer().get(i).getClass().equals(this.plateau.getPieceAJouer().get(j).getClass()) )
-                                                            && (this.bestPlateau.getPiecePlacer().get(i).getX() == (this.plateau.getPieceAJouer().get(j).getX()) )
-                                                            && (this.bestPlateau.getPiecePlacer().get(i).getY() == (this.plateau.getPieceAJouer().get(j).getY()) )
-                                                            ){
-                                                    pieceAJouer = j;
-                                            }
-                                    }
+                if(!pieceDejaPlacer){
 
-                            if(pieceAJouer != -1){
+                        //Selectionner la pièce a jouer
+                        int pieceAJouer = -1;
+                        for(int j = 0; j < this.plateau.getPieceAJouer().size(); j++){
+                                        if( (this.bestPlateau.getPiecePlacer().get(i).getClass().equals(this.plateau.getPieceAJouer().get(j).getClass()) )
+                                                        && (this.bestPlateau.getPiecePlacer().get(i).getX() == (this.plateau.getPieceAJouer().get(j).getX()) )
+                                                        && (this.bestPlateau.getPiecePlacer().get(i).getY() == (this.plateau.getPieceAJouer().get(j).getY()) )
+                                                        ){
+                                                pieceAJouer = j;
+                                        }
+                                }
 
-                                    //Vérification de la rotation
-                                    if(this.bestPlateau.getPiecePlacer().get(i).getRotation() != this.plateau.getPieceAJouer().get(pieceAJouer).getRotation()){
-                                            affiche("Rotation dans la liste des pièces - pièce numéro "+(pieceAJouer+1)+" - rotation "+this.bestPlateau.getPiecePlacer().get(i).getRotation(), true);
-                                            rotationPieceDisponible(pieceAJouer,  this.bestPlateau.getPiecePlacer().get(i).getRotation());
+                        if(pieceAJouer != -1){
 
-                                            affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo(),true);
-                                            ArrayList<Integer> coo = new ArrayList<Integer>(this.bestPlateau.getPiecePlacer().get(i).getCoo());
-                                            int posY = 0;
-                                            int xx = 0;
-                                            int yy = 0;
-                                            while(!((this.plateau.getPieceAJouer().get(pieceAJouer)).getGrid()[xx][yy+posY])){
-                                                    coo.set(1, (int) coo.get(1)+1);
-                                                    posY += 1;
-                                            }
+                                //Vérification de la rotation
+                                if(this.bestPlateau.getPiecePlacer().get(i).getRotation() != this.plateau.getPieceAJouer().get(pieceAJouer).getRotation()){
+                                        affiche("Rotation dans la liste des pièces - pièce numéro "+(pieceAJouer+1)+" - rotation "+this.bestPlateau.getPiecePlacer().get(i).getRotation(), true);
+                                        rotationPieceDisponible(pieceAJouer,  this.bestPlateau.getPiecePlacer().get(i).getRotation());
 
-                                            afficheIa = true;
-                                            ajoutPiece(pieceAJouer, coo);
-                                            afficheIa = false;
-                                    }
-                                    //Sinon ajout de la pièce sans rotation
-                                    else{
-                                            affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo(), true);
+                                        affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo(),true);
+                                        ArrayList<Integer> coo = new ArrayList<Integer>(this.bestPlateau.getPiecePlacer().get(i).getCoo());
+                                        int posY = 0;
+                                        int xx = 0;
+                                        int yy = 0;
+                                        while(!((this.plateau.getPieceAJouer().get(pieceAJouer)).getGrid()[xx][yy+posY])){
+                                                coo.set(1, (int) coo.get(1)+1);
+                                                posY += 1;
+                                        }
 
-                                            ArrayList<Integer> coo = new ArrayList<Integer>(this.bestPlateau.getPiecePlacer().get(i).getCoo());
-                                            int posY = 0;
-                                            int xx = 0;
-                                            int yy = 0;
-                                            while(!((this.plateau.getPieceAJouer().get(pieceAJouer)).getGrid()[xx][yy+posY])){
-                                                    coo.set(1, (int) coo.get(1)+1);
-                                                    posY += 1;
-                                            }
+                                        afficheIa = true;
+                                        ajoutPiece(pieceAJouer, coo);
+                                        afficheIa = false;
+                                }
+                                //Sinon ajout de la pièce sans rotation
+                                else{
+                                        affiche("Ajoute pièce numéro "+(pieceAJouer+1)+" aux coordonnées "+this.bestPlateau.getPiecePlacer().get(i).getCoo(), true);
 
-                                            afficheIa = true;
-                                            ajoutPiece(pieceAJouer, coo);
-                                            afficheIa = false;
-                                    }
-                            }
-                    }
-            }
-	}
+                                        ArrayList<Integer> coo = new ArrayList<Integer>(this.bestPlateau.getPiecePlacer().get(i).getCoo());
+                                        int posY = 0;
+                                        int xx = 0;
+                                        int yy = 0;
+                                        while(!((this.plateau.getPieceAJouer().get(pieceAJouer)).getGrid()[xx][yy+posY])){
+                                                coo.set(1, (int) coo.get(1)+1);
+                                                posY += 1;
+                                        }
+
+                                        afficheIa = true;
+                                        ajoutPiece(pieceAJouer, coo);
+                                        afficheIa = false;
+                                }
+                        }
+                }
+        }
+    }
     
     //###############################
     //Méthodes de gestion des fichiers
     //###############################
-	
-	private void sauvegarderPartie(){
-            pseudo();
-            sauvegarderLaPartie(fileJoueur);
-	}
-
-	//Méthode commune de sauvegarde
+    
+    /**
+     * Sauvegarde de la partie
+     */
+    private void sauvegarderPartie(){
+        pseudo();
+        sauvegarderLaPartie(fileJoueur);
+    }
 
     /**
-     *
-     * @param file
+     * accesseur de sauvagardePartie
+     * @param file nom du fichier
      */
     public void sauvegarderLaPartie(String file){
         SauvegardeFichier sauvegarde = new SauvegardeFichier(this, file);
@@ -918,13 +972,17 @@ public class Play {
 	//Méthode commune de chargement de partie
 
     /**
-     *
+     * Chargement de la partie
      */
-	public void chargerPartie(){
-            chargerLaPartie(fileJoueur);
-            afficheJeu();
-	}
-	
+    public void chargerPartie(){
+        chargerLaPartie(fileJoueur);
+        afficheJeu();
+    }
+    
+    /**
+     * accesseur de chargePartie
+     * @param file 
+     */
     private void chargerLaPartie(String file){
         ChargerPartie charger = new ChargerPartie(this, file);
         try{
@@ -934,7 +992,10 @@ public class Play {
             affiche("Impossible de charger le fichier");
         }
     }
-	
+    /**
+     * Suppression de la partie
+     * @param file 
+     */
     private void supprimerPartie(String file){
         DeleteFile delete = new DeleteFile(file);
         try{
@@ -948,7 +1009,12 @@ public class Play {
     //###############
     //Autres Méthodes
     //###############
-    
+    /**
+     * Random utilisé pour la génération des pièces
+     * @param min
+     * @param max
+     * @return 
+     */
     private int rdmMin(int min, int max){
         int rand = 0;
         while(rand < min)
@@ -957,25 +1023,29 @@ public class Play {
     }
     
     /**
-     *
+     * Notifie les attentes 
      */
     public void clickNotify(){
         synchronized(this){
-            notify();
+            notify();               //utilisé pour les autres class qui interagit avec le wait
         }
     }
-	
-	//méthode pour que l'orinateur joue
-	private ArrayList<Integer> selectPiece(ArrayList<Integer> cooPiece, int numPiece){
-            boolean valide = false;
-            int i=0;
-            while(!valide){
-                    cooPiece.set(1, cooPiece.get(1)+i);
-                    valide = plateau.getPlateau().get(cooPiece) == plateau.getPiecePlacer().get(numPiece);
-                    i=+1;
-            }
-            return cooPiece;
-	}
+    /**
+     * Sélectionne la premiere coordonnées true de la pièce
+     * @param cooPiece
+     * @param numPiece
+     * @return 
+     */
+    private ArrayList<Integer> selectPiece(ArrayList<Integer> cooPiece, int numPiece){
+        boolean valide = false;
+        int i=0;
+        while(!valide){
+                cooPiece.set(1, cooPiece.get(1)+i);
+                valide = plateau.getPlateau().get(cooPiece) == plateau.getPiecePlacer().get(numPiece);
+                i=+1;
+        }
+        return cooPiece;
+    }
     
     //################
     //Getter et Setter
@@ -983,7 +1053,7 @@ public class Play {
 
     /**
      *
-     * @return
+     * @return largeur du plateau
      */
     
     public int getLargeur(){
@@ -992,7 +1062,7 @@ public class Play {
     
     /**
      *
-     * @return
+     * @return largeur du plateau
      */
     public int getLongueur(){
         return this.longueurPlateau;
@@ -1000,23 +1070,22 @@ public class Play {
     
     /**
      *
-     * @return
+     * @return pseudo du joueur
      */
     public String getPseudo(){
         return this.pseudo;
     }
     
     /**
-     *
-     * @return
+     * 
+     * @return plateau de jeu
      */
     public PlateauPuzzle getPlateau(){
         return this.plateau;
     }
     
     /**
-     *
-     * @return
+     * @return le joueur a besoin des explications ou non
      */
     public boolean getExplicationRot (){
         return this.explicationRot;
@@ -1024,55 +1093,55 @@ public class Play {
 	
     /**
      *
-     * @return
+     * @return ia active ou non
      */
     public boolean getIa(){
         return this.ia;
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return vue graphiquee active ou non
      */
     public boolean getAfficheGraph(){
         return this.affichageGraph;
     }
 	
     /**
-     *
-     * @param largeur
+     * Modifie la largueur du plateau
+     * @param largeur largeur du plateau
      */
     public void setLargeur(int largeur){
         this.largeurPlateau = largeur;
     }
     
     /**
-     *
-     * @param longueur
+     * Modifie la longueur du plateau
+     * @param longueur longueur du plateau
      */
     public void setLongueur(int longueur){
         this.longueurPlateau = longueur;
     }
     
     /**
-     *
-     * @param pseudo
+     * Modifie le pseudo du joueur
+     * @param pseudo pseudo du joueur
      */
     public void setPseudo(String pseudo){
         this.pseudo = pseudo;
     }
     
     /**
-     *
-     * @param plateau
+     * Modifie le plateau de jeu
+     * @param plateau plateau de jeu
      */
     public void setPlateau(PlateauPuzzle plateau){
         this.plateau = plateau;
     }
     
     /**
-     *
-     * @param explication
+     * Modifie les explications de la rotation
+     * @param explication explications de la rotation
      */
     public void setExplicationRot(boolean explication){
         this.explicationRot = explication;

@@ -53,7 +53,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     
     /**
      * Constructeur
-     * @param modele
+     * @param modele plateau de jeu
      */
     public InterfaceGraphique(PlateauPuzzle modele){
         this.modele = modele;
@@ -120,7 +120,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
     /**
      *  Affichage de la vue
-     * @param action
+     * @param action manager clique boutons
      */
     public void start(ActionGraphique action){
         setContentPane(buildContentPane());
@@ -254,7 +254,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         
     /**
      * test explicative lorsqu'on clique sur un bouton
-     * @param texte
+     * @param texte informations explicative
      */
     public void texteInformation(String texte){
         info.setText(texte);
@@ -265,7 +265,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     
     /**
      * Permet de sélectionner la rotation que l'on souhaite
-     * @param p
+     * @param p pièce sélectionné
      */
     public void visualisationRotation(PiecesPuzzle p){
         listeRotation = new ArrayList<JRadioButton>();
@@ -331,48 +331,42 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
 
     /**
-     * Recuperation du bouton Ligne
-     * @return
+     * @return bouton Ligne
      */
     public JComboBox getLigne() {
 	return ligne;
     }
 
     /**
-     * Recuperation du bouton Colonne
-     * @return
+     * @return bouton Colonne
      */
     public JComboBox getColonne() {
 	return colonne;
     }
 
     /**
-     * Recuperation des bouton de jeu
-     * @return
+     * @return liste des bouton de jeu
      */
     public ArrayList<JButton> getListeBouton(){
         return listeBouton;
     }
 
     /**
-     * Recuperation de la liste des rotations de la pièce
-     * @return
+     * @return liste des rotations de la pièce
      */
     public ArrayList<JRadioButton> getListeRotation(){
         return new ArrayList((ArrayList<JRadioButton>)listeRotation.clone()); //le clone permet d'avoir la derniere versions de la liste
     }
 
     /**
-     * Recuperation de la liste des cases de la grille
-     * @return
+     * @return liste des cases de la grille
      */
     public HashMap<ArrayList<Integer>,JPanel> getListeCaseForClick(){
         return listeCase0ForClick;
     }
 
     /**
-     * Recuperation de la liste des cases des pièce à placer
-     * @return
+     * @return liste des cases des pièce à placer
      */
     public ArrayList<JPanel> getListePieceForClick(){
         return listePieceForClick;
@@ -380,9 +374,9 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
     /**
      * fenetre de choix ouiNon (0 = oui ; 1 = non)
-     * @param texte
-     * @param titre
-     * @return
+     * @param texte informartion de la fenetre
+     * @param titre titre de la fenetre
+     * @return reponse (oui / non)
      */
     public int ouiNon(String texte, String titre){
         int reponse = JOptionPane.showConfirmDialog(this, texte,titre, JOptionPane.YES_NO_OPTION);
@@ -390,8 +384,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
 
     /**
-     *  retroune ke pseudo du joueur
-     * @return
+     * Permet au joueur de rentrer son pseudo
+     * @return pseudo du joueur
      */
     public String pseudo(){
         String reponse = JOptionPane.showInputDialog(this, "Rentrez un pseudo","Sauvegarder", JOptionPane.OK_OPTION);
@@ -399,8 +393,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
     
     /**
-     * Retourne le tableau des scores
-     * @param tab
+     * Construit le tableau des scores
+     * @param tab tableau des scores
      */
     public void tableauScore(ScoreFile tab){
         fenetre.removeAll();
@@ -431,7 +425,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     
     /**
      * Mise à jour du modèle
-     * @param modele
+     * @param modele nouveau modèle
      */
     public void chargerModele(PlateauPuzzle modele){
         this.modele = modele;
@@ -439,7 +433,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
     /**
      * Verification si un une autre action est en cours
-     * @return
+     * @return action en cours ou non
      */
     public boolean actionEnCours(){
         for(int i =0; i<getListeBouton().size();i++){
@@ -451,8 +445,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
 	
     /**
      *  Barre de Chargement quand l'ia joue
-     * @param minimum
-     * @param maximum
+     * @param minimum début de la barre (0)
+     * @param maximum fin de la barre (n partie jouer par l'ia)
      */
     public void barreChargement(int minimum, int maximum){
 		JLabel label = new JLabel();
@@ -473,7 +467,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
 
     /**
      * mise à jour de la barre de chargement
-     * @param newValue
+     * @param newValue nombre de partie joué par l'ia
      */
     public void updateBar(final int newValue)
 	{

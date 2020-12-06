@@ -25,9 +25,9 @@ public class ChargerPartie {
 	private int largeur, longeur, rotation, i;
 
     /**
-     *
-     * @param jeu
-     * @param file
+     * Constructeur
+     * @param jeu Constructeur
+     * @param file nom du fichier
      */
     public ChargerPartie(Play jeu, String file){
 		this.jeu = jeu;
@@ -35,7 +35,7 @@ public class ChargerPartie {
 	}
 	
     /**
-     *
+     * lit la sauvegarde pour préparer le plateau
      * @throws IOException
      */
     public void chargerSauvegarde() throws IOException{
@@ -43,7 +43,7 @@ public class ChargerPartie {
 		JsonParser parseCharger = new JsonParser();
 		JsonObject chargerPartie = (JsonObject) parseCharger.parse(new FileReader(partieFichier));
 		
-		JsonObject initialisation = chargerPartie.get("initialisation").getAsJsonObject();
+		JsonObject initialisation = chargerPartie.get("initialisation").getAsJsonObject();  //lit chaque catégorie et regarde la valeur associé pour configurez le plateau
 		
 		this.jeu.setPseudo(initialisation.get("pseudo").getAsString());
 
@@ -81,7 +81,10 @@ public class ChargerPartie {
 			System.out.println("Impossible de charger la partie: "+e);
 		}
 	}
-	
+	/**
+         * Retourne la pièce en fonction des informations dans le fichier txt
+         * @param piece 
+         */
 	private void ajoutPieceList(JsonObject piece){
 		largeur = piece.get("largeur").getAsInt();
 		longeur = piece.get("longeur").getAsInt();

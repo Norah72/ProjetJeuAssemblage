@@ -26,9 +26,9 @@ public class ActionGraphique implements ActionListener{
     /**
      * Constructeur des interaction sur la vue graphique
      * 
-     * @param play
-     * @param vue
-     * @param eventSouris
+     * @param play controleur
+     * @param vue vueGraphique
+     * @param eventSouris manager clique souris
      */
     public ActionGraphique(Play play, InterfaceGraphique vue, MouseClicker eventSouris){
         this.play = play;
@@ -51,8 +51,8 @@ public class ActionGraphique implements ActionListener{
         }
         if(choix!=5){   //Si il ne clique pas sur ANNULER, alors on continue le processus
             removePieceListener(this.vue.getListePieceForClick());                                                              //On gère les Listener afin que le joueure ne puisse pas cliquer
-            this.vue.visualisationRotation(this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionné()));     //sur une autre pièce, il peut seulement cliquer sur le plateau
-            this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
+            this.vue.visualisationRotation(this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionne()));     //sur une autre pièce, il peut seulement cliquer sur le plateau
+            this.vue.texteInformation("Sélectionnez une case ");
             addCaseListener(this.vue.getListeCaseForClick());
             while(!eventSouris.verif()){
                 if(choix==5){
@@ -68,8 +68,8 @@ public class ActionGraphique implements ActionListener{
                         rotation=i;
                     }    
                 }
-                this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionné()).createPiece(rotation);
-                boolean res = this.play.ajoutPiece(eventSouris.getPieceSelectionné(), eventSouris.getCaseSelectionné()); // On place la pièce grâce au coordonées récuperé
+                this.play.getPlateau().getPieceAJouer().get(eventSouris.getPieceSelectionne()).createPiece(rotation);
+                boolean res = this.play.ajoutPiece(eventSouris.getPieceSelectionne(), eventSouris.getCaseSelectionne()); // On place la pièce grâce au coordonées récuperé
                 if(!res)
                     JOptionPane.showMessageDialog(this.vue,"PLacement impossible par manque de place");
             }
@@ -96,10 +96,11 @@ public class ActionGraphique implements ActionListener{
                             break;
                     }
                     if(this.eventSouris.getValide()){ //On vérifie bien qu'une pièec a été récuperé
-                        if(this.play.getPlateau().selectPiece(this.eventSouris.getCaseSelectionné())){
-                                pieceSelectionne = this.play.getPlateau().getPiece(this.eventSouris.getCaseSelectionné()).getCoo();
+                        if(this.play.getPlateau().selectPiece(this.eventSouris.getCaseSelectionne())){
+                                pieceSelectionne = this.play.getPlateau().getPiece(this.eventSouris.getCaseSelectionne()).getCoo();
                                 ok = true;
-                        }else{
+                        }
+                        else{
                                 this.vue.texteInformation("Il n'y a pas de pièce ici");
                         }
                     }
@@ -114,13 +115,13 @@ public class ActionGraphique implements ActionListener{
             }
             int err = (int) this.play.getPlateau().getPiece(pieceSelectionne).getRotation();
             this.vue.visualisationRotation(this.play.getPlateau().getPiece(pieceSelectionne));
-            this.vue.texteInformation("Sélectionnez une case (partie haut gauche de la pièce)");
+            this.vue.texteInformation("Sélectionnez une case ");
             while(!this.eventSouris.verif()){
                 if(choix==5){
                     break;
                 }
                 System.out.print("");
-                deplacementSelectionne = this.eventSouris.getCaseSelectionné();
+                deplacementSelectionne = this.eventSouris.getCaseSelectionne();
             }
             if(choix!=5){
                 int rotation=0;
@@ -162,8 +163,8 @@ public class ActionGraphique implements ActionListener{
                     break;
                 }
                 if(this.eventSouris.getValide()){
-                    if(this.play.getPlateau().selectPiece(this.eventSouris.getCaseSelectionné())){
-                        pieceSelectionne = this.eventSouris.getCaseSelectionné();
+                    if(this.play.getPlateau().selectPiece(this.eventSouris.getCaseSelectionne())){
+                        pieceSelectionne = this.eventSouris.getCaseSelectionne();
                         ok = true;
                     }
                     else{

@@ -34,9 +34,9 @@ public enum EnumAction {
     
 
     /**
-     * Probabilité des choix de l'ia
-     * @param action
-     * @return
+     *
+     * @param action Action du joueur
+     * @return Probabilité des choix de l'ia
      */
 	public int getProbaAction(EnumAction action){
 		int proba = 0;

@@ -23,8 +23,8 @@ public class ScoreFile implements Comparator<String>{
         private int verifScore;
 
     /**
-     *
-     * @param jeu
+     * Ecriture des scores dans le fichier txt
+     * @param jeu controleur
      * @throws IOException
      */
     public void write(Play jeu) throws IOException {
@@ -33,7 +33,7 @@ public class ScoreFile implements Comparator<String>{
 				this.scoreFile.createNewFile();
 			}
 			FileWriter score = new FileWriter (this.scoreFile, true);
-                        verifPseudo = jeu.getPseudo();
+                        verifPseudo = jeu.getPseudo();                              //Récupere le pseudo et score du joueur 
                         verifScore = jeu.getPlateau().getScore();
 			score.write(jeu.getPseudo()+" "+jeu.getPlateau().getScore()+"\n");
 			score.close();
@@ -44,7 +44,7 @@ public class ScoreFile implements Comparator<String>{
 	}
 	
     /**
-     *
+     *Affiche le tableau des scores
      */
     public void affiche(){
 		boolean affichePseudo = true;
@@ -69,7 +69,7 @@ public class ScoreFile implements Comparator<String>{
                                             affichePseudo = !affichePseudo;
                                     }
                                     System.out.println(" point(s)");
-                                    if(p.equals(verifPseudo)){
+                                    if(p.equals(verifPseudo)){  //Verification si le pseudo est deja présent et retiens le meilleur score
                                         if(Integer.parseInt(s)>=verifScore){
                                             listeScore.put(p,s);
                                             verifScore=Integer.parseInt(s);
@@ -89,7 +89,7 @@ public class ScoreFile implements Comparator<String>{
                                 }
                                 if(listeScore.size()>12){
                                     while(listeScore.size()>12){
-                                        int min = 9999;
+                                        int min = 9999;             //N'affiche que les 12 meilleurs scores
                                         String key = "";
                                         for(String i : listeScore.keySet()){
                                             int tmp = Integer.parseInt(listeScore.get(i));
@@ -109,7 +109,7 @@ public class ScoreFile implements Comparator<String>{
                                     scoreFile.delete();
                                     tmp.renameTo(new File("src/file/partie/score.txt"));
                                 }
-                                listeScoreTri.putAll(listeScore);
+                                listeScoreTri.putAll(listeScore); //On met les 12 meilleurs scores dans un TreeMap pour les avoir dans l'ordre décroissant
                         }
 		}
 		catch(Exception e){
@@ -120,12 +120,17 @@ public class ScoreFile implements Comparator<String>{
 
     /**
      *
-     * @return
+     * @return les 12 meilleurs scores
      */
     public TreeMap<String, String> getListeScore(){
             return listeScoreTri;
         }
-   
+   /**
+    * Compare les valeurs du TreeMap entre elle
+    * @param a élément a de la liste
+    * @param b élément b de la liste
+    * @return la liste des scores Triés
+    */
     public int compare(String a, String b) {
         if (Integer.parseInt(listeScore.get(a)) <= Integer.parseInt(listeScore.get(b))) {
             return 1;

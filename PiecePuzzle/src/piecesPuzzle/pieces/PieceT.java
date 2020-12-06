@@ -7,7 +7,7 @@ package piecesPuzzle.pieces;
 public class PieceT extends AbstractPiece{
 	
     /**
-     *
+     * Constructeur (rotation 0 par défaut)
      * @param x
      * @param y
      */
@@ -16,7 +16,7 @@ public class PieceT extends AbstractPiece{
 	}
 	
     /**
-     *
+     * Constructeur
      * @param x
      * @param y
      * @param rotation

@@ -11,15 +11,15 @@ public class DeleteFile {
 	private final File partieFichier; 
 
     /**
-     *
-     * @param file
+     * Constructeur
+     * @param file nom du fichier
      */
     public DeleteFile(String file){
 		this.partieFichier = new File(file);
 	}
 	
     /**
-     *
+     * Suppression du fichier associé au constructeur
      */
     public void supprimerFile(){
 		this.partieFichier.delete();

@@ -15,13 +15,13 @@ import java.util.ArrayList;
  */
     public class MouseClicker extends MouseAdapter {
         private boolean verification = false;
-        private int pieceSelectionné;
-        private ArrayList<Integer> caseSelectionné = new ArrayList();
+        private int pieceSelectionne;
+        private ArrayList<Integer> caseSelectionne = new ArrayList();
         private final InterfaceGraphique vue;
         
     /**
      * Constructeur
-     * @param vue
+     * @param vue vue Graphique
      */
     public MouseClicker(InterfaceGraphique vue){
             this.vue=vue;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
     /**
      * Verifisi le joueur à bien cliquer sur une cae ou un pièce
-     * @return
+     * @return verification faite ou non
      */
     public boolean verif(){
             boolean tmp = verification;
@@ -38,40 +38,37 @@ import java.util.ArrayList;
         }
         
     /**
-     * Retourne la piece selectionné dans la liste de pièce
-     * @return
+     * @return piece selectionné dans la liste de pièce
      */
-    public int getPieceSelectionné(){
-            return pieceSelectionné;
+    public int getPieceSelectionne(){
+            return pieceSelectionne;
         }
         
     /**
-     * Retourne la case selectionné dans la grille
-     * @return
+     * @return case selectionné dans la grille
      */
-    public ArrayList<Integer> getCaseSelectionné(){
-            return caseSelectionné;
+    public ArrayList<Integer> getCaseSelectionne(){
+            return caseSelectionne;
         }
         
         @Override
         public void mouseClicked(MouseEvent e){
             for(int i=0; i<this.vue.getListePieceForClick().size(); i++){
                 if(e.getSource() == this.vue.getListePieceForClick().get(i)){
-                    pieceSelectionné = i;           //Recuperation du numéro de la pièce selectionné 
+                    pieceSelectionne = i;           //Recuperation du numéro de la pièce selectionné 
                     verification = true;            // verif = true car le joueur à fait un clique valide
                 }  
             }
             for(ArrayList<Integer> i : this.vue.getListeCaseForClick().keySet()){
                 if(e.getSource() == this.vue.getListeCaseForClick().get(i)){
-                    caseSelectionné = i;            //Recuperation les coordonnées de la case selectionné 
+                    caseSelectionne = i;            //Recuperation les coordonnées de la case selectionné 
                     verification = true;            
                 }
             }
         }
 
     /**
-     * Retourne si le click est valide ou non
-     * @return
+     * @return click est valide ou non
      */
     public boolean getValide(){
                 return this.verification;

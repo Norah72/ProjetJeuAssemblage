@@ -9,42 +9,42 @@ import java.util.ArrayList;
 public abstract class AbstractPiece implements PiecesPuzzle{
 
     /**
-     *
+     * Coordonnées x
      */
     protected int x,
 
     /**
-     *
+     * Coordonées y
      */
     y;
 
     /**
-     *
+     * Largueur de la pièce
      */
     protected int largeurXActuel,
 
     /**
-     *
+     * Longueur de la pièce
      */
     longueurYActuel;
 
     /**
-     *
+     * Indique les endroits physique de la pièce
      */
     protected boolean[][] grid;
 
     /**
-     *
+     * rotation de lapièce
      */
     protected int rotationActuel;
 
     /**
-     *
+     * Coordonées x,y dans la pièce
      */
     protected ArrayList<Integer> coordonnees;
 
     /**
-     *
+     * Constucteur
      * @param i
      * @param i1
      * @param i2
@@ -58,16 +58,11 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		createPiece(this.rotationActuel);
 	}
         
-	/**
-	 * Construction du tableau de la piece en fonction de la rotationActuel
-	 */
+	
 	public abstract void pieceGrid();
 	
 	
-	/**
-	 * Choix de la rotation dans le sens horaire
-	 * @param rotationNum 
-	 */
+	
 	public void createPiece(int rotationNum) {
 		this.rotationActuel = rotationNum;
 		if(this.rotationActuel == 0 || this.rotationActuel == 2){
@@ -80,83 +75,62 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		pieceGrid();
 	}
 	
-    /**
-     *
-     * @return
-     */
+    
     public boolean[][] getGrid() {
 		return this.grid;
 	}
 
-    /**
-     *
-     * @return
-     */
+    
     public int getLargeurX() {
 		return this.largeurXActuel;
 	}
 
-    /**
-     *
-     * @return
-     */
+    
     public int getLongueurY() {
 		return this.longueurYActuel;
 	}
 	
-    /**
-     *
-     * @return
-     */
+    
     public ArrayList<Integer> getCoo(){
 		return this.coordonnees;
 	}
 
-    /**
-     *
-     * @return
-     */
+    
     public int getRotation(){
 		return this.rotationActuel;
 	}
 
-    /**
-     *
-     * @param coo
-     */
+    
     public void updateCoordonnees(ArrayList<Integer> coo){
 		this.coordonnees = coo;
 	}
 	
-    /**
-     *
-     * @return
-     */
+    
     public int getX(){
 		return this.x;
 	}
 	
-    /**
-     *
-     * @return
-     */
+    
     public int getY(){
 		return this.y;
 	}
-	
-	@Override
-	public String toString(){
-		for(int i = 0 ; i < this.largeurXActuel; i++) {
-			for(int j= 0 ; j < this.longueurYActuel; j++) {
-				if(grid[i][j] == true){
-					System.out.print("■ ");
-				} else {
-					System.out.print("  ");
-				}
-			}
-			System.out.println();
-		}
-		return "";
-	}
+    /**
+     * Modifictaion de l'affichage d'une pièce
+     * @return la pièce
+     */
+    @Override
+    public String toString(){
+            for(int i = 0 ; i < this.largeurXActuel; i++) {
+                    for(int j= 0 ; j < this.longueurYActuel; j++) {
+                            if(grid[i][j] == true){
+                                    System.out.print("■ ");
+                            } else {
+                                    System.out.print("  ");
+                            }
+                    }
+                    System.out.println();
+            }
+            return "";
+    }
         
 }

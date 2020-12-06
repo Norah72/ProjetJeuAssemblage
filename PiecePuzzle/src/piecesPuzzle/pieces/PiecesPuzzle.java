@@ -9,61 +9,62 @@ import java.util.ArrayList;
 public interface PiecesPuzzle {
 
     /**
-     *
-     */
+	 * Construction du tableau de la piece en fonction de la rotationActuel
+    */
     public void pieceGrid();
 
     /**
-     *
-     * @param i
-     */
+	 * Choix de la rotation dans le sens horaire
+	 * @param rotationNum 
+    */
     public void createPiece(int rotationNum);
 
     /**
      *
-     * @return
+     * @return les endroits physique de la pièce ou non
      */
     public boolean[][]  getGrid();
 
     /**
      *
-     * @return
+     * @return Largueur de la pièce
      */
     public int getLargeurX();
 
     /**
      *
-     * @return
+     * @return Largueur de la pièce
      */
     public int getLongueurY();
 
     /**
      *
-     * @return
+     * @return coordonées de la pièce
      */
     public ArrayList<Integer> getCoo();
  
     /**
      *
-     * @return
+     * @return rotation de la pièce
      */
     public int getRotation(); 
 
     /**
-     *
-     * @param al
+     * Met a jour les coordonées dans la pièce
+     * @param coo
      */
     public void updateCoordonnees(ArrayList<Integer> coo);
 
     /**
      *
-     * @return
+     * @return Coordonnées y
      */
     public int getX();
 
     /**
      *
-     * @return
+     * @return Coordonnées x
      */
     public int getY();
+    
 }
