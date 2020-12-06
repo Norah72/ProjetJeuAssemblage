@@ -47,6 +47,8 @@ public class ScoreFile implements Comparator<String>{
      *Affiche le tableau des scores
      */
     public void affiche(){
+                listeScore.clear();
+                listeScoreTri.clear();
 		boolean affichePseudo = true;
                 boolean present = false;
                 String p = null;

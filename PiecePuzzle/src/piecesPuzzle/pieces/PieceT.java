@@ -8,8 +8,8 @@ public class PieceT extends AbstractPiece{
 	
     /**
      * Constructeur (rotation 0 par défaut)
-     * @param x
-     * @param y
+     * @param x coorosonées x de la pièce
+     * @param y coorosonées y de la pièce
      */
     public PieceT(int x, int y){
 		super(x,y,0);
@@ -17,9 +17,9 @@ public class PieceT extends AbstractPiece{
 	
     /**
      * Constructeur
-     * @param x
-     * @param y
-     * @param rotation
+     * @param x coorosonées x de la pièce
+     * @param y coorosonées x de la pièce
+     * @param rotation rotation de la pièce
      */
     public PieceT(int x, int y, int rotation){
 		super(x,y,rotation);

@@ -8,8 +8,8 @@ public class PieceH extends AbstractPiece{
 	
     /**
      * Constructeur (rotation 0 par défaut)
-     * @param x
-     * @param y
+     * @param x coorosonées x de la pièce
+     * @param y coorosonées y de la pièce
      */
     public PieceH(int x, int y){
 		super(x,y,0);
@@ -17,9 +17,9 @@ public class PieceH extends AbstractPiece{
 	
     /**
      * Constructeur
-     * @param x
-     * @param y
-     * @param rotation
+     * @param x coorosonées x de la pièce
+     * @param y coorosonées y de la pièce
+     * @param rotation rotation de la pièce
      */
     public PieceH(int x, int y, int rotation){
 		super(x,y,rotation);
@@ -53,10 +53,6 @@ public class PieceH extends AbstractPiece{
 		}
 	}
 	
-	/**
-	 * Permet de changer la couleur de la pièce
-	 * @return Couleur bleu
-	 */
 	@Override
 	public String getColor(){
 		return "\u001B[34m";
