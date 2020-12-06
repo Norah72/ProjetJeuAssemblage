@@ -321,7 +321,7 @@ public class Play {
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-           |");
 			barreChargement.add("\r|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
 		
-		int fourmis = 175;
+		int fourmis = 500;
 		int modulo = fourmis/(barreChargement.size()-1);
 		
 		if(this.affichageGraph)
@@ -332,7 +332,7 @@ public class Play {
 
 			if(i!=0 && !this.affichageGraph){
 				if((i%modulo) == 0){
-					affiche(barreChargement.get(i/modulo), true);
+					System.out.print(barreChargement.get(i/modulo));
 				}
 			}
 			
