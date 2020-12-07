@@ -153,7 +153,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
     /**
      * Creation d'un bouton
-     * @param nom 
+     * @param nom du bouton 
      */
     private void creationBouton(String nom){
         bouton = new JButton(nom);

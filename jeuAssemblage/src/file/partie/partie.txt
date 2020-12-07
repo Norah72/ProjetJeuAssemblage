@@ -1,66 +1,101 @@
 {
  "initialisation": {
-  "pseudo": "Charger",
-  "largeurPlateau": 9,
-  "longeurPlateau": 8,
-  "explication": true
+  "pseudo": "pikachu",
+  "largeurPlateau": 20,
+  "longeurPlateau": 20,
+  "explication": false
  },
  "piecesDisponible": {
   "0": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "1": {
    "type": "PieceRectangle",
    "largeur": 1,
    "longeur": 1,
    "rotation": 0
   },
-  "1": {
-   "type": "PieceH",
-   "largeur": 4,
-   "longeur": 4,
-   "rotation": 0
-  },
   "2": {
-   "type": "PieceT",
-   "largeur": 3,
+   "type": "PieceH",
+   "largeur": 5,
    "longeur": 4,
    "rotation": 0
   },
   "3": {
-   "type": "PieceL",
+   "type": "PieceT",
    "largeur": 3,
    "longeur": 3,
    "rotation": 0
-  }
- },
- "piecesPlacer": {
-  "0": {
-   "type": "PieceH",
-   "largeur": 3,
-   "longeur": 4,
-   "rotation": 0,
-   "coordonnees": [
-    6,
-    0
-   ]
   },
-  "1": {
-   "type": "PieceRectangle",
-   "largeur": 1,
-   "longeur": 2,
-   "rotation": 0,
-   "coordonnees": [
-    8,
-    1
-   ]
-  },
-  "2": {
+  "4": {
    "type": "PieceH",
    "largeur": 4,
-   "longeur": 4,
-   "rotation": 0,
-   "coordonnees": [
-    5,
-    4
-   ]
+   "longeur": 5,
+   "rotation": 0
+  },
+  "5": {
+   "type": "PieceRectangle",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "6": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "7": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "8": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "9": {
+   "type": "PieceH",
+   "largeur": 5,
+   "longeur": 5,
+   "rotation": 0
+  },
+  "10": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "11": {
+   "type": "PieceT",
+   "largeur": 3,
+   "longeur": 3,
+   "rotation": 2
+  },
+  "12": {
+   "type": "PieceH",
+   "largeur": 5,
+   "longeur": 3,
+   "rotation": 0
+  },
+  "13": {
+   "type": "PieceRectangle",
+   "largeur": 3,
+   "longeur": 1,
+   "rotation": 3
+  },
+  "14": {
+   "type": "PieceL",
+   "largeur": 2,
+   "longeur": 2,
+   "rotation": 0
   }
- }
+ },
+ "piecesPlacer": {}
 }
