@@ -32,23 +32,77 @@ import javax.swing.border.Border;
  * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
  */
 public class InterfaceGraphique extends JFrame implements Listener{
-    private JPanel fenetre = new JPanel();                          
-    private JPanel boutonDeJeu = new JPanel();                      //sous - fenetre contenant les boutons PLACER - DEPLACER... 
-    private JPanel grille = new JPanel();                           //sous - fenetre contenant les case de la grille
+    /**
+     * fenetre principale
+     */
+    private JPanel fenetre = new JPanel();
+    /**
+     * sous-fenetre contenant les boutons PLACER - DEPLACER - SUPPRIMER - SAVE/EXIT
+     */
+    private JPanel boutonDeJeu = new JPanel();  
+    /**
+     * sous - fenetre contenant les case de la grille de jeu
+     */
+    private JPanel grille = new JPanel();
+    /**
+     * sous - fenetre contenant les pièces à placer
+     */
     private JPanel listePiece = new JPanel();
+    /**
+     * Texte informatif pour aider le joueur
+     */
     private JLabel info = new JLabel();
+    /**
+     * Score actuel du joueur
+     */
     private JLabel score = new JLabel("Score : 0");
+    /**
+     * sous - fenetre contenant liste des rotations possible
+     */
     private JPanel choixRotation = new JPanel(new GridLayout(0,1));
+    /**
+     * Bordure permettant de créer l'effe de grille
+     */
     private final Border bordure = BorderFactory.createLineBorder(Color.black,1);
+    /**
+     * liste des boutons crée
+     */
     private ArrayList<JButton> listeBouton = new ArrayList<JButton>();
+    /**
+     * liste des fenetres représentant les cases de la grille
+     */
     private HashMap<ArrayList<Integer>, JPanel > listeCase0ForClick = new HashMap<ArrayList<Integer>, JPanel>();
+    /**
+     * liste des fenetres représentant les pièces à placer 
+     */
     private ArrayList<JPanel> listePieceForClick = new ArrayList<JPanel>();
+    /**
+     * liste des Boutons de rotation
+     */
     private ArrayList<JRadioButton> listeRotation;
+    /**
+     * modèle
+     */
     private PlateauPuzzle modele;
+    /**
+     * Bouton ligne (liste de 5 à 20)
+     */
     private final JComboBox ligne = new JComboBox();
+    /**
+     * Bouton colonne (liste de 5 à 20)
+     */
     private final JComboBox colonne = new JComboBox();
+    /**
+     * Bouton de base  
+     */
     private JButton bouton;
+    /**
+     *  nombre de ligne et de colonne du plateau
+     */
     private int nblignes, nbcolonne;
+    /**
+     * Barre de chargement
+     */
     private JProgressBar barre_progression;
     
     /**
@@ -130,7 +184,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
     /**
      * Attribue un listener au bouton ligne et colonne
-     * @param action 
+     * @param action manager clique boutons
      */
     private void getAction(ActionGraphique action ){
         getLigne().addActionListener(action);
@@ -212,7 +266,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     
     /**
      * piece special pour illsutrer le fonctionement du jeux (visible dans Explication)
-     * @param p
+     * @param piece pièce spécial pour explication
      * @return 
      */
     private JPanel parcourirDemo(PiecesPuzzle p){
@@ -236,7 +290,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
     /**
      * Parcours une piece pour afficher sa forme
-     * @param p
+     * @param p pièce
      * @return 
      */
     private JPanel parcourir(PiecesPuzzle p){
@@ -300,8 +354,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
     }
     /**
      * colorie la pièce en fonction de sa forme
-     * @param p
-     * @param newCase 
+     * @param p pièce 
+     * @param newCase case de la grille
      */
     private void colorization(PiecesPuzzle p, JPanel newCase){
         if(p instanceof PieceT)

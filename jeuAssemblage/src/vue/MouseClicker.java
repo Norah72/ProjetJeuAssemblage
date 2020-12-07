@@ -14,9 +14,21 @@ import java.util.ArrayList;
  * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
  */
     public class MouseClicker extends MouseAdapter {
+        /**
+         * Verification si le joueur à clqiuer
+         */
         private boolean verification = false;
+        /**
+         * numéro de la pièce sélectionné par le joueur dans la liste
+         */
         private int pieceSelectionne;
+        /**
+         * Coordonées de la pièce sélectionne par le joueur
+         */
         private ArrayList<Integer> caseSelectionne = new ArrayList();
+        /**
+         * Vue graphique
+         */
         private final InterfaceGraphique vue;
         
     /**

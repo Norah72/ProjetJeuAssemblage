@@ -871,16 +871,16 @@ public class Play {
     }
 	
     /**
-     * Renvoie le texte a afficher dans la console
-     * @param texte 
+     * Renvoie le texte à afficher dans la console
+     * @param texte texte à afficher
      */
     private void affiche(String texte){
 	affiche(texte, false);
     }
     /**
-     * Affichage le texte dans la console en fonction de afficheIa et si c'est une vue graphique
-     * @param texte
-     * @param afficheIa 
+     * Affichage du texte dans la console en fonction de afficheIa et si c'est une vue graphique
+     * @param texte texte à afficher
+     * @param afficheIa ia actife ou non
      */
     private void affiche(String texte, boolean afficheIa){
         if((montreMessage || afficheIa) && !this.affichageGraph){
@@ -1099,9 +1099,9 @@ public class Play {
     //###############
     /**
      * Random utilisé pour la génération des pièces
-     * @param min
-     * @param max
-     * @return 
+     * @param min taille minimum de la pièce
+     * @param max taille maximum de la pièce
+     * @return aléatoire entre min et max
      */
     private int rdmMin(int min, int max){
         int rand = 0;
@@ -1122,7 +1122,7 @@ public class Play {
      * Sélectionne la premiere coordonnées true de la pièce
      * @param cooPiece
      * @param numPiece
-     * @return 
+     * @return la premiere coordonnées true de la pièce
      */
     private ArrayList<Integer> selectPiece(ArrayList<Integer> cooPiece, int numPiece){
         boolean valide = false;
