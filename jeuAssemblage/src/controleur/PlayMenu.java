@@ -10,7 +10,6 @@ public class PlayMenu {
     
     /**
      * Constructeur
-     * 
      */
     public static void menu(){
         //Affichage console du choix

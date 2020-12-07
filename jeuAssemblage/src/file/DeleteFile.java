@@ -8,6 +8,9 @@ import java.io.File;
  */
 public class DeleteFile {
 	
+	/**
+	 * Fichier
+	 */
 	private final File partieFichier; 
 
     /**

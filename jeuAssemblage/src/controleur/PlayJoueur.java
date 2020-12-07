@@ -8,8 +8,17 @@ import modele.*;
  * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
  */
 public class PlayJoueur implements InterfacePlay{
+	/**
+	 * Possibilité d'actions si toutes les pièces ont été jouer
+	 */
 	private final ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEPLACER, EnumAction.SAUVEGARDER, EnumAction.FIN_DE_PARTIE, EnumAction.QUITTER));
+	/**
+	 * Possibilité d'actions si au moins une pièce a été jouer
+	 */
 	private final ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER, EnumAction.SAUVEGARDER, EnumAction.QUITTER));
+	/**
+	 * Possibilité d'action si aucune pièce a été placer
+	 */
 	private final ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.SAUVEGARDER, EnumAction.QUITTER));
 
 

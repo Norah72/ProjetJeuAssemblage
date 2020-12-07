@@ -15,9 +15,21 @@ import controleur.*;
  */
 public class SauvegardeFichier {
 	
+	/**
+	 * Instance du jeu pour la sauvegarde
+	 */
 	private final Play jeu;
+	/**
+	 * Fichier où sauvegarder
+	 */
 	private final File partieFichier;
+	/**
+	 * Ecrite de fichier en Json
+	 */
 	private JsonWriter sauvegarde;
+	/**
+	 * Affiche si non ia
+	 */
 	private final boolean affiche;
 	
     /**

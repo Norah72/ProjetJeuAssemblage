@@ -9,9 +9,21 @@ import modele.*;
  */
 public class PlayIA implements InterfacePlay{
 	
+	/**
+	 * Liste des choix que peut choisir l'ia, en fonction de leurs importances
+	 */
 	private final ArrayList<EnumAction> listeChoixIa = new ArrayList<EnumAction>();
+	/**
+	 * Choix disponible si il n'y a plus aucune pièce a jouer
+	 */
 	private final ArrayList<EnumAction> plateauPlein = new ArrayList<EnumAction>(Arrays.asList(EnumAction.FIN_DE_PARTIE));
+	/**
+	 * Choix disponible si au moins une pièce est placer
+	 */
 	private final ArrayList<EnumAction> plateauAvecPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.DEPLACER, EnumAction.SUPPRIMER, EnumAction.ROTATION_PIECEAJOUER, EnumAction.ROTATION_PIECEPLACER));
+	/**
+	 * Choix disponible si aucune pièce n'est placer
+	 */
 	private final ArrayList<EnumAction> plateauSansPiecePlacer = new ArrayList<EnumAction>(Arrays.asList(EnumAction.PLACER, EnumAction.ROTATION_PIECEAJOUER));
 
     public void PlayIa(){
@@ -61,10 +73,10 @@ public class PlayIA implements InterfacePlay{
 		ArrayList<Integer> cooPiece = new ArrayList<Integer>(plateau.getPiecePlacer().get(choix).getCoo());
 		
 		//Permet de récupérer les coordonnees de la piece, car cooPiece représente les coordonnees en haut a gauche de la pièce, 
-                //sauf que cela peut être une case false, non détecter par le plateau
 		boolean valide = false;
 		int i=0;
-		while(!valide){
+		
+		while(!valide){//sauf que cela peut être une case false, non détecter par le plateau, donc on change les coordonnées
 			cooPiece.set(1, cooPiece.get(1)+i);
 			valide = plateau.getPlateau().get(cooPiece) == plateau.getPiecePlacer().get(choix) ? true : false;
 			i=+1;
@@ -200,6 +212,13 @@ public class PlayIA implements InterfacePlay{
 		return new ArrayList<ArrayList<Integer>>(Arrays.asList(pieceChoix,choixCoo));
 	}
 
+	/**
+	 * Vérifie si une pièce est a au moins deux case des coordonnées
+	 * @param x Coordonnées x
+	 * @param y Coordonnées y
+	 * @param plateau modèle
+	 * @return Si une pièce a coté ou non
+	 */
 	private boolean pieceAutour(int x, int y, PlateauPuzzle plateau){
 		if( (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x-1,y))) != null)
 						|| (plateau.getPiece(new ArrayList<Integer>(Arrays.asList(x+1,y))) != null)

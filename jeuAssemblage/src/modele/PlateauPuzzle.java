@@ -12,16 +12,59 @@ import util.*;
  */
 public class PlateauPuzzle implements Listenable, Cloneable{
     
+	/**
+	 * Plateau
+	 */
     private HashMap<ArrayList<Integer>, PiecesPuzzle > plateau;
-    private int x,y;
+	
+	/**
+	 * Largeur du plateau
+	 */
+    private int x,
+			/**
+			 * longueur du plateau
+			 */
+			y;
+	
+	/**
+	 * Liste d'écoute
+	 */
     private ArrayList<Listener> listeners ;
 
+	/**
+	 * Liste des pièces a jouer/disponible
+	 */
     private ArrayList<PiecesPuzzle> pieceAJouer = new ArrayList<PiecesPuzzle>();
+	/**
+	 * Liste des pièces placer
+	 */
     private ArrayList<PiecesPuzzle> piecePlacer = new ArrayList<PiecesPuzzle>();
+	/**
+	 * Liste des nom de pièce (enum)
+	 */
     private final ArrayList<String> pieceString = new ArrayList<String>(Arrays.asList("PieceH", "PieceL", "PieceRectangle", "PieceT"));
 
 
-    private int minX,maxX,minY,maxY;
+	/**
+	 * minumum surface X du plateau (calcul score)
+	 */
+    private int minX,
+			/**
+			 * Maximum surface X du plateau (calcul score)
+			 */
+			maxX,
+			/**
+			 * minumum surface y du plateau (calcul score)
+			 */
+			minY,
+			/**
+			 * maximul surface Y du plateau (calcul score)
+			 */
+			maxY;
+	
+	/**
+	 * Surface total des pièces
+	 */
     private int surfacePieces ;    
 
     /**
@@ -43,20 +86,22 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         this.minY = y;
         this.maxY = 0;
     }
+	
     /**
-     * Construction d'un plateau vide de taille XxY
+     * Construction d'un plateau vide de taille X Y
      * @param x
      * @param y 
      */
     private void construcPlateau(int x, int y){
-    for(int i = 0; i <= x-1 ; i++){
-                    for(int j = 0; j <= y-1 ; j++){
-                            this.plateau.put(new ArrayList<Integer>(Arrays.asList((Integer)i, (Integer)j)), null);
-                    }
+		for(int i = 0; i <= x-1 ; i++){
+			for(int j = 0; j <= y-1 ; j++){
+					this.plateau.put(new ArrayList<Integer>(Arrays.asList((Integer)i, (Integer)j)), null);
+			}
+		}
     }
-    }
+	
     /**
-     * Mise à jour de l'air du plateau utilisé par le joueur
+     * Mise à jour de l'air du plateau utilisé par le joueur pour le calcul du score
      */
     private void update(){
         this.minX = x;
@@ -84,7 +129,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * Calcule du Score
+     * Calcule du score
      * @return score
      */
     public int getScore(){
@@ -95,7 +140,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * Création d'une nouvelle pièce à placer (de rotation 0 par défaut)
+     * Création d'une nouvelle pièce de rotation 0 par défaut
      * @param piece forme de la pièce
      * @param largeur largeur de la pièce
      * @param longueur longueur de la pièce
@@ -105,7 +150,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * Création d'une nouvelle pièce à placer
+     * Création d'une nouvelle pièce avec rotation définit
      * @param piece forme de la pièce
      * @param largeur largeur de la pièce
      * @param longueur longueur de la pièce
@@ -116,7 +161,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * Création d'une nouvelle pièce
+     * Gestionnaire de création d'une nouvelle pièce
      * @param piece forme de la pièce
      * @param largeur largeur de la pièce
      * @param longueur longueur de la pièce
@@ -137,10 +182,10 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * Vérifie si la pièce peut être ajouté
+     * Gestionnaire de d'ajout d'une pièce
      * @param p pièce à ajouter
      * @param coo coordonées où la pièce doit se placer
-     * @return placement possible ou non
+     * @return placement effectuer ou non
      */
     public boolean addPiece(PiecesPuzzle p , ArrayList coo){
 
@@ -148,24 +193,24 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         int xx = 0;
         int yy = 0;
 
-        while(!(p.getGrid()[xx][yy+posY])){
-                coo.set(1, (int) coo.get(1)-1);
-                posY += 1;
+        while(!(p.getGrid()[xx][yy+posY])){//Si une pièce a une case de référence en false
+            coo.set(1, (int) coo.get(1)-1);
+            posY += 1;
         }
 
         if (validePlacement(p,coo)){
             add(p,coo);
-                            return true;
+            return true;
         }
-                    return false;
+        return false;
     }
+	
     /**
      * Ajoute la pièce dans le plateau
      * @param p pièce à ajouter
      * @param coo coordonées où la pièce doit se placer
      */
     private void add(PiecesPuzzle p,ArrayList coo){
-
         for(int i=0;i<p.getLargeurX();i++){
             for(int j=0; j<p.getLongueurY();j++){
                 if(p.getGrid()[i][j]){
@@ -174,16 +219,18 @@ public class PlateauPuzzle implements Listenable, Cloneable{
                 }
             }
         }
+		
         p.updateCoordonnees(coo);
         update();        
-                    this.pieceAJouer.remove(p);
-                    this.piecePlacer.add(p);
+		this.pieceAJouer.remove(p);
+		this.piecePlacer.add(p);
     }
 
     /**
-     * @param p pièce à ajouter
+	 * Gestionnaire de déplacement de pièce
+     * @param p pièce à déplacer
      * @param coo coordonées où la pièce doit se placer
-     * @return la pièce peut être déplacé ou non
+     * @return déplacement effectuer ou non
      */
     public boolean movePiece( PiecesPuzzle p ,ArrayList coo){
 
@@ -191,27 +238,28 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         int xx = 0;
         int yy = 0;
 
-        while(!(p.getGrid()[xx][yy+posY])){
-                coo.set(1, (int) coo.get(1)-1);
-                posY += 1;
+        while(!(p.getGrid()[xx][yy+posY])){//Si une pièce a une case de référence en false
+            coo.set(1, (int) coo.get(1)-1);
+            posY += 1;
         }
 
-        removePiece(p);
-        if(validePlacement(p,coo)){
-            add(p,coo);
+        removePiece(p); // Supprime la pièce
+        if(validePlacement(p,coo)){ // valide le placement
+            add(p,coo); //ajoute la pièce
             update();
             return true;
         }
 
-        add(p,p.getCoo());              //Pour déplacer une pièce: on la supprime et on la place à ses nouvelles coorodonnées
+        add(p,p.getCoo()); // replace la pièce si le placement n'est pas valide
         update();
 
         return false;
     }
 
     /**
-     * @param p pièce à ajouter
-     * @return la pièce peut être enlevé ou non
+	 * Gestionnaire de suppression de pièce
+     * @param p pièce à supprimer
+     * @return supression effectuer ou non
      */
     public boolean removePiece( PiecesPuzzle p){
         boolean valide = false;
@@ -233,9 +281,10 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * @param p pièce à ajouter
+	 * Gestionnaire de rotation de pièce
+     * @param p pièce à tourner
      * @param rotation nouvelle rotation de la pièce
-     * @return la pièce peut être tourné ou non
+     * @return rotation effectuer ou non
      */
     public boolean rotationPiece(PiecesPuzzle p , Integer rotation){
         removePiece(p);
@@ -245,7 +294,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         p.createPiece(rotation);
         if(!validePlacement(p,p.getCoo())){     //Pour la tourner: on la supprime, on la tourne, et on la replace
             p.createPiece(rotationOrigine);
-                            out = false;
+            out = false;
         }else{
             out = true;
         }
@@ -253,18 +302,9 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         update();
         return out;
     }
-
-    /**
-     * 
-     * @param coo coordonéesde la case
-     * @return la case est libre ou non
-     */
-    public boolean libre(ArrayList coo){
-        return this.plateau.get(coo) == null && this.plateau.containsKey(coo);
-    }
-
-    /**
-     * Crée une pièce dans la rotation souhaité
+	
+	/**
+     * Gestionnaire de rotation d'une pièce non placé
      * @param numPieceRotation numéro de la pièce parmi la liste des pièce à jouer
      * @param rotation rotation de la pièce souhaité
      */
@@ -273,18 +313,7 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
-     * 
-     * @param coo coordonées d'une case sur le plateau
-     * @return si il y a une pièce ou non
-     */
-    public boolean selectPiece(ArrayList coo){
-
-        PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
-        return pieceSelect != null;
-    }
-
-    /**
-     *
+     * Valide le placement d'une pièce
      * @param p pièce
      * @param coo futur coordonées de la pièce
      * @return si le placement est possible ou non
@@ -300,6 +329,27 @@ public class PlateauPuzzle implements Listenable, Cloneable{
             }
         }
         return true;
+    }
+	
+	/**
+     * Valide si une case est null
+     * @param coo coordonées de la case
+     * @return la case est libre ou non
+     */
+    public boolean libre(ArrayList coo){
+        return this.plateau.get(coo) == null && this.plateau.containsKey(coo);
+    }
+
+   
+    /**
+     * Selectionne la pièce
+     * @param coo coordonées d'une case sur le plateau
+     * @return si il y a une pièce ou non
+     */
+    public boolean selectPiece(ArrayList coo){
+
+        PiecesPuzzle pieceSelect = (PiecesPuzzle)this.plateau.get(coo);
+        return pieceSelect != null;
     }
 
     /**
@@ -360,6 +410,33 @@ public class PlateauPuzzle implements Listenable, Cloneable{
     }
 
     /**
+     * Modifie la taille du plateau
+     * @param newx nouvelle largeur
+     * @param newy nouvelle longueur
+     */
+    public void setXY(int newx,int newy){
+        this.x = newx;
+        this.y = newy;
+        construcPlateau(this.x, this.y);
+    }
+
+    /**
+     * 
+     * @return largeur du plateau
+     */
+    public int getX(){
+        return this.x;
+    }
+
+    /**
+     *
+     * @return longueur du plateau
+     */
+    public int getY(){
+        return this.y;
+    }
+	
+	/**
      * Met à jour la vue (non implémenté)
      */
     @Override
@@ -387,6 +464,26 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         this.listeners.remove(listener);
     }
         
+    /**
+     * Clone un plateau pour que l'ia fasse ses simultaions 
+     * @return PlateauPuzzle
+     * @throws CloneNotSupportedException 
+     */
+	@Override
+    public Object clone() throws CloneNotSupportedException {
+        PlateauPuzzle plateauPuzzle = null;
+        try{
+                plateauPuzzle = (PlateauPuzzle) super.clone();
+                plateauPuzzle.plateau = (HashMap) this.plateau.clone();
+                plateauPuzzle.pieceAJouer = (ArrayList) this.pieceAJouer.clone();
+                plateauPuzzle.piecePlacer = (ArrayList) this.piecePlacer.clone();
+
+        } catch (CloneNotSupportedException c) {
+                System.out.println("Erreur clonage: "+c);
+        }
+        return plateauPuzzle;
+    }
+	
 	@Override
 	public String toString(){
 		System.out.print("   ");
@@ -417,50 +514,5 @@ public class PlateauPuzzle implements Listenable, Cloneable{
         }
         return "";
     }
-
-    /**
-     * Modifie la taille du plateau
-     * @param newx nouvelle largeur
-     * @param newy nouvelle longueur
-     */
-    public void setXY(int newx,int newy){
-        this.x = newx;
-        this.y = newy;
-        construcPlateau(this.x, this.y);
-    }
-
-    /**
-     * 
-     * @return largeur du plateau
-     */
-    public int getX(){
-        return this.x;
-    }
-
-    /**
-     *
-     * @return longueur du plateau
-     */
-    public int getY(){
-        return this.y;
-    }
-    /**
-     * Clone un plateau pour que l'ia fasse ses simultaions 
-     * @return PlateauPuzzle
-     * @throws CloneNotSupportedException 
-     */
-	@Override
-    public Object clone() throws CloneNotSupportedException {
-        PlateauPuzzle plateauPuzzle = null;
-        try{
-                plateauPuzzle = (PlateauPuzzle) super.clone();
-                plateauPuzzle.plateau = (HashMap) this.plateau.clone();
-                plateauPuzzle.pieceAJouer = (ArrayList) this.pieceAJouer.clone();
-                plateauPuzzle.piecePlacer = (ArrayList) this.piecePlacer.clone();
-
-        } catch (CloneNotSupportedException c) {
-                System.out.println("Erreur clonage: "+c);
-        }
-        return plateauPuzzle;
-    }
+	
 }

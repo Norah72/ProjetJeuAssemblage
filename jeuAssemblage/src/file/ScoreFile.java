@@ -17,11 +17,26 @@ import java.util.TreeMap;
  * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
  */
 public class ScoreFile implements Comparator<String>{
+	/**
+	 * Liste des scores
+	 */
 	private HashMap<String, String> listeScore = new HashMap<String, String>();
+	/**
+	 * Fichier de sauvegarde du score
+	 */
 	private final File scoreFile = new File("src/file/partie/score.txt"); 
-        private TreeMap<String,String> listeScoreTri = new TreeMap<String,String>(this);
-        private String verifPseudo;
-        private int verifScore;
+	/**
+	 * Liste trié de score
+	 */
+	private TreeMap<String,String> listeScoreTri = new TreeMap<String,String>(this);
+	/**
+	 * Vérification du pseudo pour éviter doublons
+	 */
+	private String verifPseudo;
+	/**
+	 * Vérification des scores
+	 */
+	private int verifScore;
 
     /**
      * Ecriture des scores dans le fichier txt

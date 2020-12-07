@@ -19,10 +19,31 @@ import controleur.*;
  */
 public class ChargerPartie {
 
+	/**
+	 * Instance du jeu
+	 */
 	private final Play jeu;
+	/**
+	 * Fichier charger
+	 */
 	private final File partieFichier; 
 	
-	private int largeur, longeur, rotation, i;
+	/**
+	 * largeur plateau/pièce
+	 */
+	private int largeur, 
+			/**
+			 * longueur plateau/pièce
+			 */
+			longeur, 
+			/**
+			 * rotation pièce
+			 */
+			rotation,
+			/**
+			 * Numéro de la pièce
+			 */
+			i;
 
     /**
      * Constructeur
