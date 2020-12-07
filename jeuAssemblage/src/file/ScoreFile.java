@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -102,16 +103,16 @@ public class ScoreFile implements Comparator<String>{
                                         }
                                         listeScore.remove(key);
                                     }
-                                    File tmp = new File("temp.txt");
-                                    BufferedWriter newScore = new BufferedWriter (new FileWriter(tmp));
-                                    for(String i : listeScoreTri.keySet()){
-                                        newScore.write(i+" "+listeScoreTri.get(i)+"\n");
-                                    }
-                                    newScore.close();
-                                    scoreFile.delete();
-                                    tmp.renameTo(new File("src/file/partie/score.txt"));
                                 }
                                 listeScoreTri.putAll(listeScore); //On met les 12 meilleurs scores dans un TreeMap pour les avoir dans l'ordre décroissant
+                                File tmp = new File("temp.txt");
+                                BufferedWriter newScore = new BufferedWriter (new FileWriter(tmp));
+                                for (Map.Entry<String, String> ligne : listeScoreTri.entrySet()) {
+                                    newScore.write(ligne.getKey()+" "+ ligne.getValue()+"\n");
+                                }
+                                newScore.close();
+                                scoreFile.delete();
+                                tmp.renameTo(new File("src/file/partie/score.txt"));
                         }
 		}
 		catch(Exception e){
@@ -119,7 +120,6 @@ public class ScoreFile implements Comparator<String>{
 		}
 		
 	}
-
     /**
      *
      * @return les 12 meilleurs scores

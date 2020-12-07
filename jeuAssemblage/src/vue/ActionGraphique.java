@@ -221,7 +221,7 @@ public class ActionGraphique implements ActionListener{
     }
     /**
      * Attribue une valeur au choix du joueur (choix 1 : PLACER - choix 2 : DEPLACER - choix 3 : SUPPRIMER - choix 4 : retour menu principal 
-     *                                         choix 5 : ANNULER - choix 6 : charger partie - choix 9 : quitter le jeu)
+     *                                         choix 5 : ANNULER - choix 6 : charger partie - choix 7: SCORE - choix 9 : quitter le jeu)
      * @param i 
      */
     private void actionBouton(int i){
@@ -298,6 +298,10 @@ public class ActionGraphique implements ActionListener{
         if(source == this.vue.getListeBouton().get(8)){
             this.play.clickNotify();                    //Boouton quitter dans le tableau des scores
             choix=9;
+        }
+        if(source == this.vue.getListeBouton().get(9)){
+            this.play.clickNotify();                    //Boouton afficher le tableau des scores depuis le menu
+            choix=7;
         }
     }     
 }

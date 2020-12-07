@@ -83,7 +83,8 @@ public class InterfaceGraphique extends JFrame implements Listener{
             fenetre.add(colonne);
             fenetre.add(listeBouton.get(0));
             fenetre.add(listeBouton.get(5));
-            fenetre.add(listeBouton.get(6));            
+            fenetre.add(listeBouton.get(6)); 
+            fenetre.add(listeBouton.get(9));
         }
         else{
             score.setText("Score : " + Integer.toString(this.modele.getScore()));
@@ -148,6 +149,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
         creationBouton("EXPLICATION");
         creationBouton("RETOUR AU MENU");
         creationBouton("QUITTER");
+        creationBouton("SCORE");
     }
     /**
      * Creation d'un bouton
@@ -398,6 +400,7 @@ public class InterfaceGraphique extends JFrame implements Listener{
      */
     public void tableauScore(ScoreFile tab){
         fenetre.removeAll();
+        fenetre.setLayout(new BorderLayout());
         JLabel titre = new JLabel("Tableau des scores");
         titre.setHorizontalAlignment(SwingConstants.CENTER);
         titre.setFont(new java.awt.Font("Arial",Font.BOLD,20));

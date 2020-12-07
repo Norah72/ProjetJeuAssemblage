@@ -193,24 +193,36 @@ public class Play {
                    if(this.actionBouton.getChoix()==1){                 //On modifie l'affichage en fonction du bouton activé
                        nouvellePartie(largeurPlateau,longueurPlateau);
                    }
-                   else if(this.actionBouton.getChoix()==6){
+                   if(this.actionBouton.getChoix()==6){
                        chargerPartie();
                        compo=1;
-                   }   
-		   while(compo==0){
-			   compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faire ?");
-			   if(compo==0){
-				   nouvellePartie(largeurPlateau,longueurPlateau);
-			   }
-		   }
-			if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faire ?")==0){
-				this.ia = true;
-				jeuIa();
-				jeuVue();
-			}
-			else{
-				jeuVue();
-			}
+                   }
+                   if(this.actionBouton.getChoix()==7){
+                        sauvegardeScore.affiche();
+                        this.vueGraph.tableauScore(this.sauvegardeScore);
+                        synchronized(this){
+                            wait();
+                        }
+                        if(this.actionBouton.getChoix()==9){
+                             this.endPlay=true;
+                        }
+                   }
+                   else{
+                        while(compo==0){
+                                compo = this.vueGraph.ouiNon("Voulez-vous changer de composition ?", "Que voulez-vous faire ?");
+                                if(compo==0){
+                                        nouvellePartie(largeurPlateau,longueurPlateau);
+                                }
+                        }
+                        if(this.vueGraph.ouiNon("Voulez vous que l'ordinateur joue cette partie ?", "Que voulez-vous faire ?")==0){
+                                this.ia = true;
+                                jeuIa();
+                                jeuVue();
+                        }
+                        else{
+                                jeuVue();
+                        }
+                   }
 		}
 		catch(Exception e){
 			System.out.println("Impossible de charger la vue: "+e);
@@ -224,6 +236,7 @@ public class Play {
 			this.actionBouton = new ActionGraphique(this,vueGraph,eventSouris);
 		}
             }
+            System.exit(0);
 	}
 	/**
          * Demande à l'utilisateur si il veut que l'ia joue
