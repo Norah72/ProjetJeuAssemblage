@@ -76,9 +76,6 @@ public abstract class AbstractPiece implements PiecesPuzzle{
 		}
 		pieceGrid();
 	}
-	
-
-	public abstract String getColor();
     
 	
     public boolean[][] getGrid() {
@@ -129,7 +126,7 @@ public abstract class AbstractPiece implements PiecesPuzzle{
             for(int i = 0 ; i < this.largeurXActuel; i++) {
                     for(int j= 0 ; j < this.longueurYActuel; j++) {
                             if(grid[i][j] == true){
-                                    System.out.print("■ ");
+                                    System.out.print(getColor()+"■ "+getColor()+"\u001B[0m");
                             } else {
                                     System.out.print("  ");
                             }

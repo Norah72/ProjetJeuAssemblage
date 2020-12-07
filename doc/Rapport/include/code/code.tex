@@ -128,12 +128,31 @@
         Une fois que toutes les fourmis ont finit leurs parties, \textit{afficheIa()} affiche le plateau ayant obtenus le meilleurs score. L'affichage déplace d'abord les pièces déjà placer sur le plateau initiale(si c'est une partie charger), puis place ensuite les pièces a jouer en fonction du plateau obtenus par les fourmis. Pour cela, elle utilise les méthodes communes pour effectuer des actions.
 
         \subsubsection{joueur Graphique}
-        Si la vue graphique est choisis, une InterfaceGraphique, une MouseCliquer ainsi qu'un ActionGraphique est créer a partir du constructeur de la classe \textit{Play()}, permettant ainsi de d'afficher la Vue. Ensuite, la méthode \textit{menuGraph()} est appeler, permettant d'appeler \textit{jeuIa()} ou \textit{jeuVue} en fonction de ce que veux le joueur. Le choix se fait grâce au
+        Si la vue graphique est choisis, une InterfaceGraphique, une MouseClicker ainsi qu'un ActionGraphique est créer a partir du constructeur de la classe \textit{Play()}, permettant ainsi d'afficher la Vue. Ensuite, la méthode \textit{menuGraph()} est appeler, permettant d'appeler \textit{jeuIa()} ou \textit{jeuVue} en fonction de ce que veux le joueur. Le choix se fait grâce aux différents boutons. Le joueur peut donc sélectionné la taille de son plateau (via le bouton ligne et colonne qui vont de 5 à 20), il peut également charger une partie, afficher le tableau des scores ou encore les règles du jeu. Le fonctionnement des boutons sont assez simple. Le controleur attend que ActionGraphique le notifie, pemrettant ainsi de récuperer le choix du joueur (via la méthode \textit{getChoix()}) et ordonne ainsi à la vue ce qu'elle doit faire (afficher la grille, les scores, demander au joueur de selectionné une pièce,...).
+
+        \begin{figure}[H]\label{img:joueurGraphqiue}
+            \centering
+            \includegraphics[scale=0.8]{img/menu.png}
+            \caption{Bouton du menu principal}
+        \end{figure}
 
 
-        %ICI
+    \section{Vue}
+        La vue est composé de 3 classes :
+        \begin{description}
+            \item[classe \textit{InterfaceGraphique}:]{Construit et affiche la vue graphique }
+            \item[classe \textit{ActionGraphique}:]{Gère les interactions entre le joueur et la vue}
+            \item[classe \textit{MouseClicker}:]{Permet de récupéré les clique souris du joueur sur la vue}
+		\end{description}
 
-    \subsection{Vue}
+		\subsection{InterfaceGraphique}
+		L'interface Graphique est composé de nombreuses méthodes pour afficher la vue. La méthode principale est \textit{buildContentPane()}.Elle permet à la fenêtre, dans un premier temps, d'afficher le menu principale lorsqu'elle n'a pas de modèle. Ce menu est composé de divers bouton (cf: voir \ref{img:joueurGraphqiue}). Et quand nous avons un modèle, on affiche la grille en parcourant le plateau en vérifiant la présence de pièce. Cette grille est une grande fenêtre de couleur noir composé de plusieurs petites fenêtre grise espacé entre-elles, donnant cette impression de grille. On oublie pas d'ajouter à cela les pièces à placer, les boutons de jeu et les rotations des pièces, nous obtenons ceci \ref{img:plateau}. Cette class permet aussi l'affichage des scores, des explications de jeu, des aides, du formulaire pour rentrer son pseudo et des fenêtre de choix.
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{img/score.png}
+            \caption{Tableau des scores}
+        \end{figure}
 
-    %ICI
+        \subsection{ActionGraphique et MouseClicke}
+        Ces 2 méthodes sont liés car MouseClicker est utilisé quand les méthodes d'interaction d'ActionGraphique sont appelés. La tache d'ActionGraphique est d'attribuer un rôle à chaque bouton et de gérer l'ordre des évènements quand un joueur veut réaliser une action. Par exemple, le bouton "PLACER" va appelé la méthode \textit{actionBouton()} pour vérifier si aucune autre action est en cours. Si aucune action est en cours, on appelle la méthode \textit{placementPieceVue()} qui va demander au joueur de sélectionner une pièce. Il va attendre que MouseClicker lui envoie la pièce sélectionner pour ensuite demander au joueur de choisir sa rotation et son emplacement. Il va de nouveau attendre que MouseClicker lui envoie la case sélectionné pour pouvoir demander au contrôleur de placer la pièce dans la rotation souhaité via les méthodes vu précédemment. Pendant les 2 périodes où ActionGraphique attend, on vérifie si le joueur n'a pas décidé d'annuler son action, sinon on coupe l'attente est demande à la vue d'afficher son état initiale. Ce processus est semblable pour les méthodes \textit{deplacementPieceVue()} et \textit{supprimerPieceVue()}. Cette class gère aussi les listener des pièces et des case de la grille, pour que le joueur ne fasse pas de mauvaise sélection.

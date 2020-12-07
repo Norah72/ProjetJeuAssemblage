@@ -1,9 +1,9 @@
 [0] Config.pm:302> INFO - This is Biber 2.9
 [0] Config.pm:305> INFO - Logfile is 'build/Rapport.blg'
-[16] biber:313> INFO - === dim. déc.  6, 2020, 23:57:38
+[16] biber:313> INFO - === lun. déc.  7, 2020, 16:04:30
 [30] Biber.pm:371> INFO - Reading 'build/Rapport.bcf'
-[70] Biber.pm:857> INFO - Found 0 citekeys in bib section 0
-[74] Utils.pm:169> WARN - The file 'build/Rapport.bcf' does not contain any citations!
+[71] Biber.pm:857> INFO - Found 0 citekeys in bib section 0
+[75] Utils.pm:169> WARN - The file 'build/Rapport.bcf' does not contain any citations!
 [79] bbl.pm:617> INFO - Writing 'build/Rapport.bbl' with encoding 'UTF-8'
 [79] bbl.pm:720> INFO - Output to build/Rapport.bbl
 [79] Biber.pm:110> INFO - WARNINGS: 1

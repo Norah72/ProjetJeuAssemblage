@@ -26,10 +26,12 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{joueur Graphique}{6}{figure.caption.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {ii}Vue}{6}{subsection.3.3.2}
+\contentsline {section}{\numberline {D}Vue}{7}{section.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {iii}File}{6}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {i}InterfaceGraphique}{7}{subsection.3.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Conclusion}{7}{chapter.4}
+\contentsline {subsection}{\numberline {ii}ActionGraphique et MouseClicke}{7}{subsection.3.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Ressources utiles et sources utilis\IeC {\'e}s}{8}{chapter.5}
+\contentsline {chapter}{\numberline {4}Conclusion}{9}{chapter.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Ressources utiles et sources utilis\IeC {\'e}s}{10}{chapter.5}

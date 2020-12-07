@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.16)  6 DEC 2020 23:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.16)  7 DEC 2020 16:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1230,7 +1230,7 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count354
 \@quotereset=\count355
-(/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.aux)
+(/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.aux)
 \openout1 = `Rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -1402,7 +1402,7 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 21.
 LaTeX Info: Redefining \pageref on input line 21.
 LaTeX Info: Redefining \nameref on input line 21.
- (/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.out) (/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.out)
+ (/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.out) (/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.out)
 \@outlinefile=\write6
 \openout6 = `Rapport.out'.
 
@@ -1414,10 +1414,10 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Rapport.bbl' found.
- (/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.bbl)
+ (/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.bbl)
 Package biblatex Info: Reference section=0 on input line 21.
 Package biblatex Info: Reference segment=0 on input line 21.
-<img/unicaen.png, id=59, 154.6578pt x 83.1105pt>
+<img/unicaen.png, id=63, 154.6578pt x 83.1105pt>
 File: img/unicaen.png Graphic file (type png)
 <use img/unicaen.png>
 Package pdftex.def Info: img/unicaen.png  used on input line 22.
@@ -1427,7 +1427,7 @@ Package pdftex.def Info: img/unicaen.png  used on input line 22.
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./img/unicaen.png>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 24.
- (/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.toc
+ (/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.toc
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 7.
 LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 9.
@@ -1470,12 +1470,12 @@ l.24 	\tableDesMatieres
 Chapitre 1.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <16> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
-<img/vueConsole.png, id=86, 587.19376pt x 874.26625pt>
+<img/vueConsole.png, id=91, 587.19376pt x 874.26625pt>
 File: img/vueConsole.png Graphic file (type png)
 <use img/vueConsole.png>
 Package pdftex.def Info: img/vueConsole.png  used on input line 16.
 (pdftex.def)             Requested size: 182.09486pt x 271.11311pt.
-<img/vueGraphique.png, id=87, 852.18375pt x 853.1875pt>
+<img/vueGraphique.png, id=92, 852.18375pt x 853.1875pt>
 File: img/vueGraphique.png Graphic file (type png)
 <use img/vueGraphique.png>
 Package pdftex.def Info: img/vueGraphique.png  used on input line 16.
@@ -1498,12 +1498,12 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Reference `img:prblmPlacement' on page 3 undefined on input line 16.
 
-<img/pieceLrot0.png, id=98, 311.1625pt x 300.12125pt>
+<img/pieceLrot0.png, id=103, 311.1625pt x 300.12125pt>
 File: img/pieceLrot0.png Graphic file (type png)
 <use img/pieceLrot0.png>
 Package pdftex.def Info: img/pieceLrot0.png  used on input line 21.
 (pdftex.def)             Requested size: 91.04742pt x 87.81601pt.
-<img/pieceLrot3.png, id=99, 308.15125pt x 295.1025pt>
+<img/pieceLrot3.png, id=104, 308.15125pt x 295.1025pt>
 File: img/pieceLrot3.png Graphic file (type png)
 <use img/pieceLrot3.png>
 Package pdftex.def Info: img/pieceLrot3.png  used on input line 21.
@@ -1513,17 +1513,17 @@ Package pdftex.def Info: img/pieceLrot3.png  used on input line 21.
  <./img/pieceLrot0.png (PNG copy)> <./img/pieceLrot3.png (PNG copy)>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 34.
-<img/pieceLCliqueFantome.png, id=106, 530.98375pt x 224.84pt>
+<img/pieceLCliqueFantome.png, id=111, 530.98375pt x 224.84pt>
 File: img/pieceLCliqueFantome.png Graphic file (type png)
 <use img/pieceLCliqueFantome.png>
 Package pdftex.def Info: img/pieceLCliqueFantome.png  used on input line 49.
 (pdftex.def)             Requested size: 91.04742pt x 38.55164pt.
-<img/pieceLCliqueFantome-1.png, id=107, 530.98375pt x 224.84pt>
+<img/pieceLCliqueFantome-1.png, id=112, 530.98375pt x 224.84pt>
 File: img/pieceLCliqueFantome-1.png Graphic file (type png)
 <use img/pieceLCliqueFantome-1.png>
 Package pdftex.def Info: img/pieceLCliqueFantome-1.png  used on input line 49.
 (pdftex.def)             Requested size: 91.04742pt x 38.55164pt.
-<img/pieceLCliqueMis.png, id=108, 530.98375pt x 224.84pt>
+<img/pieceLCliqueMis.png, id=113, 530.98375pt x 224.84pt>
 File: img/pieceLCliqueMis.png Graphic file (type png)
 <use img/pieceLCliqueMis.png>
 Package pdftex.def Info: img/pieceLCliqueMis.png  used on input line 49.
@@ -1538,7 +1538,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 65--68
 
  []
 
-<img/pieceLposY.png, id=109, 308.15125pt x 295.1025pt>
+<img/pieceLposY.png, id=114, 308.15125pt x 295.1025pt>
 File: img/pieceLposY.png Graphic file (type png)
 <use img/pieceLposY.png>
 Package pdftex.def Info: img/pieceLposY.png  used on input line 71.
@@ -1552,7 +1552,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [4 <./img/pieceLCliqueFantome.png (PNG copy)> <./img/pieceLCliqueFantome-1.png> <./img/pieceLCliqueMis.png (PNG copy)> <./img/pieceLposY.png>]
-<img/diaControleur.png, id=131, 699.61375pt x 447.6725pt>
+<img/diaControleur.png, id=136, 699.61375pt x 447.6725pt>
 File: img/diaControleur.png Graphic file (type png)
 <use img/diaControleur.png>
 Package pdftex.def Info: img/diaControleur.png  used on input line 96.
@@ -1561,7 +1561,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/sc' in size <10.95> not available
 (Font)              Font shape `T1/ptm/b/sc' tried instead on input line 97.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 103.
-<img/graphJoueurChoix.png, id=132, 1185.42876pt x 142.5325pt>
+<img/graphJoueurChoix.png, id=137, 1185.42876pt x 142.5325pt>
 File: img/graphJoueurChoix.png Graphic file (type png)
 <use img/graphJoueurChoix.png>
 Package pdftex.def Info: img/graphJoueurChoix.png  used on input line 108.
@@ -1574,9 +1574,30 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Reference `img:prblmPlacement' on page 6 undefined on input line 122.
 
-) (./include/conclusion/conclusion.tex [6]
+<img/menu.png, id=148, 410.2828pt x 33.87656pt>
+File: img/menu.png Graphic file (type png)
+<use img/menu.png>
+Package pdftex.def Info: img/menu.png  used on input line 135.
+(pdftex.def)             Requested size: 328.22668pt x 27.10127pt.
+[6 <./img/menu.png>]
+
+Package caption Warning: \label without proper reference on input line 133.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `img:joueurGraphqiue' on page 7 undefined on input line 149.
+
+
+LaTeX Warning: Reference `img:plateau' on page 7 undefined on input line 149.
+
+<img/score.png, id=156, 629.35126pt x 634.62094pt>
+File: img/score.png Graphic file (type png)
+<use img/score.png>
+Package pdftex.def Info: img/score.png  used on input line 153.
+(pdftex.def)             Requested size: 314.67485pt x 317.3097pt.
+) [7 <./img/score.png>] (./include/conclusion/conclusion.tex [8]
 Chapitre 4.
-) (./include/ressources/ressources.tex [7
+) (./include/ressources/ressources.tex [9
 
 ]
 Chapitre 5.
@@ -1584,16 +1605,16 @@ Chapitre 5.
 
 LaTeX Warning: Empty bibliography on input line 3.
 
-[8
+[10
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 36.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 36.
- (/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.aux)
+ (/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 36.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 36.
 Package rerunfilecheck Info: File `Rapport.out' has not changed.
-(rerunfilecheck)             Checksum: A1592C4FA6F188DF8EA1B024D100928F;802.
+(rerunfilecheck)             Checksum: E694A837D5AD34A8FFFC764F2B327856;893.
 
 
 LaTeX Warning: There were undefined references.
@@ -1603,18 +1624,18 @@ Package logreq Info: Writing requests to 'Rapport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29237 strings out of 492982
- 519596 string characters out of 6134896
- 991502 words of memory out of 5000000
- 32226 multiletter control sequences out of 15000+600000
+ 29255 strings out of 492982
+ 519839 string characters out of 6134896
+ 991592 words of memory out of 5000000
+ 32237 multiletter control sequences out of 15000+600000
  63077 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,14n,54p,1152b,2187s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,14n,54p,1383b,2187s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "/home/norah/Documents/l3/Méthode de conception/Projet/ProjetJeuAssemblage/doc/Rapport/build/Rapport.pdf" (10 pages, 207677 bytes).
+Output written on "/home/norah/Documents/l3/Méthode de conception/wsxdh/ProjetJeuAssemblage/doc/Rapport/build/Rapport.pdf" (12 pages, 235062 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 172 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 214 PDF objects out of 1000 (max. 8388607)
+ 173 compressed objects within 2 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 190 words of extra memory for PDF output out of 10000 (max. 10000000)
 

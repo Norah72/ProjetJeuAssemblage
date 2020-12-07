@@ -7,7 +7,8 @@
 \BOOKMARK [1][-]{section.3.2}{Mod\350le : Le plateau}{chapter.3}% 7
 \BOOKMARK [1][-]{section.3.3}{Controleur}{chapter.3}% 8
 \BOOKMARK [2][-]{subsection.3.3.1}{Play}{section.3.3}% 9
-\BOOKMARK [2][-]{subsection.3.3.2}{Vue}{section.3.3}% 10
-\BOOKMARK [2][-]{subsection.3.3.3}{File}{section.3.3}% 11
-\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 12
-\BOOKMARK [0][-]{chapter.5}{Ressources utiles et sources utilis\351s}{}% 13
+\BOOKMARK [1][-]{section.3.4}{Vue}{chapter.3}% 10
+\BOOKMARK [2][-]{subsection.3.4.1}{InterfaceGraphique}{section.3.4}% 11
+\BOOKMARK [2][-]{subsection.3.4.2}{ActionGraphique et MouseClicke}{section.3.4}% 12
+\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 13
+\BOOKMARK [0][-]{chapter.5}{Ressources utiles et sources utilis\351s}{}% 14
