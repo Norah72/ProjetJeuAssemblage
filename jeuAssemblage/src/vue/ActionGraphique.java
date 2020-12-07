@@ -17,10 +17,21 @@ import javax.swing.JPanel;
  * @author Alexandre BELLEBON - Auréline DEROIN - Clémentine LEROY - Léo VINCENT
  */
 public class ActionGraphique implements ActionListener{
-    
+    /**
+     * Controleur
+     */
     private final Play play;
+    /**
+     * Vue graphique
+     */
     private final InterfaceGraphique vue;
+    /**
+     * choix du joueur
+     */
     private int choix = 0;
+    /**
+     * clique souris
+     */
     private final MouseClicker eventSouris;
 
     /**

@@ -50,7 +50,7 @@ public enum EnumAction {
 	
     /**
      * Constructeur
-     * @param action 
+     * @param action nom de l'action
      */
     private EnumAction(String action) {  
         this.action = action;
