@@ -73,7 +73,17 @@ public class ChargerPartie {
 			int cooX = coo.get(0).getAsInt();
 			int cooY = coo.get(1).getAsInt();
 			
-			this.jeu.getPlateau().addPiece(this.jeu.getPlateau().getPieceAJouer().get(this.jeu.getPlateau().getPieceAJouer().size()-1), new ArrayList(Arrays.asList(cooX,cooY)));
+			ArrayList<Integer> cooPiece = new ArrayList(Arrays.asList(cooX,cooY));
+			
+			int xx = 0;
+			int yy = 0;
+			int posY = 0;
+			while(!this.jeu.getPlateau().getPieceAJouer().get(this.jeu.getPlateau().getPieceAJouer().size()-1).getGrid()[xx][yy+posY]){
+				cooPiece.set(1, cooPiece.get(1)+1);
+				posY += 1;
+			}
+			
+			this.jeu.getPlateau().addPiece(this.jeu.getPlateau().getPieceAJouer().get(this.jeu.getPlateau().getPieceAJouer().size()-1), cooPiece);
 			i++;
 		}
 		

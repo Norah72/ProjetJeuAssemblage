@@ -1,65 +1,140 @@
 {
  "initialisation": {
-  "pseudo": "Charger",
-  "largeurPlateau": 9,
-  "longeurPlateau": 8,
+  "pseudo": "leopro",
+  "largeurPlateau": 14,
+  "longeurPlateau": 14,
   "explication": true
  },
- "piecesDisponible": {
-  "0": {
-   "type": "PieceRectangle",
-   "largeur": 1,
-   "longeur": 1,
-   "rotation": 0
-  },
-  "1": {
-   "type": "PieceH",
-   "largeur": 4,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "2": {
-   "type": "PieceT",
-   "largeur": 3,
-   "longeur": 4,
-   "rotation": 0
-  },
-  "3": {
-   "type": "PieceL",
-   "largeur": 3,
-   "longeur": 3,
-   "rotation": 0
-  }
- },
+ "piecesDisponible": {},
  "piecesPlacer": {
   "0": {
-   "type": "PieceH",
-   "largeur": 3,
+   "type": "PieceL",
+   "largeur": 5,
    "longeur": 4,
    "rotation": 0,
    "coordonnees": [
-    6,
+    9,
     0
    ]
   },
   "1": {
    "type": "PieceRectangle",
-   "largeur": 1,
-   "longeur": 2,
+   "largeur": 4,
+   "longeur": 3,
    "rotation": 0,
    "coordonnees": [
-    8,
+    9,
     1
    ]
   },
   "2": {
-   "type": "PieceH",
+   "type": "PieceL",
    "largeur": 4,
    "longeur": 4,
    "rotation": 0,
    "coordonnees": [
+    10,
+    4
+   ]
+  },
+  "3": {
+   "type": "PieceH",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 3,
+   "coordonnees": [
+    10,
+    8
+   ]
+  },
+  "4": {
+   "type": "PieceRectangle",
+   "largeur": 4,
+   "longeur": 2,
+   "rotation": 1,
+   "coordonnees": [
+    11,
+    5
+   ]
+  },
+  "5": {
+   "type": "PieceRectangle",
+   "largeur": 3,
+   "longeur": 2,
+   "rotation": 0,
+   "coordonnees": [
+    11,
+    12
+   ]
+  },
+  "6": {
+   "type": "PieceL",
+   "largeur": 3,
+   "longeur": 2,
+   "rotation": 0,
+   "coordonnees": [
+    7,
+    4
+   ]
+  },
+  "7": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 0,
+   "coordonnees": [
     5,
     4
+   ]
+  },
+  "8": {
+   "type": "PieceRectangle",
+   "largeur": 2,
+   "longeur": 4,
+   "rotation": 2,
+   "coordonnees": [
+    7,
+    8
+   ]
+  },
+  "9": {
+   "type": "PieceT",
+   "largeur": 5,
+   "longeur": 5,
+   "rotation": 3,
+   "coordonnees": [
+    4,
+    7
+   ]
+  },
+  "10": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 3,
+   "rotation": 2,
+   "coordonnees": [
+    7,
+    5
+   ]
+  },
+  "11": {
+   "type": "PieceT",
+   "largeur": 5,
+   "longeur": 3,
+   "rotation": 1,
+   "coordonnees": [
+    8,
+    8
+   ]
+  },
+  "12": {
+   "type": "PieceT",
+   "largeur": 4,
+   "longeur": 4,
+   "rotation": 2,
+   "coordonnees": [
+    5,
+    0
    ]
   }
  }
