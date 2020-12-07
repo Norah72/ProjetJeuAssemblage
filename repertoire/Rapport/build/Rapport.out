@@ -1,0 +1,14 @@
+\BOOKMARK [0][-]{chapter.1}{Pr\351sentation du projet}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Pr\351sentation de l'application}{chapter.1}% 2
+\BOOKMARK [0][-]{chapter.2}{Arborescence}{}% 3
+\BOOKMARK [1][-]{section.2.1}{Arborescence du projet}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.2}{Pr\351sentation src jeuAssemblages}{chapter.2}% 5
+\BOOKMARK [0][-]{chapter.3}{Aspects techniques}{}% 6
+\BOOKMARK [1][-]{section.3.1}{Librairie piecesPuzzle}{chapter.3}% 7
+\BOOKMARK [1][-]{section.3.2}{Mod\350le : Le plateau}{chapter.3}% 8
+\BOOKMARK [1][-]{section.3.3}{Controleur}{chapter.3}% 9
+\BOOKMARK [2][-]{subsection.3.3.1}{Controleur : Play}{section.3.3}% 10
+\BOOKMARK [1][-]{section.3.4}{Vue}{chapter.3}% 11
+\BOOKMARK [2][-]{subsection.3.4.1}{InterfaceGraphique}{section.3.4}% 12
+\BOOKMARK [2][-]{subsection.3.4.2}{ActionGraphique et MouseClicke}{section.3.4}% 13
+\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 14

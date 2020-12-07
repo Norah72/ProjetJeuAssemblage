@@ -1,0 +1,59 @@
+\chapter{Arborescence}
+
+	\section{Arborescence du projet}
+
+		\begin{description}
+            \item[repertoire :]{répertoire contenant le rapport et le diagramme de classes}
+            \item[dis :]{répertoire contenant les fichiers .jar}
+            \begin{description}
+                \item[gson-2.3.1.jar :]{Permet de faire fonctionner le Json pour la sauvegarde/changement de partie}
+                \item[piecesPuzzle-0.1.jar :]{Librairie créer de pièces}
+            \end{description}
+            \item[src :]{répertoire contenant le code du pojet}
+            \begin{description}
+                \item[jeuAssemblage :]{Projet contenant le jeu}
+                \item[PiecePuzzle :]{Projet contenant le jeu}
+            \end{description}
+            \item[doc :]{répertoire contenant le javadoc du projet}
+            \item[build.xml]{Fichier permettant de compiler et lancer le projet}
+            \item[README.txt]{Fichier contenant les commandes/A propos}
+		\end{description}
+
+    \section{Présentation src jeuAssemblages}
+
+    \begin{description}
+        \item[controleur :]{Classes de controleur}
+            \begin{description}
+                \item[EnumAction :]{Enumération des actions}
+                \item[InterfacePlay :]{Interface de joueur}
+                \item[Play :]{Console global}
+                \item[PlayIA :]{Choix ia}
+                \item[PlayJoueur:]{Choix joueur pour console}
+                \item[PlayMenu:]{Choix de la vue}
+            \end{description}
+        \item[file :]{Classes de gestion de fichiers}
+            \begin{description}
+                \item[ChargerPartie:]]{Permet de charger une partie}
+                \item[DeleteFile:]{Supprime un fichier}
+                \item[SauvegardeFichier:]{Sauvegarde d'un fichier}
+                \item[ScoreFile:]{Sauvegarde/affichage des scores}
+                \begin{description}
+                    \item[partie:]{répertoire contenant les fichier de parties}
+                \end{description}
+            \end{description}
+        \item[modele :]{Classes de modèle}
+        \begin{description}
+            \item[PlateauPuzzle :]{Plateau en lien avec la librairie PiecesPuzzle}
+        \end{description}
+        \item[util :]{répertoire contenant les Patern Listener}
+        \begin{description}
+            \item[Listenable :]{Patern listener}
+            \item[Listener :]{Patern listener}
+        \end{description}
+        \item[vue :]{Affichage graphique}
+        \begin{description}
+            \item[ActionGraphique :]{Réalise des actions en fonction des actions du joueurs sur la vue}
+            \item[InterfaceGraphique :]{Vue graphique}
+            \item[MouseClicker :]{Prend en compte les cliques}
+        \end{description}
+    \end{description}
